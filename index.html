@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lean González Tattoo | Estudio Profesional</title>
+    <title>LG Tattoo | Estudio Profesional</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -330,22 +330,18 @@
             justify-content: space-between;
         }
         .nav-logo {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.6rem;
-            font-weight: 700;
-            letter-spacing: 1px;
-            color: var(--text-primary);
-            text-decoration: none;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            text-decoration: none;
         }
-        .nav-logo .dot {
-            width: 8px;
-            height: 8px;
-            background: var(--accent-dot);
-            border-radius: 50%;
-            display: inline-block;
+        .nav-logo img {
+            height: 45px;
+            width: auto;
+            display: block;
+            transition: var(--transition);
+        }
+        .nav-logo img:hover {
+            opacity: 0.85;
         }
         .nav-links {
             display: flex;
@@ -519,7 +515,7 @@
         .gallery-item-overlay {
             position: absolute;
             inset: 0;
-            background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, transparent 100%);
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, transparent 100%);
             opacity: 0;
             transition: 0.3s;
             display: flex;
@@ -891,6 +887,9 @@
             .hamburger {
                 display: flex;
             }
+            .nav-logo img {
+                height: 35px;
+            }
             .gallery-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
@@ -923,6 +922,9 @@
             .section {
                 padding: 3rem 1rem;
             }
+            .nav-logo img {
+                height: 30px;
+            }
         }
     </style>
 </head>
@@ -952,7 +954,9 @@
 
     <nav class="navbar" id="navbar">
         <div class="nav-container">
-            <a href="#" class="nav-logo">LEAN<span class="dot"></span>GONZÁLEZ</a>
+            <a href="#" class="nav-logo">
+                <img src="https://sebagsc2020.github.io/lgtatoo/images/LogoLGTatoo.png" alt="LG Tattoo">
+            </a>
             <ul class="nav-links" id="navLinks">
                 <li><a href="#inicio" data-i18n="nav_home">Inicio</a></li>
                 <li><a href="#galeria" data-i18n="nav_gallery">Galería</a></li>
@@ -1203,20 +1207,7 @@
                     testimonial1_text: 'Excelente trabajo, muy profesional y detallista. El mejor tatuador que he conocido.',
                     testimonial2_text: 'El diseño superó mis expectativas. Muy recomendado para trabajos de realismo.',
                     testimonial3_text: 'Increíble resultado, la atención y el cuidado son impecables. Volveré sin duda.',
-                    gallery_titles: {
-                        'Realismo Retrato': 'Realismo Retrato',
-                        'Blackwork Abstracto': 'Blackwork Abstracto',
-                        'Mandala Geométrico': 'Mandala Geométrico',
-                        'Old School': 'Old School',
-                        'Realismo Animal': 'Realismo Animal',
-                        'Dotwork': 'Dotwork',
-                        'Geométrico Brazalete': 'Geométrico Brazalete',
-                        'Realismo Ojo': 'Realismo Ojo',
-                        'Rosa Tradicional': 'Rosa Tradicional',
-                        'Línea Fina': 'Línea Fina',
-                        'Patrón Sagrado': 'Patrón Sagrado',
-                        'Realismo Mano': 'Realismo Mano'
-                    }
+                    gallery_titles: {}
                 },
                 ca: {
                     lang_title: '🌐 Idioma',
@@ -1278,20 +1269,7 @@
                     testimonial1_text: 'Excel·lent treball, molt professional i detallista. El millor tatuador que he conegut.',
                     testimonial2_text: 'El disseny va superar les meves expectatives. Molt recomanat per a treballs de realisme.',
                     testimonial3_text: 'Increïble resultat, l\'atenció i la cura són impecables. Tornaré sens dubte.',
-                    gallery_titles: {
-                        'Realismo Retrato': 'Retrat Realista',
-                        'Blackwork Abstracto': 'Blackwork Abstracte',
-                        'Mandala Geométrico': 'Mandala Geomètric',
-                        'Old School': 'Old School',
-                        'Realismo Animal': 'Realisme Animal',
-                        'Dotwork': 'Dotwork',
-                        'Geométrico Brazalete': 'Braçalet Geomètric',
-                        'Realismo Ojo': 'Realisme Ull',
-                        'Rosa Tradicional': 'Rosa Tradicional',
-                        'Línea Fina': 'Línia Fina',
-                        'Patrón Sagrado': 'Patró Sagrat',
-                        'Realismo Mano': 'Realisme Mà'
-                    }
+                    gallery_titles: {}
                 },
                 en: {
                     lang_title: '🌐 Language',
@@ -1353,40 +1331,30 @@
                     testimonial1_text: 'Excellent work, very professional and detail-oriented. The best tattoo artist I\'ve met.',
                     testimonial2_text: 'The design exceeded my expectations. Highly recommended for realism work.',
                     testimonial3_text: 'Amazing result, the attention and care are impeccable. I will definitely come back.',
-                    gallery_titles: {
-                        'Realismo Retrato': 'Realism Portrait',
-                        'Blackwork Abstracto': 'Abstract Blackwork',
-                        'Mandala Geométrico': 'Geometric Mandala',
-                        'Old School': 'Old School',
-                        'Realismo Animal': 'Animal Realism',
-                        'Dotwork': 'Dotwork',
-                        'Geométrico Brazalete': 'Geometric Bracelet',
-                        'Realismo Ojo': 'Eye Realism',
-                        'Rosa Tradicional': 'Traditional Rose',
-                        'Línea Fina': 'Fine Line',
-                        'Patrón Sagrado': 'Sacred Pattern',
-                        'Realismo Mano': 'Hand Realism'
-                    }
+                    gallery_titles: {}
                 }
             };
 
-            const galleryImagesData = [
-                { src: 'https://images.unsplash.com/photo-1590246814883-57767a2e08de?w=600&h=600&fit=crop', category: 'realismo', titleEs: 'Realismo Retrato' },
-                { src: 'https://images.unsplash.com/photo-1611501275010-5b7e6e5b8f7e?w=600&h=600&fit=crop', category: 'blackwork', titleEs: 'Blackwork Abstracto' },
-                { src: 'https://images.unsplash.com/photo-1568515045052-f9a854d70bfd?w=600&h=600&fit=crop', category: 'geometrico', titleEs: 'Mandala Geométrico' },
-                { src: 'https://images.unsplash.com/photo-1585011650347-c59dbef5a6c0?w=600&h=600&fit=crop', category: 'tradicional', titleEs: 'Old School' },
-                { src: 'https://images.unsplash.com/photo-1542838452-46b5d65e4e5a?w=600&h=600&fit=crop', category: 'realismo', titleEs: 'Realismo Animal' },
-                { src: 'https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?w=600&h=600&fit=crop', category: 'blackwork', titleEs: 'Dotwork' },
-                { src: 'https://images.unsplash.com/photo-1597852074816-d933c7d2b988?w=600&h=600&fit=crop', category: 'geometrico', titleEs: 'Geométrico Brazalete' },
-                { src: 'https://images.unsplash.com/photo-1562962230-16e4623d36e6?w=600&h=600&fit=crop', category: 'realismo', titleEs: 'Realismo Ojo' },
-                { src: 'https://images.unsplash.com/photo-1617391765935-f7ac7ee648a1?w=600&h=600&fit=crop', category: 'tradicional', titleEs: 'Rosa Tradicional' },
-                { src: 'https://images.unsplash.com/photo-1600456899125-26d570d79c7e?w=600&h=600&fit=crop', category: 'blackwork', titleEs: 'Línea Fina' },
-                { src: 'https://images.unsplash.com/photo-1598371839696-5c5bb00bdc28?w=600&h=600&fit=crop', category: 'geometrico', titleEs: 'Patrón Sagrado' },
-                { src: 'https://images.unsplash.com/photo-1578683010236-d716f9a3f461?w=600&h=600&fit=crop', category: 'realismo', titleEs: 'Realismo Mano' }
-            ];
+            // ============ GALERÍA CON IMÁGENES NUMERADAS (1 al 12) ============
+            const GALLERY_BASE_URL = 'https://sebagsc2020.github.io/lgtatoo/images/';
+            const TOTAL_IMAGES = 12;
 
             let currentLang = 'es';
-            let filteredImages = [...galleryImagesData];
+            let filteredImages = [];
+
+            // Generar array de imágenes del 1 al 12
+            function generateGalleryImages() {
+                const images = [];
+                for (let i = 1; i <= TOTAL_IMAGES; i++) {
+                    images.push({
+                        src: `${GALLERY_BASE_URL}${i}.webp`,
+                        alt: `Trabajo ${i}`
+                    });
+                }
+                return images;
+            }
+
+            const galleryImagesData = generateGalleryImages();
 
             function closeLangPanel() {
                 document.body.classList.remove('lang-panel-visible');
@@ -1416,15 +1384,14 @@
             }
 
             function renderGallery() {
-                const t = translations[currentLang];
                 const grid = document.getElementById('galleryGrid');
                 
                 grid.innerHTML = galleryImagesData.map((img, i) => `
                     <div class="gallery-item" data-index="${i}">
-                        <img src="${img.src}" alt="${t.gallery_titles[img.titleEs] || img.titleEs}" loading="lazy">
+                        <img src="${img.src}" alt="${img.alt}" loading="lazy" onerror="this.src='https://via.placeholder.com/600/333/666?text=Imagen+${i+1}'">
                         <div class="gallery-item-overlay">
                             <span class="overlay-info">
-                                <i class="fa-solid fa-tag"></i> ${t.gallery_titles[img.titleEs] || img.titleEs}
+                                <i class="fa-solid fa-camera"></i> ${img.alt}
                             </span>
                         </div>
                     </div>
