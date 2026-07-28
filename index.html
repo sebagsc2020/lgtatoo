@@ -9,6 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* ===== ESTILOS PREVIOS (sin cambios) ===== */
         :root {
             --bg-primary: #0a0a0a;
             --bg-secondary: #111111;
@@ -554,25 +555,65 @@
         .gallery-item:hover img {
             transform: scale(1.06);
         }
+
+        /* ===== ELIMINADO EL OVERLAY DE TEXTO "TRABAJO X" ===== */
         .gallery-item-overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, transparent 100%);
-            opacity: 0;
-            transition: 0.3s;
-            display: flex;
-            align-items: flex-end;
-            padding: 1.2rem;
+            display: none;
         }
-        .gallery-item:hover .gallery-item-overlay {
-            opacity: 1;
+
+        /* ============ BANNER DE INSTAGRAM DESTACADO ============ */
+        .instagram-cta-banner {
+            margin-top: 3.5rem;
+            padding: 2.5rem 2rem;
+            background: radial-gradient(ellipse at center, rgba(200, 164, 92, 0.08) 0%, transparent 70%);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius);
+            text-align: center;
+            transition: var(--transition);
         }
-        .overlay-info {
+        .instagram-cta-banner:hover {
+            border-color: var(--gold);
+            background: radial-gradient(ellipse at center, rgba(200, 164, 92, 0.15) 0%, transparent 70%);
+        }
+        .instagram-cta-banner .cta-icon {
+            font-size: 3rem;
+            background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: inline-block;
+            margin-bottom: 0.5rem;
+        }
+        .instagram-cta-banner h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+        .instagram-cta-banner p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+        }
+        .btn-instagram-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.8rem 2.5rem;
+            background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
             color: #fff;
-            font-size: 0.85rem;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: var(--transition);
+            box-shadow: 0 4px 20px rgba(225, 48, 108, 0.3);
         }
-        .overlay-info i {
-            margin-right: 0.3rem;
+        .btn-instagram-cta:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 30px rgba(225, 48, 108, 0.5);
+            color: #fff;
         }
 
         /* ============ LIGHTBOX ============ */
@@ -871,6 +912,27 @@
             margin-top: 0.3rem;
         }
 
+        /* Estilos para el select múltiple */
+        .form-group select[multiple] {
+            height: auto;
+            min-height: 120px;
+            padding: 0.5rem;
+        }
+        .form-group select[multiple] option {
+            padding: 0.4rem 0.6rem;
+            border-radius: 4px;
+            margin: 2px 0;
+            cursor: pointer;
+        }
+        .form-group select[multiple] option:hover {
+            background: var(--gold-dark);
+        }
+        .form-group select[multiple] option:checked {
+            background: var(--gold);
+            color: #0a0a0a;
+            font-weight: 600;
+        }
+
         /* ============ FOOTER ============ */
         .footer {
             background: var(--bg-primary);
@@ -959,6 +1021,9 @@
                 flex-direction: column;
                 align-items: center;
             }
+            .form-group select[multiple] {
+                min-height: 100px;
+            }
         }
         @media (max-width: 480px) {
             .gallery-grid {
@@ -1016,9 +1081,7 @@
 
     <section class="hero" id="inicio">
         <div class="hero-content">
-            <!-- LOGO GRANDE EN EL HERO -->
             <img src="https://sebagsc2020.github.io/lgtatoo/images/LogoLGTatoo.png" alt="LG Tattoo" class="hero-logo">
-            
             <span class="hero-badge" data-i18n="hero_badge">✦ Estudio Profesional ✦</span>
             <h1><span data-i18n="hero_title_1">Tinta que</span> <span class="accent" data-i18n="hero_title_accent">trasciende</span><br><span data-i18n="hero_title_2">arte que permanece</span></h1>
             <p data-i18n="hero_desc">Especialista en realismo, blackwork y diseños personalizados.</p>
@@ -1037,6 +1100,16 @@
             <p class="section-subtitle" data-i18n="gallery_subtitle">Cada tatuaje es una historia grabada en piel.</p>
         </div>
         <div class="gallery-grid" id="galleryGrid"></div>
+
+        <!-- ===== NUEVO BANNER DESTACADO A INSTAGRAM ===== -->
+        <div class="instagram-cta-banner">
+            <div class="cta-icon"><i class="fa-brands fa-instagram"></i></div>
+            <h3 data-i18n="instagram_cta_title">Descubrí más trabajos en Instagram</h3>
+            <p data-i18n="instagram_cta_text">Seguí el día a día del estudio, procesos y diseños exclusivos</p>
+            <a href="https://www.instagram.com/lean.gonzaleztattoo/" target="_blank" rel="noopener" class="btn-instagram-cta">
+                <i class="fa-brands fa-instagram"></i> @lean.gonzaleztattoo
+            </a>
+        </div>
     </section>
 
     <div class="lightbox" id="lightbox">
@@ -1140,9 +1213,8 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label data-i18n="form_body_part_label">Parte del cuerpo a tatuar *</label>
-                        <select id="bodyPart" required>
-                            <option value="">Selecciona una parte del cuerpo...</option>
+                        <label data-i18n="form_body_part_label">Partes del cuerpo a tatuar *</label>
+                        <select id="bodyPart" multiple required>
                             <option value="Brazo">Brazo</option>
                             <option value="Antebrazo">Antebrazo</option>
                             <option value="Hombro">Hombro</option>
@@ -1171,6 +1243,9 @@
                             <option value="Pecho completo">Pecho completo</option>
                             <option value="Otro">Otro</option>
                         </select>
+                        <small style="color: var(--text-muted); font-size: 0.7rem; display: block; margin-top: 0.3rem;">
+                            Mantén presionada la tecla Ctrl (Windows) o Cmd (Mac) para seleccionar múltiples opciones
+                        </small>
                     </div>
                     <div class="form-group">
                         <label data-i18n="form_message_label">Mensaje *</label>
@@ -1195,6 +1270,7 @@
 
     <script>
         (function() {
+            // ============ TRADUCCIONES COMPLETAS ============
             const translations = {
                 es: {
                     lang_title: '🌐 Idioma',
@@ -1242,7 +1318,7 @@
                     contact_hours_text: 'Lun a Sáb: 9:00 – 13:00 · 16:00 – 21:00',
                     form_name_label: 'Nombre *',
                     form_phone_label: 'Teléfono *',
-                    form_body_part_label: 'Parte del cuerpo a tatuar *',
+                    form_body_part_label: 'Partes del cuerpo a tatuar *',
                     form_message_label: 'Mensaje *',
                     form_submit: 'Enviar por WhatsApp',
                     form_success: '¡Listo! Abriremos WhatsApp...',
@@ -1250,12 +1326,14 @@
                     whatsapp_msg_intro: '👋 ¡Hola Lean! Quisiera consultar por un tatuaje.',
                     whatsapp_msg_name: '👤 Nombre',
                     whatsapp_msg_phone: '📞 Teléfono',
-                    whatsapp_msg_body_part: '📍 Parte del cuerpo',
+                    whatsapp_msg_body_parts: '📍 Partes del cuerpo',
                     whatsapp_msg_message: '📝 Consulta',
                     whatsapp_msg_footer: '✨ Enviado desde lean.gonzaleztattoo',
                     testimonial1_text: 'Excelente trabajo, muy profesional y detallista. El mejor tatuador que he conocido.',
                     testimonial2_text: 'El diseño superó mis expectativas. Muy recomendado para trabajos de realismo.',
                     testimonial3_text: 'Increíble resultado, la atención y el cuidado son impecables. Volveré sin duda.',
+                    instagram_cta_title: 'Descubrí más trabajos en Instagram',
+                    instagram_cta_text: 'Seguí el día a día del estudio, procesos y diseños exclusivos',
                     gallery_titles: {}
                 },
                 ca: {
@@ -1304,7 +1382,7 @@
                     contact_hours_text: 'Dll a Diss: 9:00 – 13:00 · 16:00 – 21:00',
                     form_name_label: 'Nom *',
                     form_phone_label: 'Telèfon *',
-                    form_body_part_label: 'Part del cos a tatuar *',
+                    form_body_part_label: 'Parts del cos a tatuar *',
                     form_message_label: 'Missatge *',
                     form_submit: 'Enviar per WhatsApp',
                     form_success: 'Llest! Obrim WhatsApp...',
@@ -1312,12 +1390,14 @@
                     whatsapp_msg_intro: '👋 Hola Lean! Voldria consultar per un tatuatge.',
                     whatsapp_msg_name: '👤 Nom',
                     whatsapp_msg_phone: '📞 Telèfon',
-                    whatsapp_msg_body_part: '📍 Part del cos',
+                    whatsapp_msg_body_parts: '📍 Parts del cos',
                     whatsapp_msg_message: '📝 Consulta',
                     whatsapp_msg_footer: '✨ Enviat des de lean.gonzaleztattoo',
                     testimonial1_text: 'Excel·lent treball, molt professional i detallista. El millor tatuador que he conegut.',
                     testimonial2_text: 'El disseny va superar les meves expectatives. Molt recomanat per a treballs de realisme.',
                     testimonial3_text: 'Increïble resultat, l\'atenció i la cura són impecables. Tornaré sens dubte.',
+                    instagram_cta_title: 'Descobreix més treballs a Instagram',
+                    instagram_cta_text: 'Segueix el dia a dia de l\'estudi, processos i dissenys exclusius',
                     gallery_titles: {}
                 },
                 en: {
@@ -1366,7 +1446,7 @@
                     contact_hours_text: 'Mon to Sat: 9:00 – 13:00 · 16:00 – 21:00',
                     form_name_label: 'Name *',
                     form_phone_label: 'Phone *',
-                    form_body_part_label: 'Body part to tattoo *',
+                    form_body_part_label: 'Body parts to tattoo *',
                     form_message_label: 'Message *',
                     form_submit: 'Send via WhatsApp',
                     form_success: 'Ready! Opening WhatsApp...',
@@ -1374,12 +1454,14 @@
                     whatsapp_msg_intro: '👋 Hey Lean! I would like to inquire about a tattoo.',
                     whatsapp_msg_name: '👤 Name',
                     whatsapp_msg_phone: '📞 Phone',
-                    whatsapp_msg_body_part: '📍 Body part',
+                    whatsapp_msg_body_parts: '📍 Body parts',
                     whatsapp_msg_message: '📝 Inquiry',
                     whatsapp_msg_footer: '✨ Sent from lean.gonzaleztattoo',
                     testimonial1_text: 'Excellent work, very professional and detail-oriented. The best tattoo artist I\'ve met.',
                     testimonial2_text: 'The design exceeded my expectations. Highly recommended for realism work.',
                     testimonial3_text: 'Amazing result, the attention and care are impeccable. I will definitely come back.',
+                    instagram_cta_title: 'Discover more work on Instagram',
+                    instagram_cta_text: 'Follow the studio\'s daily life, processes and exclusive designs',
                     gallery_titles: {}
                 }
             };
@@ -1389,7 +1471,6 @@
             const TOTAL_IMAGES = 12;
 
             let currentLang = 'es';
-            let filteredImages = [];
 
             // Generar array de imágenes del 1 al 12
             function generateGalleryImages() {
@@ -1435,14 +1516,10 @@
             function renderGallery() {
                 const grid = document.getElementById('galleryGrid');
                 
+                // Renderizado de imágenes SIN overlay de texto
                 grid.innerHTML = galleryImagesData.map((img, i) => `
                     <div class="gallery-item" data-index="${i}">
                         <img src="${img.src}" alt="${img.alt}" loading="lazy" onerror="this.src='https://via.placeholder.com/600/333/666?text=Imagen+${i+1}'">
-                        <div class="gallery-item-overlay">
-                            <span class="overlay-info">
-                                <i class="fa-solid fa-camera"></i> ${img.alt}
-                            </span>
-                        </div>
                     </div>
                 `).join('');
                 
@@ -1523,24 +1600,30 @@
                 `).join('');
             }
 
+            // ============ FORMULARIO CON SELECCIÓN MÚLTIPLE ============
             document.getElementById('contactForm').addEventListener('submit', function(e) {
                 e.preventDefault();
                 const t = translations[currentLang];
                 
                 const name = document.getElementById('name').value.trim();
                 const phone = document.getElementById('phone').value.trim();
-                const bodyPart = document.getElementById('bodyPart').value;
+                const bodyPartSelect = document.getElementById('bodyPart');
                 const message = document.getElementById('message').value.trim();
                 
-                if (!name || !phone || !bodyPart || !message) {
-                    alert('Por favor completa todos los campos obligatorios (*)');
+                // Obtener opciones seleccionadas
+                const selectedOptions = Array.from(bodyPartSelect.selectedOptions);
+                const bodyParts = selectedOptions.map(opt => opt.value);
+                
+                if (!name || !phone || bodyParts.length === 0 || !message) {
+                    alert(t.form_error || 'Por favor completa todos los campos obligatorios (*)');
                     return;
                 }
                 
+                // Construir mensaje en el idioma seleccionado
                 let msg = `${t.whatsapp_msg_intro}%0A%0A`;
                 msg += `${t.whatsapp_msg_name}: ${name}%0A`;
                 msg += `${t.whatsapp_msg_phone}: ${phone}%0A`;
-                msg += `${t.whatsapp_msg_body_part}: ${bodyPart}%0A`;
+                msg += `${t.whatsapp_msg_body_parts}: ${bodyParts.join(', ')}%0A`;
                 msg += `${t.whatsapp_msg_message}: ${message}%0A%0A${t.whatsapp_msg_footer}`;
                 
                 window.open(`https://wa.me/34697891324?text=${encodeURIComponent(msg)}`, '_blank');
@@ -1550,6 +1633,8 @@
                 
                 setTimeout(() => {
                     this.reset();
+                    // Resetear selección múltiple
+                    bodyPartSelect.selectedIndex = -1;
                     successMsg.style.display = 'none';
                 }, 5000);
             });
