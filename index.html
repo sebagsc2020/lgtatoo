@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LG Tattoo | Estudio Profesional</title>
+    <title>Lean González Tattoo | Estudio Profesional</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -408,7 +408,22 @@
             background: radial-gradient(ellipse at 50% 30%, rgba(200, 164, 92, 0.06) 0%, transparent 70%), var(--bg-primary);
         }
         .hero-content {
-            max-width: 750px;
+            max-width: 850px;
+        }
+        .hero-logo {
+            max-width: 300px;
+            width: 100%;
+            height: auto;
+            margin-bottom: 1.5rem;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            filter: drop-shadow(0 0 40px rgba(200, 164, 92, 0.15));
+            transition: var(--transition);
+        }
+        .hero-logo:hover {
+            filter: drop-shadow(0 0 60px rgba(200, 164, 92, 0.25));
+            transform: scale(1.02);
         }
         .hero-badge {
             display: inline-block;
@@ -452,10 +467,37 @@
             background: var(--gold);
             color: #0a0a0a;
         }
+        .btn-primary:hover {
+            background: var(--gold-light);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(200, 164, 92, 0.3);
+        }
         .btn-outline {
             background: transparent;
             color: var(--text-primary);
             border: 1.5px solid var(--text-muted);
+        }
+        .btn-outline:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+            transform: translateY(-2px);
+        }
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 768px) {
+            .hero-logo {
+                max-width: 200px;
+            }
+        }
+        @media (max-width: 480px) {
+            .hero-logo {
+                max-width: 160px;
+            }
         }
 
         /* ============ GALERÍA ============ */
@@ -913,6 +955,10 @@
             .lightbox-next {
                 right: 5px;
             }
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
         }
         @media (max-width: 480px) {
             .gallery-grid {
@@ -970,6 +1016,9 @@
 
     <section class="hero" id="inicio">
         <div class="hero-content">
+            <!-- LOGO GRANDE EN EL HERO -->
+            <img src="https://sebagsc2020.github.io/lgtatoo/images/LogoLGTatoo.png" alt="LG Tattoo" class="hero-logo">
+            
             <span class="hero-badge" data-i18n="hero_badge">✦ Estudio Profesional ✦</span>
             <h1><span data-i18n="hero_title_1">Tinta que</span> <span class="accent" data-i18n="hero_title_accent">trasciende</span><br><span data-i18n="hero_title_2">arte que permanece</span></h1>
             <p data-i18n="hero_desc">Especialista en realismo, blackwork y diseños personalizados.</p>
