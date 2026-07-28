@@ -6,7 +6,7 @@
     <title>LG Tattoo | Estudio Profesional</title>
 
     <!-- ============ SEO AUTOMÁTICO ============ -->
-<script src="/seo-optimizer.js" defer></script>
+    <script src="/seo-optimizer.js" defer></script>
     
     <!-- ============ GOOGLE ANALYTICS ============ -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-J9JZK9BSGY"></script>
@@ -32,7 +32,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* ===== ESTILOS PREVIOS (sin cambios) ===== */
+        /* ===== ESTILOS PREVIOS ===== */
         :root {
             --bg-primary: #0a0a0a;
             --bg-secondary: #111111;
@@ -1758,7 +1758,7 @@
                 `).join('');
             }
 
-            // ============ FORMULARIO ============
+            // ============ FORMULARIO CORREGIDO ============
             document.getElementById('contactForm').addEventListener('submit', function(e) {
                 e.preventDefault();
                 const t = translations[currentLang];
@@ -1776,14 +1776,17 @@
                     return;
                 }
                 
-                let msg = t.whatsapp_msg_intro + '%0A%0A';
-                msg += t.whatsapp_msg_name + ': ' + name + '%0A';
-                msg += t.whatsapp_msg_phone + ': ' + phone + '%0A';
-                msg += t.whatsapp_msg_body_parts + ': ' + bodyParts.join(', ') + '%0A';
-                msg += t.whatsapp_msg_message + ': ' + message + '%0A%0A';
+                // ✅ CONSTRUIR MENSAJE CON SALTO DE LÍNEA REAL
+                let msg = t.whatsapp_msg_intro + '\n\n';
+                msg += t.whatsapp_msg_name + ': ' + name + '\n';
+                msg += t.whatsapp_msg_phone + ': ' + phone + '\n';
+                msg += t.whatsapp_msg_body_parts + ': ' + bodyParts.join(', ') + '\n';
+                msg += t.whatsapp_msg_message + ': ' + message + '\n\n';
                 msg += t.whatsapp_msg_footer;
                 
-                window.open('https://wa.me/34697891324?text=' + encodeURIComponent(msg), '_blank');
+                // Codificar correctamente para URL
+                const encodedMsg = encodeURIComponent(msg);
+                window.open('https://wa.me/34697891324?text=' + encodedMsg, '_blank');
                 
                 const successMsg = document.getElementById('formSuccessMsg');
                 successMsg.style.display = 'block';
