@@ -24,8 +24,7 @@ class SEOOptimizer {
             this.generateOpenGraph();
             this.analyzeContent();
             this.setupCanonicalUrls();
-            this.addBreadcrumbs();           // ← CORREGIDO: antes estaba "addStructuredData"
-            this.checkImageHealth();
+            this.addBreadcrumbs();
             console.log('✅ SEO Optimizer inicializado correctamente');
         } catch (error) {
             console.error('❌ Error en SEO Optimizer:', error.message);
@@ -159,13 +158,11 @@ class SEOOptimizer {
             const wordCount = content.split(/\s+/).filter(w => w.length > 0).length;
             const headings = document.querySelectorAll('h1, h2, h3, h4');
             const images = document.querySelectorAll('img');
-            const links = document.querySelectorAll('a');
 
             const analysis = {
                 wordCount: wordCount,
                 headings: headings.length,
                 images: images.length,
-                links: links.length,
                 hasKeywords: this.keywords.some(kw => content.toLowerCase().includes(kw.toLowerCase()))
             };
 
@@ -191,29 +188,9 @@ class SEOOptimizer {
             suggestions.push('🔑 Incluye palabras clave como "tatuajes", "realismo", "blackwork" en tu contenido');
         }
 
-        if (suggestions.length > 0 && window.location.hostname === 'localhost') {
-            this.showNotification('🤖 Sugerencias SEO', suggestions);
+        if (suggestions.length > 0) {
+            console.log('📊 Sugerencias SEO:', suggestions);
         }
-    }
-
-    showNotification(title, items) {
-        const container = document.createElement('div');
-        container.style.cssText = `
-            position: fixed; bottom: 20px; right: 20px; 
-            background: rgba(0,0,0,0.9); color: #fff; 
-            padding: 15px 20px; border-radius: 10px; 
-            z-index: 9999; font-size: 14px; 
-            max-width: 350px; border-left: 4px solid #c8a45c;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-        `;
-        container.innerHTML = `
-            <strong style="color: #c8a45c;">${title}</strong>
-            <ul style="list-style:none;padding:0;margin:10px 0 0 0;">
-                ${items.map(s => `<li style="padding:4px 0;">• ${s}</li>`).join('')}
-            </ul>
-        `;
-        document.body.appendChild(container);
-        setTimeout(() => { container.style.opacity = '0'; }, 10000);
     }
 
     // ============ 5. URLS CANÓNICAS ============
@@ -261,73 +238,11 @@ class SEOOptimizer {
             console.warn('⚠️ Error al agregar breadcrumbs:', error.message);
         }
     }
-
-    // ============ 7. VERIFICACIÓN DE IMÁGENES ============
-    checkImageHealth() {
-        try {
-            const images = document.querySelectorAll('img');
-            const brokenImages = [];
-
-            images.forEach(img => {
-                if (!img.complete || img.naturalWidth === 0) {
-                    const src = img.getAttribute('src');
-                    if (src && !src.startsWith('data:') && !src.startsWith('blob:')) {
-                        brokenImages.push(src);
-                    }
-                }
-            });
-
-            // Verificar iconos PWA
-            const manifest = document.querySelector('link[rel="manifest"]');
-            if (manifest) {
-                fetch(manifest.href)
-                    .then(res => {
-                        if (!res.ok) {
-                            console.warn('⚠️ No se pudo cargar manifest.json:', res.status);
-                            return;
-                        }
-                        return res.json();
-                    })
-                    .then(data => {
-                        if (data && data.icons) {
-                            data.icons.forEach(icon => {
-                                const iconUrl = new URL(icon.src, window.location.origin);
-                                fetch(iconUrl, { method: 'HEAD' })
-                                    .then(res => {
-                                        if (!res.ok) {
-                                            console.warn(`⚠️ Icono PWA faltante: ${iconUrl.pathname}`);
-                                            this.showNotification('⚠️ Iconos PWA faltantes', [
-                                                `📁 ${iconUrl.pathname} no existe. Revisa la carpeta /images/`
-                                            ]);
-                                        }
-                                    })
-                                    .catch(() => {
-                                        console.warn(`⚠️ No se pudo verificar: ${iconUrl.pathname}`);
-                                    });
-                            });
-                        }
-                    })
-                    .catch(() => {
-                        console.warn('⚠️ Error al leer manifest.json');
-                    });
-            }
-
-            if (brokenImages.length > 0) {
-                console.warn('⚠️ Imágenes rotas encontradas:', brokenImages);
-                this.showNotification('🖼️ Imágenes rotas', [
-                    `Hay ${brokenImages.length} imágenes que no se cargan correctamente.`,
-                    ...brokenImages.slice(0, 3).map(src => `📁 ${src}`)
-                ]);
-            }
-        } catch (error) {
-            console.warn('⚠️ Error al verificar imágenes:', error.message);
-        }
-    }
 }
 
 // ============ INICIALIZAR AUTOMÁTICAMENTE ============
 document.addEventListener('DOMContentLoaded', function() {
-    setTimeout(() => {
+    setTimeout(function() {
         try {
             window.SEO = new SEOOptimizer();
         } catch (error) {
@@ -338,7 +253,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // ============ ACTUALIZAR SEO AL CAMBIAR DE PÁGINA ============
 window.addEventListener('hashchange', function() {
-    setTimeout(() => {
+    setTimeout(function() {
         if (window.SEO) {
             try {
                 window.SEO.generateMetaTags();
