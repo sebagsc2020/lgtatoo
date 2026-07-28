@@ -945,9 +945,12 @@
             grid-template-columns: 1fr 1fr;
             gap: 1rem;
         }
+        
+        /* ===== BOTÓN DE ENVÍO MÁS ALTO ===== */
         .btn-submit {
             width: 100%;
-            padding: 1rem;
+            padding: 1.5rem 1.5rem; /* Aumentado el padding vertical (alto) */
+            margin-top: 0.5rem;     /* Pequeño margen superior */
             background: var(--gold);
             color: #0a0a0a;
             border: none;
@@ -955,7 +958,7 @@
             font-weight: 600;
             cursor: pointer;
             transition: var(--transition);
-            font-size: 1rem;
+            font-size: 1.1rem;      /* Texto un poco más grande */
             display: flex;
             align-items: center;
             justify-content: center;
@@ -965,6 +968,7 @@
             background: var(--gold-light);
             transform: scale(1.02);
         }
+        
         .form-success-msg {
             display: none;
             text-align: center;
