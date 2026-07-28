@@ -1,0 +1,5 @@
+# robots.txt
+User-agent: *
+Allow: /
+Disallow: /images/
+Sitemap: https://lgtatoo.com/sitemap.xml
