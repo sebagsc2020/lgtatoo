@@ -1758,7 +1758,7 @@
                 `).join('');
             }
 
-            // ============ FORMULARIO CORREGIDO ============
+            // ============ 🛠️ FORMULARIO CORREGIDO (Con viñetas y \r\n) ============
             document.getElementById('contactForm').addEventListener('submit', function(e) {
                 e.preventDefault();
                 const t = translations[currentLang];
@@ -1776,12 +1776,12 @@
                     return;
                 }
                 
-                // ✅ CONSTRUIR MENSAJE CON SALTO DE LÍNEA REAL
-                let msg = t.whatsapp_msg_intro + '\n\n';
-                msg += t.whatsapp_msg_name + ': ' + name + '\n';
-                msg += t.whatsapp_msg_phone + ': ' + phone + '\n';
-                msg += t.whatsapp_msg_body_parts + ': ' + bodyParts.join(', ') + '\n';
-                msg += t.whatsapp_msg_message + ': ' + message + '\n\n';
+                // ✅ FORMATO CON VIÑETAS, NEGRITAS Y SALTO DE LÍNEA REAL (\r\n)
+                let msg = '👋 *' + t.whatsapp_msg_intro + '*\r\n\r\n';
+                msg += '▸ *' + t.whatsapp_msg_name + ':* ' + name + '\r\n';
+                msg += '▸ *' + t.whatsapp_msg_phone + ':* ' + phone + '\r\n';
+                msg += '▸ *' + t.whatsapp_msg_body_parts + ':* ' + bodyParts.join(', ') + '\r\n';
+                msg += '▸ *' + t.whatsapp_msg_message + ':* ' + message + '\r\n\r\n';
                 msg += t.whatsapp_msg_footer;
                 
                 // Codificar correctamente para URL
