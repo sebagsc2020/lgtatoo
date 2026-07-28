@@ -1,0 +1,1587 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lean González Tattoo | Estudio Profesional</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #111111;
+            --bg-card: #181818;
+            --bg-input: #1a1a1a;
+            --gold: #c8a45c;
+            --gold-light: #d4b36a;
+            --gold-dark: #a07d3e;
+            --text-primary: #f0ece6;
+            --text-secondary: #b0a89a;
+            --text-muted: #7a7265;
+            --border-subtle: rgba(200, 164, 92, 0.2);
+            --border-input: #2a2a2a;
+            --accent-dot: #c8a45c;
+            --shadow-lg: 0 25px 60px rgba(0, 0, 0, 0.5);
+            --shadow-card: 0 8px 30px rgba(0, 0, 0, 0.4);
+            --transition: 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --radius: 12px;
+            --radius-sm: 8px;
+            --lang-panel-width: 260px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+            transition: margin-right 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        body.lang-panel-visible {
+            margin-right: var(--lang-panel-width);
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--gold-dark);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--gold);
+        }
+
+        /* ============ BOTÓN FLOTANTE DE INSTAGRAM ============ */
+        .floating-btn-instagram {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 3000;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            text-decoration: none;
+            color: #fff;
+            background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+        }
+        .floating-btn-instagram:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+            background: linear-gradient(45deg, #f0a040, #e07050, #dc3050, #cc3070, #bc2090);
+        }
+        .floating-btn-instagram .tooltip {
+            position: absolute;
+            right: 70px;
+            background: rgba(0,0,0,0.9);
+            color: #fff;
+            padding: 0.4rem 1rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: var(--transition);
+        }
+        .floating-btn-instagram:hover .tooltip {
+            opacity: 1;
+        }
+
+        @media (max-width: 768px) {
+            .floating-btn-instagram {
+                width: 50px;
+                height: 50px;
+                font-size: 1.4rem;
+                bottom: 20px;
+                right: 20px;
+            }
+            .floating-btn-instagram .tooltip {
+                display: none;
+            }
+        }
+
+        /* ============ PANEL DE IDIOMAS ============ */
+        .lang-toggle-tab {
+            position: fixed;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 5000;
+            background: var(--gold);
+            color: #0a0a0a;
+            width: 38px;
+            height: 90px;
+            border-radius: 12px 0 0 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 0.7rem;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: -4px 0 20px rgba(0, 0, 0, 0.4);
+            border: none;
+            writing-mode: vertical-rl;
+            letter-spacing: 2px;
+            font-weight: 700;
+            font-family: 'Inter', sans-serif;
+            text-transform: uppercase;
+            gap: 0.3rem;
+        }
+        .lang-toggle-tab i {
+            writing-mode: horizontal-tb;
+            font-size: 0.9rem;
+        }
+        .lang-toggle-tab.hidden-tab {
+            right: -50px;
+            opacity: 0;
+            pointer-events: none;
+        }
+        body.lang-panel-visible .lang-toggle-tab {
+            right: var(--lang-panel-width);
+            border-radius: 0;
+            width: 32px;
+            height: 70px;
+            font-size: 0.65rem;
+            background: #3a3a3a;
+            color: #ccc;
+        }
+        body.lang-panel-visible .lang-toggle-tab:hover {
+            background: #555;
+        }
+
+        .lang-panel {
+            position: fixed;
+            top: 0;
+            right: calc(-1 * var(--lang-panel-width));
+            width: var(--lang-panel-width);
+            height: 100vh;
+            background: rgba(18, 18, 18, 0.97);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            z-index: 4999;
+            transition: right 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            border-left: 1px solid var(--border-subtle);
+            display: flex;
+            flex-direction: column;
+            padding: 2rem 1.5rem;
+            box-shadow: -10px 0 40px rgba(0, 0, 0, 0.6);
+        }
+        body.lang-panel-visible .lang-panel {
+            right: 0;
+        }
+        .lang-panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+        .lang-panel-header h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.3rem;
+            color: var(--gold);
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+        .lang-panel-close {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.3rem;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .lang-option {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.9rem 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition);
+            border: 1px solid transparent;
+            background: transparent;
+            color: var(--text-secondary);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 500;
+            text-align: left;
+            width: 100%;
+        }
+        .lang-option.active {
+            background: rgba(200, 164, 92, 0.12);
+            border-color: var(--gold);
+            color: var(--gold);
+            font-weight: 600;
+        }
+        .lang-flag {
+            font-size: 1.5rem;
+            width: 32px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+        .lang-name {
+            flex: 1;
+        }
+        .lang-check {
+            color: var(--gold);
+            font-size: 0.8rem;
+            opacity: 0;
+            transition: var(--transition);
+        }
+        .lang-option.active .lang-check {
+            opacity: 1;
+        }
+        .lang-panel-footer {
+            margin-top: auto;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-subtle);
+        }
+        .hide-panel-btn {
+            background: transparent;
+            border: 1px solid var(--border-input);
+            color: var(--text-muted);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 0.7rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: var(--transition);
+            margin-top: 1rem;
+            width: 100%;
+            font-family: 'Inter', sans-serif;
+        }
+        .lang-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 4998;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+        body.lang-panel-visible .lang-overlay {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        /* ============ NAVEGACIÓN ============ */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 1.2rem 0;
+            transition: var(--transition);
+            background: transparent;
+        }
+        .navbar.scrolled {
+            background: rgba(10, 10, 10, 0.92);
+            backdrop-filter: blur(20px);
+            padding: 0.8rem 0;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+        .nav-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .nav-logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: var(--text-primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .nav-logo .dot {
+            width: 8px;
+            height: 8px;
+            background: var(--accent-dot);
+            border-radius: 50%;
+            display: inline-block;
+        }
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2.2rem;
+            list-style: none;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 0.6px;
+            text-transform: uppercase;
+            position: relative;
+            transition: var(--transition);
+            padding: 0.3rem 0;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 1.5px;
+            background: var(--gold);
+            transition: var(--transition);
+        }
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        .nav-cta {
+            background: var(--gold);
+            color: #0a0a0a !important;
+            padding: 0.6rem 1.5rem !important;
+            border-radius: 50px;
+            font-weight: 600 !important;
+        }
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+        .hamburger span {
+            width: 26px;
+            height: 2px;
+            background: var(--text-primary);
+        }
+
+        /* ============ HERO ============ */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 8rem 2rem 5rem;
+            background: radial-gradient(ellipse at 50% 30%, rgba(200, 164, 92, 0.06) 0%, transparent 70%), var(--bg-primary);
+        }
+        .hero-content {
+            max-width: 750px;
+        }
+        .hero-badge {
+            display: inline-block;
+            padding: 0.4rem 1.2rem;
+            border: 1px solid var(--border-subtle);
+            border-radius: 50px;
+            font-size: 0.8rem;
+            letter-spacing: 3px;
+            color: var(--gold);
+            margin-bottom: 2rem;
+        }
+        .hero h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2.8rem, 6vw, 5rem);
+            font-weight: 600;
+            line-height: 1.15;
+            color: var(--text-primary);
+        }
+        .hero h1 .accent {
+            color: var(--gold);
+            font-style: italic;
+        }
+        .hero p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 550px;
+            margin: 0 auto 2.5rem;
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.85rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        .btn-primary {
+            background: var(--gold);
+            color: #0a0a0a;
+        }
+        .btn-outline {
+            background: transparent;
+            color: var(--text-primary);
+            border: 1.5px solid var(--text-muted);
+        }
+
+        /* ============ GALERÍA ============ */
+        .gallery-section {
+            background: var(--bg-secondary);
+        }
+        .section {
+            padding: 6rem 2rem;
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+        .section-header {
+            text-align: center;
+            margin-bottom: 4.5rem;
+        }
+        .section-tag {
+            color: var(--gold);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+        }
+        .section-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2.2rem, 4vw, 3.2rem);
+        }
+        .divider {
+            width: 50px;
+            height: 2px;
+            background: var(--gold);
+            margin: 1.5rem auto;
+        }
+        .section-subtitle {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.2rem;
+        }
+        .gallery-item {
+            position: relative;
+            aspect-ratio: 1/1;
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            cursor: pointer;
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s;
+        }
+        .gallery-item:hover img {
+            transform: scale(1.06);
+        }
+        .gallery-item-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, transparent 100%);
+            opacity: 0;
+            transition: 0.3s;
+            display: flex;
+            align-items: flex-end;
+            padding: 1.2rem;
+        }
+        .gallery-item:hover .gallery-item-overlay {
+            opacity: 1;
+        }
+        .overlay-info {
+            color: #fff;
+            font-size: 0.85rem;
+        }
+        .overlay-info i {
+            margin-right: 0.3rem;
+        }
+
+        /* ============ LIGHTBOX ============ */
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.94);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: 0.3s;
+        }
+        .lightbox.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+        .lightbox-content {
+            position: relative;
+            max-width: 90vw;
+            max-height: 90vh;
+        }
+        .lightbox-content img {
+            max-width: 85vw;
+            max-height: 85vh;
+            border-radius: var(--radius);
+        }
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 2.5rem;
+            cursor: pointer;
+            z-index: 2001;
+            transition: var(--transition);
+        }
+        .lightbox-close:hover {
+            transform: rotate(90deg);
+            color: var(--gold);
+        }
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: #fff;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: var(--transition);
+            z-index: 2001;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .lightbox-nav:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        .lightbox-prev {
+            left: 20px;
+        }
+        .lightbox-next {
+            right: 20px;
+        }
+
+        /* ============ RECOMENDACIONES ============ */
+        .recomendaciones-section {
+            background: var(--bg-secondary);
+        }
+        .recomendaciones-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+        .recomendacion-card {
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: var(--radius);
+            border: 1px solid var(--border-subtle);
+            transition: var(--transition);
+        }
+        .recomendacion-card:hover {
+            border-color: var(--gold-dark);
+            transform: translateY(-4px);
+        }
+        .recomendacion-card .card-icon {
+            font-size: 2rem;
+            color: var(--gold);
+            margin-bottom: 0.8rem;
+        }
+        .recomendacion-card h4 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--gold);
+        }
+        .recomendacion-card ul {
+            list-style: none;
+            padding: 0;
+        }
+        .recomendacion-card ul li {
+            padding: 0.4rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        .recomendacion-card ul li::before {
+            content: '◆';
+            position: absolute;
+            left: 0;
+            color: var(--gold);
+            font-size: 0.6rem;
+            top: 0.6rem;
+        }
+        .recomendacion-card.green {
+            border-left: 3px solid #4caf50;
+        }
+        .recomendacion-card.green h4 {
+            color: #4caf50;
+        }
+        .recomendacion-card.blue {
+            border-left: 3px solid #2196f3;
+        }
+        .recomendacion-card.blue h4 {
+            color: #2196f3;
+        }
+
+        @media (max-width: 768px) {
+            .recomendaciones-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ============ TESTIMONIOS ============ */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.8rem;
+        }
+        .testimonial-card {
+            background: var(--bg-card);
+            padding: 2.2rem;
+            border-radius: var(--radius);
+            border: 1px solid var(--border-subtle);
+            transition: var(--transition);
+        }
+        .testimonial-card:hover {
+            border-color: var(--gold-dark);
+            transform: translateY(-4px);
+        }
+        .testimonial-stars {
+            color: var(--gold);
+            margin-bottom: 0.8rem;
+        }
+        .testimonial-card p {
+            color: var(--text-secondary);
+            font-style: italic;
+            margin-bottom: 1rem;
+        }
+        .testimonial-card strong {
+            color: var(--text-primary);
+        }
+
+        /* ============ CONTACTO ============ */
+        .contact-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 3rem;
+        }
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        .contact-info-item {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+        }
+        .contact-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--bg-card);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold);
+            flex-shrink: 0;
+        }
+        .contact-info-item h4 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        .contact-info-item p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        .contact-form-card {
+            background: var(--bg-card);
+            padding: 2.5rem;
+            border-radius: var(--radius);
+            border: 1px solid var(--border-subtle);
+        }
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.4rem;
+        }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.9rem;
+            background: var(--bg-input);
+            border: 1px solid var(--border-input);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            transition: var(--transition);
+            appearance: auto;
+        }
+        .form-group select {
+            cursor: pointer;
+        }
+        .form-group select option {
+            background: var(--bg-card);
+            color: var(--text-primary);
+        }
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--gold);
+        }
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        .btn-submit {
+            width: 100%;
+            padding: 1rem;
+            background: var(--gold);
+            color: #0a0a0a;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        .btn-submit:hover {
+            background: var(--gold-light);
+            transform: scale(1.02);
+        }
+        .form-success-msg {
+            display: none;
+            text-align: center;
+            padding: 1rem;
+            margin-top: 1rem;
+            background: rgba(200, 164, 92, 0.1);
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--gold);
+        }
+        .form-success-msg i {
+            color: var(--gold);
+            font-size: 1.5rem;
+        }
+        .form-success-msg p {
+            color: var(--text-primary);
+            margin-top: 0.3rem;
+        }
+
+        /* ============ FOOTER ============ */
+        .footer {
+            background: var(--bg-primary);
+            padding: 2.5rem;
+            text-align: center;
+            border-top: 1px solid var(--border-subtle);
+        }
+        .footer-social {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .footer-social a {
+            color: var(--text-muted);
+            font-size: 1.3rem;
+            transition: var(--transition);
+        }
+        .footer-social a:hover {
+            color: var(--gold);
+            transform: translateY(-3px);
+        }
+        .footer-copy {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
+        @media (max-width: 1024px) {
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .testimonials-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .contact-wrapper {
+                grid-template-columns: 1fr;
+            }
+        }
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 280px;
+                height: 100vh;
+                background: rgba(10, 10, 10, 0.98);
+                flex-direction: column;
+                justify-content: center;
+                gap: 2rem;
+                transition: 0.3s;
+                padding: 2rem;
+            }
+            .nav-links.active {
+                right: 0;
+            }
+            .hamburger {
+                display: flex;
+            }
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            .contact-form-card {
+                padding: 1.5rem;
+            }
+            .lightbox-nav {
+                width: 35px;
+                height: 35px;
+                font-size: 0.9rem;
+            }
+            .lightbox-prev {
+                left: 5px;
+            }
+            .lightbox-next {
+                right: 5px;
+            }
+        }
+        @media (max-width: 480px) {
+            .gallery-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 0.8rem;
+            }
+            .section {
+                padding: 3rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- BOTÓN FLOTANTE DE INSTAGRAM -->
+    <a href="https://www.instagram.com/lean.gonzaleztattoo/" target="_blank" rel="noopener" class="floating-btn-instagram" aria-label="Instagram">
+        <i class="fa-brands fa-instagram"></i>
+        <span class="tooltip">Sígueme en Instagram</span>
+    </a>
+
+    <div class="lang-overlay" id="langOverlay"></div>
+    <div class="lang-panel" id="langPanel">
+        <div class="lang-panel-header">
+            <h3 data-i18n="lang_title">🌐 Idioma</h3>
+            <button class="lang-panel-close" id="langPanelClose"><i class="fa-solid fa-times"></i></button>
+        </div>
+        <button class="lang-option active" data-lang="es"><span class="lang-flag">🇪🇸</span><span class="lang-name">Español</span><span class="lang-check"><i class="fa-solid fa-check"></i></span></button>
+        <button class="lang-option" data-lang="ca"><span class="lang-flag">🇦🇩</span><span class="lang-name">Català</span><span class="lang-check"><i class="fa-solid fa-check"></i></span></button>
+        <button class="lang-option" data-lang="en"><span class="lang-flag">🇬🇧</span><span class="lang-name">English</span><span class="lang-check"><i class="fa-solid fa-check"></i></span></button>
+        <div class="lang-panel-footer">
+            <span data-i18n="lang_footer">Selecciona tu idioma</span>
+            <button class="hide-panel-btn" id="hidePanelBtn"><i class="fa-solid fa-eye-slash"></i> <span data-i18n="hide_panel">Ocultar panel</span></button>
+        </div>
+    </div>
+    <button class="lang-toggle-tab hidden-tab" id="langToggleTab"><i class="fa-solid fa-globe"></i> <span>IDIOMA</span></button>
+
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#" class="nav-logo">LEAN<span class="dot"></span>GONZÁLEZ</a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#inicio" data-i18n="nav_home">Inicio</a></li>
+                <li><a href="#galeria" data-i18n="nav_gallery">Galería</a></li>
+                <li><a href="#recomendaciones" data-i18n="nav_recomendaciones">Recomendaciones</a></li>
+                <li><a href="#testimonios" data-i18n="nav_testimonials">Testimonios</a></li>
+                <li><a href="#contacto" class="nav-cta" data-i18n="nav_cta">Reservar Cita</a></li>
+            </ul>
+            <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+        </div>
+    </nav>
+
+    <section class="hero" id="inicio">
+        <div class="hero-content">
+            <span class="hero-badge" data-i18n="hero_badge">✦ Estudio Profesional ✦</span>
+            <h1><span data-i18n="hero_title_1">Tinta que</span> <span class="accent" data-i18n="hero_title_accent">trasciende</span><br><span data-i18n="hero_title_2">arte que permanece</span></h1>
+            <p data-i18n="hero_desc">Especialista en realismo, blackwork y diseños personalizados.</p>
+            <div class="hero-buttons">
+                <a href="#contacto" class="btn btn-primary"><i class="fa-solid fa-calendar-check"></i> <span data-i18n="hero_btn_primary">Agendar Cita</span></a>
+                <a href="#galeria" class="btn btn-outline"><i class="fa-solid fa-images"></i> <span data-i18n="hero_btn_secondary">Ver Portafolio</span></a>
+            </div>
+        </div>
+    </section>
+
+    <section class="gallery-section section" id="galeria">
+        <div class="section-header">
+            <span class="section-tag" data-i18n="gallery_tag">Portafolio</span>
+            <h2 class="section-title" data-i18n="gallery_title">Trabajos Recientes</h2>
+            <div class="divider"></div>
+            <p class="section-subtitle" data-i18n="gallery_subtitle">Cada tatuaje es una historia grabada en piel.</p>
+        </div>
+        <div class="gallery-grid" id="galleryGrid"></div>
+    </section>
+
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-close" id="lightboxClose">&times;</button>
+        <button class="lightbox-nav lightbox-prev" id="lightboxPrev"><i class="fa-solid fa-chevron-left"></i></button>
+        <button class="lightbox-nav lightbox-next" id="lightboxNext"><i class="fa-solid fa-chevron-right"></i></button>
+        <div class="lightbox-content"><img src="" id="lightboxImg" alt="Trabajo de tatuaje"></div>
+    </div>
+
+    <!-- ============ SECCIÓN RECOMENDACIONES ============ -->
+    <section class="recomendaciones-section section" id="recomendaciones">
+        <div class="section-header">
+            <span class="section-tag" data-i18n="recomendaciones_tag">Cuidados</span>
+            <h2 class="section-title" data-i18n="recomendaciones_title">Recomendaciones para tu Tatuaje</h2>
+            <div class="divider"></div>
+            <p class="section-subtitle" data-i18n="recomendaciones_subtitle">Para garantizar que tu tatuaje cicatrice correctamente y los colores o la tinta negra se mantengan impecables, es fundamental seguir estos cuidados.</p>
+        </div>
+        <div class="recomendaciones-grid">
+            <div class="recomendacion-card green">
+                <div class="card-icon"><i class="fa-solid fa-circle-check"></i></div>
+                <h4 data-i18n="recomendaciones_prev_title">🟢 Recomendaciones Previas</h4>
+                <ul>
+                    <li data-i18n="recomendaciones_prev_1"><strong>Hidratación de la piel:</strong> Comienza a hidratar la zona a tatuar con crema corporal unos días antes. Una piel bien hidratada recibe mejor la tinta y facilita el trabajo del tatuador.</li>
+                    <li data-i18n="recomendaciones_prev_2"><strong>Evita el alcohol y drogas:</strong> No consumas bebidas alcohólicas ni sustancias estimulantes al menos 24 horas antes de la sesión, ya que fluidifican la sangre, provocan mayor sangrado y dificultan que la tinta se fije correctamente.</li>
+                    <li data-i18n="recomendaciones_prev_3"><strong>Descanso y alimentación:</strong> Acude a tu cita habiendo descansado bien y con el estómago lleno. Venir con energía evita mareos, bajones de presión y ayuda a tolerar mejor el dolor.</li>
+                    <li data-i18n="recomendaciones_prev_4"><strong>No te expongas al sol:</strong> Evita tomar sol o rayos UVA en la zona en los días previos. No se puede tatuar sobre piel quemada por el sol o irritada.</li>
+                    <li data-i18n="recomendaciones_prev_5"><strong>Ropa cómoda:</strong> Usa prendas holgadas y cómodas que no rocen ni presionen la zona recién tatuada al salir del estudio.</li>
+                </ul>
+            </div>
+            <div class="recomendacion-card blue">
+                <div class="card-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                <h4 data-i18n="recomendaciones_post_title">🔵 Recomendaciones Posteriores</h4>
+                <ul>
+                    <li data-i18n="recomendaciones_post_1"><strong>Higiene diaria:</strong> Lava el tatuaje con agua templada y un jabón neutro (o antibacteriano sin perfume) utilizando las yemas de los dedos con mucha suavidad para retirar restos de sangre, plasma o tinta. Hazlo de 2 a 3 veces al día.</li>
+                    <li data-i18n="recomendaciones_post_2"><strong>Secado correcto:</strong> Seca la zona dando pequeños toques con una gasa o papel de cocina limpio. Nunca uses una toalla convencional, ya que puede acumular bacterias o irritar la piel.</li>
+                    <li data-i18n="recomendaciones_post_3"><strong>Hidratación con crema específica:</strong> Aplica una capa muy fina de crema regeneradora recomendada por tu tatuador (como Bepanthol u otras cremas específicas para tatuajes). No satures la piel; el tatuaje debe "respirar".</li>
+                    <li data-i18n="recomendaciones_post_4"><strong>Prohibido rascar o arrancar costras:</strong> Durante el proceso de curación es normal que aparezca picor o que comience a descamarse. Nunca arranques las pielecitas ni rasques, ya que puedes perder parte de la tinta o provocar una infección.</li>
+                    <li data-i18n="recomendaciones_post_5"><strong>Cero sol, piscinas y playas:</strong> Durante las primeras 3 a 4 semanas debes evitar por completo la exposición solar directa, los baños en piscinas, el mar, saunas y jacuzzis. El agua estancada y el cloro son muy perjudiciales para una herida abierta.</li>
+                    <li data-i18n="recomendaciones_post_6"><strong>Evita ropa ajustada:</strong> Usa ropa de algodón y holgada para evitar la fricción constante sobre el diseño fresco.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="testimonials-section section" id="testimonios">
+        <div class="section-header">
+            <span class="section-tag" data-i18n="testimonials_tag">Lo que dicen</span>
+            <h2 class="section-title" data-i18n="testimonials_title">Testimonios Reales</h2>
+            <div class="divider"></div>
+        </div>
+        <div class="testimonials-grid" id="testimonialsGrid"></div>
+    </section>
+
+    <section class="contact-section section" id="contacto">
+        <div class="section-header">
+            <span class="section-tag" data-i18n="contact_tag">Contacto</span>
+            <h2 class="section-title" data-i18n="contact_title">Comencemos Tu Proyecto</h2>
+            <div class="divider"></div>
+        </div>
+        <div class="contact-wrapper">
+            <div class="contact-info">
+                <div class="contact-info-item">
+                    <div class="contact-icon"><i class="fa-solid fa-location-dot"></i></div>
+                    <div>
+                        <h4 data-i18n="contact_location_title">Ubicación</h4>
+                        <p data-i18n="contact_location_text">Santander, España</p>
+                    </div>
+                </div>
+                <div class="contact-info-item">
+                    <div class="contact-icon"><i class="fa-solid fa-phone"></i></div>
+                    <div>
+                        <h4 data-i18n="contact_phone_title">Teléfono</h4>
+                        <p>+34 697 89 13 24</p>
+                    </div>
+                </div>
+                <div class="contact-info-item">
+                    <div class="contact-icon"><i class="fa-solid fa-envelope"></i></div>
+                    <div>
+                        <h4>Email</h4>
+                        <p>Leangonzaleztattoo@icloud.com</p>
+                    </div>
+                </div>
+                <div class="contact-info-item">
+                    <div class="contact-icon"><i class="fa-solid fa-clock"></i></div>
+                    <div>
+                        <h4 data-i18n="contact_hours_title">Horarios</h4>
+                        <p data-i18n="contact_hours_text">Lun a Sáb: 9:00 – 13:00 · 16:00 – 21:00</p>
+                    </div>
+                </div>
+            </div>
+            <div class="contact-form-card" id="contactFormCard">
+                <form id="contactForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label data-i18n="form_name_label">Nombre *</label>
+                            <input type="text" id="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label data-i18n="form_phone_label">Teléfono *</label>
+                            <input type="tel" id="phone" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label data-i18n="form_body_part_label">Parte del cuerpo a tatuar *</label>
+                        <select id="bodyPart" required>
+                            <option value="">Selecciona una parte del cuerpo...</option>
+                            <option value="Brazo">Brazo</option>
+                            <option value="Antebrazo">Antebrazo</option>
+                            <option value="Hombro">Hombro</option>
+                            <option value="Pecho">Pecho</option>
+                            <option value="Espalda">Espalda</option>
+                            <option value="Costillas">Costillas</option>
+                            <option value="Abdomen">Abdomen</option>
+                            <option value="Pierna">Pierna</option>
+                            <option value="Muslo">Muslo</option>
+                            <option value="Pantorrilla">Pantorrilla</option>
+                            <option value="Tobillo">Tobillo</option>
+                            <option value="Cuello">Cuello</option>
+                            <option value="Cara">Cara</option>
+                            <option value="Mano">Mano</option>
+                            <option value="Dedos">Dedos</option>
+                            <option value="Muñeca">Muñeca</option>
+                            <option value="Codo">Codo</option>
+                            <option value="Rodilla">Rodilla</option>
+                            <option value="Glúteo">Glúteo</option>
+                            <option value="Cadera">Cadera</option>
+                            <option value="Cabeza/Cuero cabelludo">Cabeza/Cuero cabelludo</option>
+                            <option value="Oreja">Oreja</option>
+                            <option value="Pie">Pie</option>
+                            <option value="Manga completa">Manga completa</option>
+                            <option value="Espalda completa">Espalda completa</option>
+                            <option value="Pecho completo">Pecho completo</option>
+                            <option value="Otro">Otro</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label data-i18n="form_message_label">Mensaje *</label>
+                        <textarea id="message" required placeholder="Describe tu idea, estilo, tamaño, colores, etc."></textarea>
+                    </div>
+                    <button type="submit" class="btn-submit"><i class="fa-brands fa-whatsapp"></i> <span data-i18n="form_submit">Enviar por WhatsApp</span></button>
+                </form>
+                <div class="form-success-msg" id="formSuccessMsg">
+                    <i class="fa-solid fa-circle-check"></i>
+                    <p data-i18n="form_success">¡Listo! Abriremos WhatsApp...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-social">
+            <a href="https://www.instagram.com/lean.gonzaleztattoo/" target="_blank" rel="noopener"><i class="fa-brands fa-instagram"></i></a>
+        </div>
+        <p class="footer-copy" data-i18n="footer_text">© 2026 Lean González Tattoo</p>
+    </footer>
+
+    <script>
+        (function() {
+            const translations = {
+                es: {
+                    lang_title: '🌐 Idioma',
+                    lang_footer: 'Selecciona tu idioma',
+                    hide_panel: 'Ocultar panel',
+                    nav_home: 'Inicio',
+                    nav_gallery: 'Galería',
+                    nav_recomendaciones: 'Recomendaciones',
+                    nav_testimonials: 'Testimonios',
+                    nav_cta: 'Reservar Cita',
+                    hero_badge: '✦ Estudio Profesional ✦',
+                    hero_title_1: 'Tinta que',
+                    hero_title_accent: 'trasciende',
+                    hero_title_2: 'arte que permanece',
+                    hero_desc: 'Especialista en realismo, blackwork y diseños personalizados.',
+                    hero_btn_primary: 'Agendar Cita',
+                    hero_btn_secondary: 'Ver Portafolio',
+                    gallery_tag: 'Portafolio',
+                    gallery_title: 'Trabajos Recientes',
+                    gallery_subtitle: 'Cada tatuaje es una historia grabada en piel.',
+                    recomendaciones_tag: 'Cuidados',
+                    recomendaciones_title: 'Recomendaciones para tu Tatuaje',
+                    recomendaciones_subtitle: 'Para garantizar que tu tatuaje cicatrice correctamente y los colores o la tinta negra se mantengan impecables, es fundamental seguir estos cuidados.',
+                    recomendaciones_prev_title: '🟢 Recomendaciones Previas (Antes de tatuarte)',
+                    recomendaciones_prev_1: '<strong>Hidratación de la piel:</strong> Comienza a hidratar la zona a tatuar con crema corporal unos días antes. Una piel bien hidratada recibe mejor la tinta y facilita el trabajo del tatuador.',
+                    recomendaciones_prev_2: '<strong>Evita el alcohol y drogas:</strong> No consumas bebidas alcohólicas ni sustancias estimulantes al menos 24 horas antes de la sesión, ya que fluidifican la sangre, provocan mayor sangrado y dificultan que la tinta se fije correctamente.',
+                    recomendaciones_prev_3: '<strong>Descanso y alimentación:</strong> Acude a tu cita habiendo descansado bien y con el estómago lleno. Venir con energía evita mareos, bajones de presión y ayuda a tolerar mejor el dolor.',
+                    recomendaciones_prev_4: '<strong>No te expongas al sol:</strong> Evita tomar sol o rayos UVA en la zona en los días previos. No se puede tatuar sobre piel quemada por el sol o irritada.',
+                    recomendaciones_prev_5: '<strong>Ropa cómoda:</strong> Usa prendas holgadas y cómodas que no rocen ni presionen la zona recién tatuada al salir del estudio.',
+                    recomendaciones_post_title: '🔵 Recomendaciones Posteriores (Cuidados del tatuaje nuevo)',
+                    recomendaciones_post_1: '<strong>Higiene diaria:</strong> Lava el tatuaje con agua templada y un jabón neutro (o antibacteriano sin perfume) utilizando las yemas de los dedos con mucha suavidad para retirar restos de sangre, plasma o tinta. Hazlo de 2 a 3 veces al día.',
+                    recomendaciones_post_2: '<strong>Secado correcto:</strong> Seca la zona dando pequeños toques con una gasa o papel de cocina limpio. Nunca uses una toalla convencional, ya que puede acumular bacterias o irritar la piel.',
+                    recomendaciones_post_3: '<strong>Hidratación con crema específica:</strong> Aplica una capa muy fina de crema regeneradora recomendada por tu tatuador (como Bepanthol u otras cremas específicas para tatuajes). No satures la piel; el tatuaje debe "respirar".',
+                    recomendaciones_post_4: '<strong>Prohibido rascar o arrancar costras:</strong> Durante el proceso de curación es normal que aparezca picor o que comience a descamarse. Nunca arranques las pielecitas ni rasques, ya que puedes perder parte de la tinta o provocar una infección.',
+                    recomendaciones_post_5: '<strong>Cero sol, piscinas y playas:</strong> Durante las primeras 3 a 4 semanas debes evitar por completo la exposición solar directa, los baños en piscinas, el mar, saunas y jacuzzis. El agua estancada y el cloro son muy perjudiciales para una herida abierta.',
+                    recomendaciones_post_6: '<strong>Evita ropa ajustada:</strong> Usa ropa de algodón y holgada para evitar la fricción constante sobre el diseño fresco.',
+                    testimonials_tag: 'Lo que dicen',
+                    testimonials_title: 'Testimonios Reales',
+                    contact_tag: 'Contacto',
+                    contact_title: 'Comencemos Tu Proyecto',
+                    contact_location_title: 'Ubicación',
+                    contact_location_text: 'Santander, España',
+                    contact_phone_title: 'Teléfono',
+                    contact_hours_title: 'Horarios',
+                    contact_hours_text: 'Lun a Sáb: 9:00 – 13:00 · 16:00 – 21:00',
+                    form_name_label: 'Nombre *',
+                    form_phone_label: 'Teléfono *',
+                    form_body_part_label: 'Parte del cuerpo a tatuar *',
+                    form_message_label: 'Mensaje *',
+                    form_submit: 'Enviar por WhatsApp',
+                    form_success: '¡Listo! Abriremos WhatsApp...',
+                    footer_text: '© 2026 Lean González Tattoo',
+                    whatsapp_msg_intro: '👋 ¡Hola Lean! Quisiera consultar por un tatuaje.',
+                    whatsapp_msg_name: '👤 Nombre',
+                    whatsapp_msg_phone: '📞 Teléfono',
+                    whatsapp_msg_body_part: '📍 Parte del cuerpo',
+                    whatsapp_msg_message: '📝 Consulta',
+                    whatsapp_msg_footer: '✨ Enviado desde lean.gonzaleztattoo',
+                    testimonial1_text: 'Excelente trabajo, muy profesional y detallista. El mejor tatuador que he conocido.',
+                    testimonial2_text: 'El diseño superó mis expectativas. Muy recomendado para trabajos de realismo.',
+                    testimonial3_text: 'Increíble resultado, la atención y el cuidado son impecables. Volveré sin duda.',
+                    gallery_titles: {
+                        'Realismo Retrato': 'Realismo Retrato',
+                        'Blackwork Abstracto': 'Blackwork Abstracto',
+                        'Mandala Geométrico': 'Mandala Geométrico',
+                        'Old School': 'Old School',
+                        'Realismo Animal': 'Realismo Animal',
+                        'Dotwork': 'Dotwork',
+                        'Geométrico Brazalete': 'Geométrico Brazalete',
+                        'Realismo Ojo': 'Realismo Ojo',
+                        'Rosa Tradicional': 'Rosa Tradicional',
+                        'Línea Fina': 'Línea Fina',
+                        'Patrón Sagrado': 'Patrón Sagrado',
+                        'Realismo Mano': 'Realismo Mano'
+                    }
+                },
+                ca: {
+                    lang_title: '🌐 Idioma',
+                    lang_footer: 'Selecciona el teu idioma',
+                    hide_panel: 'Amagar panell',
+                    nav_home: 'Inici',
+                    nav_gallery: 'Galeria',
+                    nav_recomendaciones: 'Recomanacions',
+                    nav_testimonials: 'Testimonis',
+                    nav_cta: 'Reservar Cita',
+                    hero_badge: '✦ Estudi Professional ✦',
+                    hero_title_1: 'Tinta que',
+                    hero_title_accent: 'transcendeix',
+                    hero_title_2: 'art que perdura',
+                    hero_desc: 'Especialista en realisme, blackwork i dissenys personalitzats.',
+                    hero_btn_primary: 'Agendar Cita',
+                    hero_btn_secondary: 'Veure Portafoli',
+                    gallery_tag: 'Portafoli',
+                    gallery_title: 'Treballs Recents',
+                    gallery_subtitle: 'Cada tatuatge és una història gravada a la pell.',
+                    recomendaciones_tag: 'Cures',
+                    recomendaciones_title: 'Recomanacions per al teu Tatuatge',
+                    recomendaciones_subtitle: 'Per garantir que el teu tatuatge cicatritzi correctament i els colors o la tinta negra es mantinguin impecables, és fonamental seguir aquestes cures.',
+                    recomendaciones_prev_title: '🟢 Recomanacions Prèvies (Abans de tatuar-te)',
+                    recomendaciones_prev_1: '<strong>Hidratació de la pell:</strong> Comença a hidratar la zona a tatuar amb crema corporal uns dies abans. Una pell ben hidratada rep millor la tinta i facilita la feina del tatuador.',
+                    recomendaciones_prev_2: '<strong>Evita l\'alcohol i drogues:</strong> No consumeixis begudes alcohòliques ni substàncies estimulants almenys 24 hores abans de la sessió, ja que fluidifiquen la sang, provoquen més sagnat i dificulten que la tinta es fixi correctament.',
+                    recomendaciones_prev_3: '<strong>Descans i alimentació:</strong> Acudeix a la teva cita havent descansat bé i amb l\'estómac ple. Venir amb energia evita marejos, baixades de pressió i ajuda a tolerar millor el dolor.',
+                    recomendaciones_prev_4: '<strong>No t\'exposis al sol:</strong> Evita prendre sol o raigs UVA a la zona en els dies previs. No es pot tatuar sobre pell cremada pel sol o irritada.',
+                    recomendaciones_prev_5: '<strong>Roba còmoda:</strong> Utilitza peces folgades i còmodes que no freguin ni pressionin la zona recent tatuada en sortir de l\'estudi.',
+                    recomendaciones_post_title: '🔵 Recomanacions Posteriors (Cures del tatuatge nou)',
+                    recomendaciones_post_1: '<strong>Higiene diària:</strong> Renta el tatuatge amb aigua tèbia i un sabó neutre (o antibacterià sense perfum) utilitzant les puntes dels dits amb molta suavitat per retirar restes de sang, plasma o tinta. Fes-ho de 2 a 3 vegades al dia.',
+                    recomendaciones_post_2: '<strong>Assecat correcte:</strong> Asseca la zona donant petits tocs amb una gasa o paper de cuina net. Mai utilitzis una tovallola convencional, ja que pot acumular bacteris o irritar la pell.',
+                    recomendaciones_post_3: '<strong>Hidratació amb crema específica:</strong> Aplica una capa molt fina de crema regeneradora recomanada pel teu tatuador (com Bepanthol o altres cremes específiques per a tatuatges). No saturis la pell; el tatuatge ha de "respirar".',
+                    recomendaciones_post_4: '<strong>Prohibit gratar o arrencar crostes:</strong> Durant el procés de curació és normal que aparegui picor o que comenci a descamar-se. Mai arrenquis les pellícules ni gratís, ja que pots perdre part de la tinta o provocar una infecció.',
+                    recomendaciones_post_5: '<strong>Zero sol, piscines i platges:</strong> Durant les primeres 3 a 4 setmanes has d\'evitar per complet l\'exposició solar directa, els banys a piscines, el mar, saunes i jacuzzis. L\'aigua estancada i el clor són molt perjudicials per a una ferida oberta.',
+                    recomendaciones_post_6: '<strong>Evita roba ajustada:</strong> Utilitza roba de cotó i folgada per evitar la fricció constant sobre el disseny fresc.',
+                    testimonials_tag: 'El que diuen',
+                    testimonials_title: 'Testimonis Reals',
+                    contact_tag: 'Contacte',
+                    contact_title: 'Comencem El Teu Projecte',
+                    contact_location_title: 'Ubicació',
+                    contact_location_text: 'Santander, Espanya',
+                    contact_phone_title: 'Telèfon',
+                    contact_hours_title: 'Horaris',
+                    contact_hours_text: 'Dll a Diss: 9:00 – 13:00 · 16:00 – 21:00',
+                    form_name_label: 'Nom *',
+                    form_phone_label: 'Telèfon *',
+                    form_body_part_label: 'Part del cos a tatuar *',
+                    form_message_label: 'Missatge *',
+                    form_submit: 'Enviar per WhatsApp',
+                    form_success: 'Llest! Obrim WhatsApp...',
+                    footer_text: '© 2026 Lean González Tattoo',
+                    whatsapp_msg_intro: '👋 Hola Lean! Voldria consultar per un tatuatge.',
+                    whatsapp_msg_name: '👤 Nom',
+                    whatsapp_msg_phone: '📞 Telèfon',
+                    whatsapp_msg_body_part: '📍 Part del cos',
+                    whatsapp_msg_message: '📝 Consulta',
+                    whatsapp_msg_footer: '✨ Enviat des de lean.gonzaleztattoo',
+                    testimonial1_text: 'Excel·lent treball, molt professional i detallista. El millor tatuador que he conegut.',
+                    testimonial2_text: 'El disseny va superar les meves expectatives. Molt recomanat per a treballs de realisme.',
+                    testimonial3_text: 'Increïble resultat, l\'atenció i la cura són impecables. Tornaré sens dubte.',
+                    gallery_titles: {
+                        'Realismo Retrato': 'Retrat Realista',
+                        'Blackwork Abstracto': 'Blackwork Abstracte',
+                        'Mandala Geométrico': 'Mandala Geomètric',
+                        'Old School': 'Old School',
+                        'Realismo Animal': 'Realisme Animal',
+                        'Dotwork': 'Dotwork',
+                        'Geométrico Brazalete': 'Braçalet Geomètric',
+                        'Realismo Ojo': 'Realisme Ull',
+                        'Rosa Tradicional': 'Rosa Tradicional',
+                        'Línea Fina': 'Línia Fina',
+                        'Patrón Sagrado': 'Patró Sagrat',
+                        'Realismo Mano': 'Realisme Mà'
+                    }
+                },
+                en: {
+                    lang_title: '🌐 Language',
+                    lang_footer: 'Select your language',
+                    hide_panel: 'Hide panel',
+                    nav_home: 'Home',
+                    nav_gallery: 'Gallery',
+                    nav_recomendaciones: 'Recommendations',
+                    nav_testimonials: 'Testimonials',
+                    nav_cta: 'Book Now',
+                    hero_badge: '✦ Professional Studio ✦',
+                    hero_title_1: 'Ink that',
+                    hero_title_accent: 'transcends',
+                    hero_title_2: 'art that endures',
+                    hero_desc: 'Specialist in realism, blackwork and custom designs.',
+                    hero_btn_primary: 'Book Appointment',
+                    hero_btn_secondary: 'View Portfolio',
+                    gallery_tag: 'Portfolio',
+                    gallery_title: 'Recent Work',
+                    gallery_subtitle: 'Every tattoo is a story etched in skin.',
+                    recomendaciones_tag: 'Care',
+                    recomendaciones_title: 'Recommendations for Your Tattoo',
+                    recomendaciones_subtitle: 'To ensure your tattoo heals properly and the colors or black ink stay flawless, it is essential to follow these care guidelines.',
+                    recomendaciones_prev_title: '🟢 Previous Recommendations (Before getting tattooed)',
+                    recomendaciones_prev_1: '<strong>Skin hydration:</strong> Start hydrating the area to be tattooed with body cream a few days before. Well-hydrated skin receives the ink better and makes the tattoo artist\'s work easier.',
+                    recomendaciones_prev_2: '<strong>Avoid alcohol and drugs:</strong> Do not consume alcoholic beverages or stimulant substances at least 24 hours before the session, as they thin the blood, cause more bleeding, and make it harder for the ink to set properly.',
+                    recomendaciones_prev_3: '<strong>Rest and nutrition:</strong> Come to your appointment well-rested and with a full stomach. Coming with energy prevents dizziness, blood pressure drops, and helps tolerate pain better.',
+                    recomendaciones_prev_4: '<strong>Do not expose yourself to the sun:</strong> Avoid sunbathing or UVA rays on the area in the days before. You cannot tattoo on sunburned or irritated skin.',
+                    recomendaciones_prev_5: '<strong>Comfortable clothing:</strong> Wear loose and comfortable clothing that does not rub or press on the freshly tattooed area when leaving the studio.',
+                    recomendaciones_post_title: '🔵 Aftercare Recommendations (New tattoo care)',
+                    recomendaciones_post_1: '<strong>Daily hygiene:</strong> Wash the tattoo with warm water and a neutral soap (or antibacterial without perfume) using your fingertips very gently to remove blood, plasma, or ink residue. Do this 2 to 3 times a day.',
+                    recomendaciones_post_2: '<strong>Correct drying:</strong> Dry the area by gently patting with a clean gauze or kitchen paper. Never use a conventional towel, as it can accumulate bacteria or irritate the skin.',
+                    recomendaciones_post_3: '<strong>Moisturize with specific cream:</strong> Apply a very thin layer of regenerating cream recommended by your tattoo artist (such as Bepanthol or other specific tattoo creams). Do not saturate the skin; the tattoo should "breathe".',
+                    recomendaciones_post_4: '<strong>Do not scratch or pick scabs:</strong> During the healing process, it is normal for itching or peeling to occur. Never pick at the flakes or scratch, as you can lose part of the ink or cause an infection.',
+                    recomendaciones_post_5: '<strong>No sun, pools, or beaches:</strong> During the first 3 to 4 weeks, you must completely avoid direct sun exposure, swimming in pools, the sea, saunas, and hot tubs. Stagnant water and chlorine are very harmful to an open wound.',
+                    recomendaciones_post_6: '<strong>Avoid tight clothing:</strong> Wear cotton and loose clothing to avoid constant friction on the fresh design.',
+                    testimonials_tag: 'What They Say',
+                    testimonials_title: 'Real Testimonials',
+                    contact_tag: 'Contact',
+                    contact_title: "Let's Start Your Project",
+                    contact_location_title: 'Location',
+                    contact_location_text: 'Santander, Spain',
+                    contact_phone_title: 'Phone',
+                    contact_hours_title: 'Hours',
+                    contact_hours_text: 'Mon to Sat: 9:00 – 13:00 · 16:00 – 21:00',
+                    form_name_label: 'Name *',
+                    form_phone_label: 'Phone *',
+                    form_body_part_label: 'Body part to tattoo *',
+                    form_message_label: 'Message *',
+                    form_submit: 'Send via WhatsApp',
+                    form_success: 'Ready! Opening WhatsApp...',
+                    footer_text: '© 2026 Lean González Tattoo',
+                    whatsapp_msg_intro: '👋 Hey Lean! I would like to inquire about a tattoo.',
+                    whatsapp_msg_name: '👤 Name',
+                    whatsapp_msg_phone: '📞 Phone',
+                    whatsapp_msg_body_part: '📍 Body part',
+                    whatsapp_msg_message: '📝 Inquiry',
+                    whatsapp_msg_footer: '✨ Sent from lean.gonzaleztattoo',
+                    testimonial1_text: 'Excellent work, very professional and detail-oriented. The best tattoo artist I\'ve met.',
+                    testimonial2_text: 'The design exceeded my expectations. Highly recommended for realism work.',
+                    testimonial3_text: 'Amazing result, the attention and care are impeccable. I will definitely come back.',
+                    gallery_titles: {
+                        'Realismo Retrato': 'Realism Portrait',
+                        'Blackwork Abstracto': 'Abstract Blackwork',
+                        'Mandala Geométrico': 'Geometric Mandala',
+                        'Old School': 'Old School',
+                        'Realismo Animal': 'Animal Realism',
+                        'Dotwork': 'Dotwork',
+                        'Geométrico Brazalete': 'Geometric Bracelet',
+                        'Realismo Ojo': 'Eye Realism',
+                        'Rosa Tradicional': 'Traditional Rose',
+                        'Línea Fina': 'Fine Line',
+                        'Patrón Sagrado': 'Sacred Pattern',
+                        'Realismo Mano': 'Hand Realism'
+                    }
+                }
+            };
+
+            const galleryImagesData = [
+                { src: 'https://images.unsplash.com/photo-1590246814883-57767a2e08de?w=600&h=600&fit=crop', category: 'realismo', titleEs: 'Realismo Retrato' },
+                { src: 'https://images.unsplash.com/photo-1611501275010-5b7e6e5b8f7e?w=600&h=600&fit=crop', category: 'blackwork', titleEs: 'Blackwork Abstracto' },
+                { src: 'https://images.unsplash.com/photo-1568515045052-f9a854d70bfd?w=600&h=600&fit=crop', category: 'geometrico', titleEs: 'Mandala Geométrico' },
+                { src: 'https://images.unsplash.com/photo-1585011650347-c59dbef5a6c0?w=600&h=600&fit=crop', category: 'tradicional', titleEs: 'Old School' },
+                { src: 'https://images.unsplash.com/photo-1542838452-46b5d65e4e5a?w=600&h=600&fit=crop', category: 'realismo', titleEs: 'Realismo Animal' },
+                { src: 'https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?w=600&h=600&fit=crop', category: 'blackwork', titleEs: 'Dotwork' },
+                { src: 'https://images.unsplash.com/photo-1597852074816-d933c7d2b988?w=600&h=600&fit=crop', category: 'geometrico', titleEs: 'Geométrico Brazalete' },
+                { src: 'https://images.unsplash.com/photo-1562962230-16e4623d36e6?w=600&h=600&fit=crop', category: 'realismo', titleEs: 'Realismo Ojo' },
+                { src: 'https://images.unsplash.com/photo-1617391765935-f7ac7ee648a1?w=600&h=600&fit=crop', category: 'tradicional', titleEs: 'Rosa Tradicional' },
+                { src: 'https://images.unsplash.com/photo-1600456899125-26d570d79c7e?w=600&h=600&fit=crop', category: 'blackwork', titleEs: 'Línea Fina' },
+                { src: 'https://images.unsplash.com/photo-1598371839696-5c5bb00bdc28?w=600&h=600&fit=crop', category: 'geometrico', titleEs: 'Patrón Sagrado' },
+                { src: 'https://images.unsplash.com/photo-1578683010236-d716f9a3f461?w=600&h=600&fit=crop', category: 'realismo', titleEs: 'Realismo Mano' }
+            ];
+
+            let currentLang = 'es';
+            let filteredImages = [...galleryImagesData];
+
+            function closeLangPanel() {
+                document.body.classList.remove('lang-panel-visible');
+                document.getElementById('langToggleTab').classList.remove('hidden-tab');
+            }
+
+            function setLanguage(lang) {
+                currentLang = lang;
+                const t = translations[lang];
+                
+                document.querySelectorAll('[data-i18n]').forEach(el => {
+                    if (t[el.dataset.i18n]) el.innerHTML = t[el.dataset.i18n];
+                });
+                
+                document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                    if (t[el.dataset.i18nPlaceholder]) el.placeholder = t[el.dataset.i18nPlaceholder];
+                });
+                
+                renderGallery();
+                renderTestimonials();
+                
+                document.querySelectorAll('.lang-option').forEach(b => b.classList.remove('active'));
+                document.querySelector(`.lang-option[data-lang="${lang}"]`)?.classList.add('active');
+                
+                localStorage.setItem('preferredLang', lang);
+                closeLangPanel();
+            }
+
+            function renderGallery() {
+                const t = translations[currentLang];
+                const grid = document.getElementById('galleryGrid');
+                
+                grid.innerHTML = galleryImagesData.map((img, i) => `
+                    <div class="gallery-item" data-index="${i}">
+                        <img src="${img.src}" alt="${t.gallery_titles[img.titleEs] || img.titleEs}" loading="lazy">
+                        <div class="gallery-item-overlay">
+                            <span class="overlay-info">
+                                <i class="fa-solid fa-tag"></i> ${t.gallery_titles[img.titleEs] || img.titleEs}
+                            </span>
+                        </div>
+                    </div>
+                `).join('');
+                
+                document.querySelectorAll('.gallery-item').forEach(item => {
+                    item.addEventListener('click', function() {
+                        openLightbox(parseInt(this.dataset.index));
+                    });
+                });
+            }
+
+            let currentLightboxIndex = 0;
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightboxImg');
+
+            function openLightbox(index) {
+                currentLightboxIndex = index;
+                lightboxImg.src = galleryImagesData[index].src;
+                lightbox.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeLightbox() {
+                lightbox.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+            document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+            
+            document.getElementById('lightboxPrev').addEventListener('click', function(e) {
+                e.stopPropagation();
+                currentLightboxIndex = (currentLightboxIndex - 1 + galleryImagesData.length) % galleryImagesData.length;
+                lightboxImg.src = galleryImagesData[currentLightboxIndex].src;
+            });
+            
+            document.getElementById('lightboxNext').addEventListener('click', function(e) {
+                e.stopPropagation();
+                currentLightboxIndex = (currentLightboxIndex + 1) % galleryImagesData.length;
+                lightboxImg.src = galleryImagesData[currentLightboxIndex].src;
+            });
+            
+            lightbox.addEventListener('click', function(e) {
+                if (e.target === this) closeLightbox();
+            });
+            
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    closeLightbox();
+                    closeLangPanel();
+                }
+                if (e.key === 'ArrowLeft' && lightbox.classList.contains('active')) {
+                    document.getElementById('lightboxPrev').click();
+                }
+                if (e.key === 'ArrowRight' && lightbox.classList.contains('active')) {
+                    document.getElementById('lightboxNext').click();
+                }
+            });
+
+            function renderTestimonials() {
+                const t = translations[currentLang];
+                const testimonials = [
+                    { name: 'Martín R.', text: t.testimonial1_text || 'Excelente trabajo' },
+                    { name: 'Sofía L.', text: t.testimonial2_text || 'Muy profesional' },
+                    { name: 'Carlos D.', text: t.testimonial3_text || 'Increíble resultado' }
+                ];
+                
+                document.getElementById('testimonialsGrid').innerHTML = testimonials.map(td => `
+                    <div class="testimonial-card">
+                        <div class="testimonial-stars">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <p>"${td.text}"</p>
+                        <div><strong>${td.name}</strong></div>
+                    </div>
+                `).join('');
+            }
+
+            document.getElementById('contactForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const t = translations[currentLang];
+                
+                const name = document.getElementById('name').value.trim();
+                const phone = document.getElementById('phone').value.trim();
+                const bodyPart = document.getElementById('bodyPart').value;
+                const message = document.getElementById('message').value.trim();
+                
+                if (!name || !phone || !bodyPart || !message) {
+                    alert('Por favor completa todos los campos obligatorios (*)');
+                    return;
+                }
+                
+                let msg = `${t.whatsapp_msg_intro}%0A%0A`;
+                msg += `${t.whatsapp_msg_name}: ${name}%0A`;
+                msg += `${t.whatsapp_msg_phone}: ${phone}%0A`;
+                msg += `${t.whatsapp_msg_body_part}: ${bodyPart}%0A`;
+                msg += `${t.whatsapp_msg_message}: ${message}%0A%0A${t.whatsapp_msg_footer}`;
+                
+                window.open(`https://wa.me/34697891324?text=${encodeURIComponent(msg)}`, '_blank');
+                
+                const successMsg = document.getElementById('formSuccessMsg');
+                successMsg.style.display = 'block';
+                
+                setTimeout(() => {
+                    this.reset();
+                    successMsg.style.display = 'none';
+                }, 5000);
+            });
+
+            const navbar = document.getElementById('navbar');
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            });
+
+            const hamburger = document.getElementById('hamburger');
+            const navLinks = document.getElementById('navLinks');
+            
+            hamburger.addEventListener('click', function() {
+                navLinks.classList.toggle('active');
+            });
+            
+            navLinks.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', function() {
+                    navLinks.classList.remove('active');
+                });
+            });
+
+            document.querySelectorAll('.lang-option').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const lang = this.dataset.lang;
+                    setLanguage(lang);
+                });
+            });
+            
+            document.getElementById('langOverlay').addEventListener('click', closeLangPanel);
+            document.getElementById('langPanelClose').addEventListener('click', closeLangPanel);
+            document.getElementById('hidePanelBtn').addEventListener('click', closeLangPanel);
+            
+            document.getElementById('langToggleTab').addEventListener('click', function() {
+                document.body.classList.add('lang-panel-visible');
+                this.classList.add('hidden-tab');
+            });
+
+            const savedLang = localStorage.getItem('preferredLang') || 'es';
+            setLanguage(savedLang);
+            
+            document.body.classList.add('lang-panel-visible');
+            document.getElementById('langToggleTab').classList.add('hidden-tab');
+        })();
+    </script>
+</body>
+</html>
