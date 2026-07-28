@@ -428,17 +428,17 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            padding: 8rem 2rem 5rem;
+            padding: 5rem 2rem 4rem; /* Reducido el padding superior para subir el logo */
             background: radial-gradient(ellipse at 50% 30%, rgba(200, 164, 92, 0.06) 0%, transparent 70%), var(--bg-primary);
         }
         .hero-content {
             max-width: 850px;
         }
         .hero-logo {
-            max-width: 300px;
+            max-width: 380px; /* AGRANDADO (antes era 300px) */
             width: 100%;
             height: auto;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem; /* Reducido el margen inferior */
             display: block;
             margin-left: auto;
             margin-right: auto;
@@ -457,7 +457,7 @@
             font-size: 0.8rem;
             letter-spacing: 3px;
             color: var(--gold);
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
         }
         .hero h1 {
             font-family: 'Cormorant Garamond', serif;
@@ -515,12 +515,12 @@
 
         @media (max-width: 768px) {
             .hero-logo {
-                max-width: 200px;
+                max-width: 240px; /* En móviles también se agranda un poco más */
             }
         }
         @media (max-width: 480px) {
             .hero-logo {
-                max-width: 160px;
+                max-width: 200px; /* En móviles muy pequeños */
             }
         }
 
@@ -1319,10 +1319,19 @@
                             Mantén presionada la tecla Ctrl (Windows) o Cmd (Mac) para seleccionar múltiples opciones
                         </small>
                     </div>
+                    
+                    <!-- ================= CAMPO DE MENSAJE CON MICRÓFONO ================= -->
                     <div class="form-group">
                         <label data-i18n="form_message_label">Mensaje *</label>
-                        <textarea id="message" required placeholder="Describe tu idea, estilo, tamaño, colores, etc."></textarea>
+                        <div style="position: relative; width: 100%;">
+                            <textarea id="message" required placeholder="Describe tu idea, estilo, tamaño, colores, etc. o utiliza el micrófono para escribirnos !!" style="padding-right: 70px;"></textarea>
+                            <button type="button" id="voiceBtn" style="position: absolute; bottom: 12px; right: 12px; background: rgba(0,0,0,0.7); border: none; color: var(--gold); cursor: pointer; font-size: 1.8rem; transition: var(--transition); padding: 12px 18px; border-radius: 50px; line-height: 1;">
+                                <i class="fa-solid fa-microphone" style="display: block;"></i>
+                            </button>
+                        </div>
                     </div>
+                    <!-- ============================================================== -->
+
                     <button type="submit" class="btn-submit"><i class="fa-brands fa-whatsapp"></i> <span data-i18n="form_submit">Enviar por WhatsApp</span></button>
                 </form>
                 <div class="form-success-msg" id="formSuccessMsg">
@@ -1797,6 +1806,84 @@
                     successMsg.style.display = 'none';
                 }, 5000);
             });
+
+            // ============ 🎤 LÓGICA DEL BOTÓN DE RECONOCIMIENTO DE VOZ ============
+            const voiceBtn = document.getElementById('voiceBtn');
+            const messageArea = document.getElementById('message');
+
+            if (voiceBtn && messageArea) {
+                // Detectar si el navegador soporta la API
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                
+                if (SpeechRecognition) {
+                    const recognition = new SpeechRecognition();
+                    recognition.lang = 'es-ES'; // Forzar idioma español
+                    recognition.continuous = false;
+                    recognition.interimResults = true; // Mostrar texto mientras se habla
+                    let isListening = false;
+
+                    voiceBtn.addEventListener('click', function() {
+                        if (isListening) {
+                            recognition.stop();
+                            return;
+                        }
+
+                        try {
+                            recognition.start();
+                            isListening = true;
+                            voiceBtn.style.color = '#ff4d4d'; // Color rojo cuando graba
+                            voiceBtn.style.transform = 'scale(1.1)';
+                            messageArea.focus();
+                        } catch (err) {
+                            console.warn('Error al iniciar el micrófono:', err);
+                        }
+                    });
+
+                    // Evento que se ejecuta mientras hablas
+                    recognition.addEventListener('result', function(e) {
+                        let finalTranscript = '';
+                        let interimTranscript = '';
+                        
+                        for (let i = e.resultIndex; i < e.results.length; i++) {
+                            const transcript = e.results[i][0].transcript;
+                            if (e.results[i].isFinal) {
+                                finalTranscript += transcript;
+                            } else {
+                                interimTranscript += transcript;
+                            }
+                        }
+                        
+                        // Si hay texto final, lo agregamos al área
+                        if (finalTranscript) {
+                            // Agregar un espacio si el área ya tiene texto
+                            const currentText = messageArea.value;
+                            messageArea.value = currentText + (currentText && !currentText.endsWith(' ') ? ' ' : '') + finalTranscript;
+                        }
+                    });
+
+                    // Cuando termina de hablar o se detiene
+                    recognition.addEventListener('end', function() {
+                        isListening = false;
+                        voiceBtn.style.color = 'var(--gold)'; // Vuelve al color dorado
+                        voiceBtn.style.transform = 'scale(1)';
+                    });
+                    
+                    // Manejo de errores (ej. usuario denegó el permiso)
+                    recognition.addEventListener('error', function(e) {
+                        console.warn('Error en reconocimiento de voz:', e.error);
+                        isListening = false;
+                        voiceBtn.style.color = 'var(--gold)';
+                        voiceBtn.style.transform = 'scale(1)';
+                    });
+
+                } else {
+                    // El navegador no soporta voz
+                    voiceBtn.style.opacity = '0.5';
+                    voiceBtn.style.cursor = 'not-allowed';
+                    voiceBtn.title = 'Tu navegador no soporta reconocimiento de voz';
+                }
+            }
+            // ================================================================
 
             // ============ NAVEGACIÓN ============
             const navbar = document.getElementById('navbar');
