@@ -428,17 +428,17 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            padding: 5rem 2rem 4rem; /* Reducido el padding superior para subir el logo */
+            padding: 4.5rem 2rem 3.5rem; /* Aún menos padding arriba para que el logo suba más */
             background: radial-gradient(ellipse at 50% 30%, rgba(200, 164, 92, 0.06) 0%, transparent 70%), var(--bg-primary);
         }
         .hero-content {
             max-width: 850px;
         }
         .hero-logo {
-            max-width: 380px; /* AGRANDADO (antes era 300px) */
+            max-width: 380px; /* Tamaño base para escritorio */
             width: 100%;
             height: auto;
-            margin-bottom: 1rem; /* Reducido el margen inferior */
+            margin-bottom: 0.8rem; /* Margen inferior ajustado */
             display: block;
             margin-left: auto;
             margin-right: auto;
@@ -513,14 +513,15 @@
             flex-wrap: wrap;
         }
 
+        /* ===== LOGO MÁS GRANDE EN CELULARES ===== */
         @media (max-width: 768px) {
             .hero-logo {
-                max-width: 240px; /* En móviles también se agranda un poco más */
+                max-width: 320px; /* Mucho más grande en tablets y móviles grandes */
             }
         }
         @media (max-width: 480px) {
             .hero-logo {
-                max-width: 200px; /* En móviles muy pequeños */
+                max-width: 280px; /* Más grande en móviles pequeños */
             }
         }
 
