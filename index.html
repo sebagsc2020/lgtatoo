@@ -1281,7 +1281,15 @@
                 </div>
             </div>
             <div class="contact-form-card" id="contactFormCard">
-                <form id="contactForm">
+                
+                <!-- ============ ETIQUETA FLOTANTE DE HORARIO (ARRIBA IZQUIERDA) ============ -->
+                <div id="statusBadge" style="position: absolute; top: -40px; left: 0; padding: 8px 16px; background: #2a2a2a; border-radius: 20px; font-size: 0.75rem; font-weight: 600; color: #fff; border: 1px solid var(--border-subtle); z-index: 10; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); transition: all 0.3s ease;">
+                    <span id="statusDot" style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #4caf50;"></span>
+                    <span id="statusText">Cargando horario...</span>
+                </div>
+                <!-- ======================================================================== -->
+
+                <form id="contactForm" style="position: relative;">
                     <div class="form-row">
                         <div class="form-group">
                             <label data-i18n="form_name_label">Nombre *</label>
@@ -1341,6 +1349,13 @@
                     <!-- ============================================================== -->
 
                     <button type="submit" class="btn-submit"><i class="fa-brands fa-whatsapp"></i> <span data-i18n="form_submit">Enviar por WhatsApp</span></button>
+                    
+                    <!-- ============ TEXTO DE REINICIO AUTOMÁTICO ============ -->
+                    <div style="text-align: center; margin-top: 15px; font-size: 0.75rem; color: var(--text-muted);">
+                        <i class="fa-regular fa-clock"></i> 
+                        <span data-i18n="form_auto_reset">El formulario se reiniciará automáticamente cuando el local vuelva a abrir.</span>
+                    </div>
+                    <!-- ============================================================ -->
                 </form>
                 <div class="form-success-msg" id="formSuccessMsg">
                     <i class="fa-solid fa-circle-check"></i>
@@ -1426,6 +1441,7 @@
                     form_message_label: 'Mensaje *',
                     form_submit: 'Enviar por WhatsApp',
                     form_success: '¡Listo! Abriremos WhatsApp...',
+                    form_auto_reset: 'El formulario se reiniciará automáticamente cuando el local vuelva a abrir.',
                     footer_text: '© 2026 Lean González Tattoo',
                     whatsapp_msg_intro: '👋 ¡Hola Lean! Quisiera consultar por un tatuaje.',
                     whatsapp_msg_name: '👤 Nombre',
@@ -1490,6 +1506,7 @@
                     form_message_label: 'Missatge *',
                     form_submit: 'Enviar per WhatsApp',
                     form_success: 'Llest! Obrim WhatsApp...',
+                    form_auto_reset: 'El formulari es reiniciarà automàticament quan el local torni a obrir.',
                     footer_text: '© 2026 Lean González Tattoo',
                     whatsapp_msg_intro: '👋 Hola Lean! Voldria consultar per un tatuatge.',
                     whatsapp_msg_name: '👤 Nom',
@@ -1554,6 +1571,7 @@
                     form_message_label: 'Message *',
                     form_submit: 'Send via WhatsApp',
                     form_success: 'Ready! Opening WhatsApp...',
+                    form_auto_reset: 'The form will automatically reset when the shop reopens.',
                     footer_text: '© 2026 Lean González Tattoo',
                     whatsapp_msg_intro: '👋 Hey Lean! I would like to inquire about a tattoo.',
                     whatsapp_msg_name: '👤 Name',
@@ -1861,6 +1879,62 @@
             }
             // ================================================================
 
+            // ============ ⏰ LÓGICA DE HORARIO COMERCIAL (SANTANDER, ESPAÑA) ============
+            function updateBusinessStatus() {
+                const statusDot = document.getElementById('statusDot');
+                const statusText = document.getElementById('statusText');
+                
+                if (!statusDot || !statusText) return;
+
+                // Obtener la hora actual en la zona horaria de Santander (Europe/Madrid)
+                const now = new Date();
+                const options = { timeZone: 'Europe/Madrid', hour12: false };
+                const formatter = new Intl.DateTimeFormat('es-ES', { ...options, hour: '2-digit', minute: '2-digit' });
+                const timeParts = formatter.formatToParts(now);
+                
+                // Extraer hora y minutos localmente
+                let hours = 0, minutes = 0;
+                timeParts.forEach(part => {
+                    if (part.type === 'hour') hours = parseInt(part.value, 10);
+                    if (part.type === 'minute') minutes = parseInt(part.value, 10);
+                });
+                
+                // Convertir todo a minutos para comparar fácilmente
+                const currentMinutes = hours * 60 + minutes;
+                const morningStart = 9 * 60 + 0;  // 9:00
+                const morningEnd = 13 * 60 + 0;   // 13:00
+                const afternoonStart = 16 * 60 + 0; // 16:00
+                const afternoonEnd = 21 * 60 + 0;   // 21:00
+
+                // Calcular si está abierto
+                const isMorning = currentMinutes >= morningStart && currentMinutes < morningEnd;
+                const isAfternoon = currentMinutes >= afternoonStart && currentMinutes < afternoonEnd;
+                const isOpen = isMorning || isAfternoon;
+
+                // Determinar la próxima hora de apertura para el mensaje de cerrado
+                let nextOpenTime = "";
+                if (!isOpen) {
+                    if (currentMinutes < morningStart) {
+                        nextOpenTime = "9:00";
+                    } else if (currentMinutes >= morningEnd && currentMinutes < afternoonStart) {
+                        nextOpenTime = "16:00";
+                    } else {
+                        // Después de las 21:00
+                        nextOpenTime = "mañana a las 9:00";
+                    }
+                }
+
+                // Actualizar estilos y textos
+                if (isOpen) {
+                    statusDot.style.backgroundColor = '#4caf50'; // Verde
+                    statusText.textContent = '🟢 Estamos abiertos - Atendemos tu consulta';
+                } else {
+                    statusDot.style.backgroundColor = '#f44336'; // Rojo
+                    statusText.textContent = `🔴 Cerrado - Regresamos a las ${nextOpenTime}`;
+                }
+            }
+            // ================================================================
+
             // ============ NAVEGACIÓN ============
             const navbar = document.getElementById('navbar');
             window.addEventListener('scroll', function() {
@@ -1903,7 +1977,11 @@
             // ============ INICIALIZACIÓN ============
             const savedLang = localStorage.getItem('preferredLang') || 'es';
             setLanguage(savedLang);
-            loadData(); // <--- CARGAMOS LOS DATOS DINÁMICOS AQUÍ
+            loadData(); // Cargar datos dinámicos
+            updateBusinessStatus(); // Ejecutar inmediatamente al cargar la página
+            
+            // Actualizar el estado del local cada 30 segundos para mantenerlo fresco
+            setInterval(updateBusinessStatus, 30000);
             
             document.body.classList.remove('lang-panel-visible');
             document.getElementById('langToggleTab').classList.remove('hidden-tab');
