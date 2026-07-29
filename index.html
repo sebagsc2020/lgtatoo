@@ -428,17 +428,17 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            padding: 4.5rem 2rem 3.5rem; /* Aún menos padding arriba para que el logo suba más */
+            padding: 4.5rem 2rem 3.5rem;
             background: radial-gradient(ellipse at 50% 30%, rgba(200, 164, 92, 0.06) 0%, transparent 70%), var(--bg-primary);
         }
         .hero-content {
             max-width: 850px;
         }
         .hero-logo {
-            max-width: 380px; /* Tamaño base para escritorio */
+            max-width: 380px;
             width: 100%;
             height: auto;
-            margin-bottom: 0.8rem; /* Margen inferior ajustado */
+            margin-bottom: 0.8rem;
             display: block;
             margin-left: auto;
             margin-right: auto;
@@ -513,15 +513,14 @@
             flex-wrap: wrap;
         }
 
-        /* ===== LOGO MÁS GRANDE EN CELULARES ===== */
         @media (max-width: 768px) {
             .hero-logo {
-                max-width: 320px; /* Mucho más grande en tablets y móviles grandes */
+                max-width: 320px;
             }
         }
         @media (max-width: 480px) {
             .hero-logo {
-                max-width: 280px; /* Más grande en móviles pequeños */
+                max-width: 280px;
             }
         }
 
@@ -558,10 +557,9 @@
             color: var(--text-secondary);
             font-size: 1rem;
         }
-        /* Ajuste para evitar superposición en móviles */
         @media (max-width: 768px) {
             .gallery-section .section-header {
-                margin-top: 60px; /* Aumentado para evitar la barra de idiomas y el badge */
+                margin-top: 60px;
             }
         }
         .gallery-grid {
@@ -589,7 +587,7 @@
             display: none;
         }
 
-        /* ============ BANNER DE INSTAGRAM DESTACADO ============ */
+        /* ============ BANNER DE INSTAGRAM ============ */
         .instagram-cta-banner {
             margin-top: 3.5rem;
             padding: 2.5rem 2rem;
@@ -644,7 +642,7 @@
             color: #fff;
         }
 
-        /* ============ LIGHTBOX SIN ZOOM (CERRAR AL TOCAR) ============ */
+        /* ============ LIGHTBOX ============ */
         .lightbox {
             position: fixed;
             inset: 0;
@@ -691,8 +689,6 @@
         .lightbox-nav {
             display: none;
         }
-
-        /* Indicador de posición en el lightbox */
         .lightbox-counter {
             position: absolute;
             bottom: 30px;
@@ -897,11 +893,10 @@
             gap: 1rem;
         }
         
-        /* ===== BOTÓN DE ENVÍO MÁS ALTO ===== */
         .btn-submit {
             width: 100%;
-            padding: 1.5rem 1.5rem; /* Aumentado el padding vertical (alto) */
-            margin-top: 0.5rem;     /* Pequeño margen superior */
+            padding: 1.5rem 1.5rem;
+            margin-top: 0.5rem;
             background: var(--gold);
             color: #0a0a0a;
             border: none;
@@ -909,7 +904,7 @@
             font-weight: 600;
             cursor: pointer;
             transition: var(--transition);
-            font-size: 1.1rem;      /* Texto un poco más grande */
+            font-size: 1.1rem;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1271,7 +1266,6 @@
                         </small>
                     </div>
                     
-                    <!-- ================= CAMPO DE MENSAJE CON MICRÓFONO ================= -->
                     <div class="form-group">
                         <label data-i18n="form_message_label">Mensaje *</label>
                         <div style="position: relative; width: 100%;">
@@ -1281,16 +1275,13 @@
                             </button>
                         </div>
                     </div>
-                    <!-- ============================================================== -->
 
                     <button type="submit" class="btn-submit"><i class="fa-brands fa-whatsapp"></i> <span data-i18n="form_submit">Enviar por WhatsApp</span></button>
 
-                    <!-- ============ TEXTO DE REINICIO AUTOMÁTICO ============ -->
                     <div style="text-align: center; margin-top: 15px; font-size: 0.75rem; color: var(--text-muted);">
                         <i class="fa-regular fa-clock"></i> 
                         <span data-i18n="form_auto_reset">El formulario se reiniciará automáticamente cuando el local vuelva a abrir.</span>
                     </div>
-                    <!-- ============================================================ -->
                 </form>
                 <div class="form-success-msg" id="formSuccessMsg">
                     <i class="fa-solid fa-circle-check"></i>
@@ -1310,18 +1301,35 @@
         </p>
     </footer>
 
-    <!-- ============ REGISTRAR SERVICE WORKER ============ -->
+    <!-- ============ LIMPIAR CACHÉ VIEJO Y REGISTRAR NUEVO SW ============ -->
     <script>
         if ('serviceWorker' in navigator) {
-            window.addEventListener('load', function() {
+            // Primero: limpiar todos los cachés viejos
+            caches.keys().then(function(names) {
+                for (let name of names) {
+                    console.log('🗑️ Eliminando caché:', name);
+                    caches.delete(name);
+                }
+            });
+            
+            // Desregistrar todos los SW viejos
+            navigator.serviceWorker.getRegistrations().then(function(registrations) {
+                for(let registration of registrations) {
+                    registration.unregister();
+                    console.log('🗑️ SW antiguo desregistrado');
+                }
+            });
+            
+            // Esperar un momento y registrar el nuevo SW
+            setTimeout(function() {
                 navigator.serviceWorker.register('/sw.js')
                     .then(function(registration) {
-                        console.log('Service Worker registrado con éxito:', registration.scope);
+                        console.log('✅ Nuevo Service Worker registrado:', registration.scope);
                     })
                     .catch(function(error) {
-                        console.log('Error al registrar el Service Worker:', error);
+                        console.log('Error al registrar SW:', error);
                     });
-            });
+            }, 1000);
         }
     </script>
 
@@ -1588,7 +1596,7 @@
                 });
             }
 
-            // ============ LIGHTBOX SIMPLIFICADO (Sin Zoom, scroll y cerrar al tocar) ============
+            // ============ LIGHTBOX SIMPLIFICADO ============
             let currentLightboxIndex = 0;
             const lightbox = document.getElementById('lightbox');
             const lightboxImg = document.getElementById('lightboxImg');
@@ -1615,7 +1623,6 @@
                 document.body.style.overflow = '';
             }
 
-            // Evento para cerrar al tocar la imagen o el fondo
             lightbox.addEventListener('click', function(e) {
                 closeLightbox();
             });
@@ -1627,7 +1634,6 @@
                     closeLangPanel();
                 }
             });
-            // ========================================================================
 
             // ============ TESTIMONIOS ============
             function renderTestimonials() {
@@ -1653,7 +1659,7 @@
                 `).join('');
             }
 
-            // ============ 🛠️ FORMULARIO CORREGIDO (Con viñetas y \r\n) ============
+            // ============ FORMULARIO ============
             document.getElementById('contactForm').addEventListener('submit', function(e) {
                 e.preventDefault();
                 const t = translations[currentLang];
@@ -1671,7 +1677,6 @@
                     return;
                 }
                 
-                // ✅ FORMATO CON VIÑETAS, NEGRITAS Y SALTO DE LÍNEA REAL (\r\n)
                 let msg = '👋 *' + t.whatsapp_msg_intro + '*\r\n\r\n';
                 msg += '▸ *' + t.whatsapp_msg_name + ':* ' + name + '\r\n';
                 msg += '▸ *' + t.whatsapp_msg_phone + ':* ' + phone + '\r\n';
@@ -1679,7 +1684,6 @@
                 msg += '▸ *' + t.whatsapp_msg_message + ':* ' + message + '\r\n\r\n';
                 msg += t.whatsapp_msg_footer;
                 
-                // Codificar correctamente para URL
                 const encodedMsg = encodeURIComponent(msg);
                 window.open('https://wa.me/34697891324?text=' + encodedMsg, '_blank');
                 
@@ -1693,19 +1697,18 @@
                 }, 5000);
             });
 
-            // ============ 🎤 LÓGICA DEL BOTÓN DE RECONOCIMIENTO DE VOZ ============
+            // ============ RECONOCIMIENTO DE VOZ ============
             const voiceBtn = document.getElementById('voiceBtn');
             const messageArea = document.getElementById('message');
 
             if (voiceBtn && messageArea) {
-                // Detectar si el navegador soporta la API
                 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
                 
                 if (SpeechRecognition) {
                     const recognition = new SpeechRecognition();
-                    recognition.lang = 'es-ES'; // Forzar idioma español
+                    recognition.lang = 'es-ES';
                     recognition.continuous = false;
-                    recognition.interimResults = true; // Mostrar texto mientras se habla
+                    recognition.interimResults = true;
                     let isListening = false;
 
                     voiceBtn.addEventListener('click', function() {
@@ -1717,7 +1720,7 @@
                         try {
                             recognition.start();
                             isListening = true;
-                            voiceBtn.style.color = '#ff4d4d'; // Color rojo cuando graba
+                            voiceBtn.style.color = '#ff4d4d';
                             voiceBtn.style.transform = 'scale(1.1)';
                             messageArea.focus();
                         } catch (err) {
@@ -1725,36 +1728,28 @@
                         }
                     });
 
-                    // Evento que se ejecuta mientras hablas
                     recognition.addEventListener('result', function(e) {
                         let finalTranscript = '';
-                        let interimTranscript = '';
                         
                         for (let i = e.resultIndex; i < e.results.length; i++) {
                             const transcript = e.results[i][0].transcript;
                             if (e.results[i].isFinal) {
                                 finalTranscript += transcript;
-                            } else {
-                                interimTranscript += transcript;
                             }
                         }
                         
-                        // Si hay texto final, lo agregamos al área
                         if (finalTranscript) {
-                            // Agregar un espacio si el área ya tiene texto
                             const currentText = messageArea.value;
                             messageArea.value = currentText + (currentText && !currentText.endsWith(' ') ? ' ' : '') + finalTranscript;
                         }
                     });
 
-                    // Cuando termina de hablar o se detiene
                     recognition.addEventListener('end', function() {
                         isListening = false;
-                        voiceBtn.style.color = 'var(--gold)'; // Vuelve al color dorado
+                        voiceBtn.style.color = 'var(--gold)';
                         voiceBtn.style.transform = 'scale(1)';
                     });
                     
-                    // Manejo de errores (ej. usuario denegó el permiso)
                     recognition.addEventListener('error', function(e) {
                         console.warn('Error en reconocimiento de voz:', e.error);
                         isListening = false;
@@ -1763,22 +1758,19 @@
                     });
 
                 } else {
-                    // El navegador no soporta voz
                     voiceBtn.style.opacity = '0.5';
                     voiceBtn.style.cursor = 'not-allowed';
                     voiceBtn.title = 'Tu navegador no soporta reconocimiento de voz';
                 }
             }
-            // ================================================================
 
-            // ============ MANEJADOR DEL ENLACE SC PHOTO BR EN EL FOOTER ============
+            // ============ SC PHOTO BR ============
             document.getElementById('scPhotoLink').addEventListener('click', function(e) {
                 e.preventDefault();
                 const message = "Me ha gustado este site, queria mas informaciones para un proyecto !!!";
                 const encodedMsg = encodeURIComponent(message);
                 window.open('https://wa.me/5493518692251?text=' + encodedMsg, '_blank');
             });
-            // ================================================================
 
             // ============ NAVEGACIÓN ============
             const navbar = document.getElementById('navbar');
