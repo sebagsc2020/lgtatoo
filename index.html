@@ -1101,6 +1101,53 @@
             }
         }
     </style>
+
+    <!-- ============ DATOS ESTRUCTURADOS SCHEMA.ORG ============ -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "TattooParlor",
+      "name": "LG Tattoo",
+      "description": "Estudio profesional de tatuajes especializado en realismo, blackwork y diseños personalizados en Santander.",
+      "image": "https://lgtatoo.com/images/LogoLGTatoo.png",
+      "url": "https://lgtatoo.com",
+      "telephone": "+34697891324",
+      "email": "Leangonzaleztattoo@icloud.com",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Santander",
+        "addressCountry": "ES"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": "43.4623",
+        "longitude": "-3.8099"
+      },
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
+          "opens": "09:00",
+          "closes": "13:00"
+        },
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
+          "opens": "16:00",
+          "closes": "21:00"
+        }
+      ],
+      "priceRange": "€€",
+      "sameAs": [
+        "https://www.instagram.com/lean.gonzaleztattoo/"
+      ],
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "5.0",
+        "reviewCount": "12"
+      }
+    }
+    </script>
 </head>
 <body>
 
@@ -1268,7 +1315,7 @@
             <div class="contact-form-card" id="contactFormCard">
                 <form id="contactForm" style="position: relative;">
                     
-                    <!-- AVISO DE HORARIO COMERCIAL (ahora con data-i18n) -->
+                    <!-- AVISO DE HORARIO COMERCIAL (con data-i18n) -->
                     <p data-i18n="form_business_hours_notice" style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 1rem; font-style: italic;">Su solicitud será atendida dentro del horario comercial. Muchas gracias.</p>
                     
                     <div class="form-row">
