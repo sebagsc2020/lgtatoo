@@ -1261,12 +1261,16 @@
                     <div>
                         <p id="currentTimeDisplay"></p>
                         <p id="hoursStatus"></p>
-                        <p data-i18n="contact_hours_text">Lun a Sáb: 9:00 – 13:00 · 16:00 – 21:00</p>
+                        <p data-i18n="contact_hours_text">Lun a Sáb: 9:00 Hs. – 13:00 Hs. · 16:00 Hs. – 21:00 Hs.</p>
                     </div>
                 </div>
             </div>
             <div class="contact-form-card" id="contactFormCard">
                 <form id="contactForm" style="position: relative;">
+                    
+                    <!-- NUEVA FRASE AÑADIDA -->
+                    <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 1rem; font-style: italic;">Su solicitud sera atendida dentro del horario comercial, Muchas Gracias.</p>
+                    
                     <div class="form-row">
                         <div class="form-group">
                             <label for="name" data-i18n="form_name_label">Nombre *</label>
@@ -1421,10 +1425,10 @@
                     contact_location_title: 'Ubicación',
                     contact_location_text: 'Santander, España',
                     contact_phone_title: 'Teléfono',
-                    contact_hours_text: 'Lun a Sáb: 9:00 – 13:00 · 16:00 – 21:00',
-                    contact_hours_open: 'Horarios: ABIERTO, cerramos en {time}',
-                    contact_hours_closed: 'Horarios: CERRADO, abriremos a las {time}',
-                    contact_hours_current_time: 'Hora actual : {time}',
+                    contact_hours_text: 'Lun a Sáb: 9:00 Hs. – 13:00 Hs. · 16:00 Hs. – 21:00 Hs.',
+                    contact_hours_open: 'ABIERTO, cerramos a las {time} Hs.',
+                    contact_hours_closed: 'CERRADO, abriremos a las {time} Hs.',
+                    contact_hours_current_time: 'Hora actual : {time} Hs.',
                     form_name_label: 'Nombre *',
                     form_phone_label: 'Teléfono *',
                     form_body_part_label: 'Partes del cuerpo a tatuar *',
@@ -1487,10 +1491,10 @@
                     contact_location_title: 'Ubicació',
                     contact_location_text: 'Santander, Espanya',
                     contact_phone_title: 'Telèfon',
-                    contact_hours_text: 'Dll a Diss: 9:00 – 13:00 · 16:00 – 21:00',
-                    contact_hours_open: 'Horari: OBERT, tanquem a les {time}',
-                    contact_hours_closed: 'Horari: TANCAT, obrirem a les {time}',
-                    contact_hours_current_time: 'Hora actual : {time}',
+                    contact_hours_text: 'Dll a Diss: 9:00 h – 13:00 h · 16:00 h – 21:00 h',
+                    contact_hours_open: 'OBERT, tanquem a les {time} h',
+                    contact_hours_closed: 'TANCAT, obrirem a les {time} h',
+                    contact_hours_current_time: 'Hora actual : {time} h',
                     form_name_label: 'Nom *',
                     form_phone_label: 'Telèfon *',
                     form_body_part_label: 'Parts del cos a tatuar *',
@@ -1553,10 +1557,10 @@
                     contact_location_title: 'Location',
                     contact_location_text: 'Santander, Spain',
                     contact_phone_title: 'Phone',
-                    contact_hours_text: 'Mon to Sat: 9:00 – 13:00 · 16:00 – 21:00',
-                    contact_hours_open: 'Hours: OPEN, closes at {time}',
-                    contact_hours_closed: 'Hours: CLOSED, opens at {time}',
-                    contact_hours_current_time: 'Current time : {time}',
+                    contact_hours_text: 'Mon to Sat: 9:00 hrs – 13:00 hrs · 16:00 hrs – 21:00 hrs',
+                    contact_hours_open: 'OPEN, closes at {time} hrs',
+                    contact_hours_closed: 'CLOSED, opens at {time} hrs',
+                    contact_hours_current_time: 'Current time : {time} hrs',
                     form_name_label: 'Name *',
                     form_phone_label: 'Phone *',
                     form_body_part_label: 'Body parts to tattoo *',
@@ -1817,7 +1821,7 @@
                 const hours = String(nowMadrid.getHours()).padStart(2, '0');
                 const mins = String(nowMadrid.getMinutes()).padStart(2, '0');
                 
-                // Actualizar la hora actual (NUEVA LÍNEA)
+                // Actualizar la hora actual
                 const currentTimeEl = document.getElementById('currentTimeDisplay');
                 if (currentTimeEl) {
                     const currentTimeStr = t.contact_hours_current_time.replace('{time}', `${hours}:${mins}`);
