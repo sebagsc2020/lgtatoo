@@ -1,0 +1,30 @@
+{
+  "gallery": [
+    "/images/1.webp",
+    "/images/2.webp",
+    "/images/3.webp",
+    "/images/4.webp",
+    "/images/5.webp",
+    "/images/6.webp",
+    "/images/7.webp",
+    "/images/8.webp",
+    "/images/9.webp",
+    "/images/10.webp",
+    "/images/11.webp",
+    "/images/12.webp"
+  ],
+  "testimonials": [
+    {
+      "name": "Martín R.",
+      "text": "Excelente trabajo, muy profesional y detallista. El mejor tatuador que he conocido."
+    },
+    {
+      "name": "Sofía L.",
+      "text": "El diseño superó mis expectativas. Muy recomendado para trabajos de realismo."
+    },
+    {
+      "name": "Carlos D.",
+      "text": "Increíble resultado, la atención y el cuidado son impecables. Volveré sin duda."
+    }
+  ]
+}
