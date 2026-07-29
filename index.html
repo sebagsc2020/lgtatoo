@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>LG Tattoo | Estudio Profesional</title>
 
     <!-- ============ SEO AUTOMÁTICO ============ -->
@@ -572,7 +572,7 @@
             aspect-ratio: 1/1;
             border-radius: var(--radius-sm);
             overflow: hidden;
-            cursor: default; /* Cambiado a default porque ya no hay lightbox */
+            cursor: pointer;
         }
         .gallery-item img {
             width: 100%;
@@ -640,6 +640,101 @@
             transform: scale(1.05);
             box-shadow: 0 8px 30px rgba(225, 48, 108, 0.5);
             color: #fff;
+        }
+
+        /* ============ NUEVO LIGHTBOX ============ */
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            touch-action: none;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        .lightbox.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        .lightbox-content {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            touch-action: none;
+            cursor: zoom-in;
+        }
+        
+        .lightbox-content img {
+            max-width: 100%;
+            max-height: 100%;
+            display: block;
+            object-fit: contain;
+            will-change: transform;
+            pointer-events: none;
+            touch-action: none;
+            transform-origin: center center;
+        }
+        
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 2001;
+            background: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            border: none;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+        .lightbox-close:hover {
+            background: #fff;
+            color: #000;
+            transform: scale(1.1);
+        }
+        
+        .lightbox-counter {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 0.4rem 1.2rem;
+            border-radius: 20px;
+            z-index: 2001;
+            font-family: 'Inter', sans-serif;
+            letter-spacing: 1px;
+            pointer-events: none;
+        }
+
+        @media (max-width: 768px) {
+            .lightbox-close {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+                top: 15px;
+                right: 15px;
+            }
         }
 
         /* ============ RECOMENDACIONES ============ */
@@ -1066,6 +1161,15 @@
             </a>
         </div>
     </section>
+
+    <!-- ============ NUEVO LIGHTBOX ============ -->
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-close" id="lightboxClose"><i class="fa-solid fa-xmark"></i></button>
+        <div class="lightbox-content" id="lightboxWrapper">
+            <img src="" id="lightboxImg" alt="Trabajo de tatuaje">
+        </div>
+        <div class="lightbox-counter" id="lightboxCounter">1 / 12</div>
+    </div>
 
     <!-- ============ SECCIÓN RECOMENDACIONES ============ -->
     <section class="recomendaciones-section section" id="recomendaciones">
@@ -1500,7 +1604,7 @@
                     if (t[el.dataset.i18nPlaceholder]) el.placeholder = t[el.dataset.i18nPlaceholder];
                 });
                 
-                renderGallery();
+                renderGalleryWithLightbox(); // Se cambió a la nueva función
                 renderTestimonials();
                 
                 document.querySelectorAll('.lang-option').forEach(b => b.classList.remove('active'));
@@ -1510,14 +1614,186 @@
                 closeLangPanel();
             }
 
-            function renderGallery() {
-                const grid = document.getElementById('galleryGrid');
+            // ============ NUEVO LIGHTBOX CON ZOOM Y SCROLL ============
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightboxImg');
+            const lightboxCounter = document.getElementById('lightboxCounter');
+            const lightboxClose = document.getElementById('lightboxClose');
+            const lightboxWrapper = document.getElementById('lightboxWrapper');
+
+            let currentIndex = 0;
+            let scale = 1;
+            let panX = 0;
+            let panY = 0;
+            let initialDist = 0;
+            let startScale = 1;
+            let startTouchX = 0;
+            let startTouchY = 0;
+            let isDragging = false;
+            let lastTapTime = 0;
+            let tapTimeout;
+
+            function getDistance(t1, t2) {
+                const dx = t1.clientX - t2.clientX;
+                const dy = t1.clientY - t2.clientY;
+                return Math.sqrt(dx * dx + dy * dy);
+            }
+
+            function applyTransform() {
+                if (scale === 1) {
+                    panX = 0;
+                    panY = 0;
+                    lightboxImg.style.cursor = 'zoom-in';
+                    lightboxWrapper.style.cursor = 'zoom-in';
+                } else {
+                    lightboxImg.style.cursor = 'grab';
+                    lightboxWrapper.style.cursor = 'grab';
+                }
+                lightboxImg.style.transform = `translate(${panX}px, ${panY}px) scale(${scale})`;
+            }
+
+            function openLightbox(index) {
+                currentIndex = index;
+                const imgData = galleryImagesData[index];
+                if (imgData) {
+                    lightboxImg.src = imgData.src;
+                    lightboxImg.alt = imgData.alt;
+                    lightboxCounter.textContent = `${index + 1} / ${galleryImagesData.length}`;
+                    // Resetear zoom y pan
+                    scale = 1;
+                    panX = 0;
+                    panY = 0;
+                    applyTransform();
+                    lightbox.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                }
+            }
+
+            function closeLightbox() {
+                lightbox.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+            lightboxClose.addEventListener('click', closeLightbox);
+            
+            // Click en el fondo/imagen para cerrar o resetear zoom (Escritorio/Mouse)
+            lightboxWrapper.addEventListener('click', function(e) {
+                if (e.target.closest('.lightbox-close')) return; 
                 
+                if (scale > 1) {
+                    // Resetear zoom al hacer clic si está ampliado
+                    scale = 1;
+                    panX = 0;
+                    panY = 0;
+                    applyTransform();
+                } else {
+                    closeLightbox();
+                }
+            });
+
+            // Rueda del ratón para hacer zoom (Escritorio)
+            lightboxWrapper.addEventListener('wheel', function(e) {
+                e.preventDefault();
+                const delta = e.deltaY > 0 ? -0.1 : 0.1;
+                const newScale = Math.min(4, Math.max(1, scale + delta));
+                if (newScale !== scale) {
+                    scale = newScale;
+                    applyTransform();
+                }
+            });
+
+            // Eventos táctiles para móviles (Pellizco y Arrastre + Doble Toque)
+            lightboxWrapper.addEventListener('touchstart', function(e) {
+                e.preventDefault(); // Previene eventos de click por defecto en móviles
+                isDragging = false;
+                
+                if (e.touches.length === 1) {
+                    // Un dedo - preparar para hacer scroll/pan (solo si está ampliado)
+                    startTouchX = e.touches[0].clientX - panX;
+                    startTouchY = e.touches[0].clientY - panY;
+                } else if (e.touches.length === 2) {
+                    // Dos dedos - preparar para hacer zoom por pellizco
+                    initialDist = getDistance(e.touches[0], e.touches[1]);
+                    startScale = scale;
+                }
+            });
+
+            lightboxWrapper.addEventListener('touchmove', function(e) {
+                // Evitar gestos predeterminados del navegador
+                e.preventDefault();
+                
+                if (e.touches.length === 1 && scale > 1) {
+                    // Hacer scroll/pan con un dedo cuando está ampliado
+                    isDragging = true;
+                    panX = e.touches[0].clientX - startTouchX;
+                    panY = e.touches[0].clientY - startTouchY;
+                    applyTransform();
+                } else if (e.touches.length === 2) {
+                    // Hacer zoom con pellizco
+                    isDragging = true;
+                    const newDist = getDistance(e.touches[0], e.touches[1]);
+                    const newScale = Math.min(4, Math.max(1, startScale * (newDist / initialDist)));
+                    if (newScale !== scale) {
+                        scale = newScale;
+                        applyTransform();
+                    }
+                }
+            });
+
+            lightboxWrapper.addEventListener('touchend', function(e) {
+                // Manejar doble toque vs toque simple
+                const currentTime = new Date().getTime();
+                const tapLength = currentTime - lastTapTime;
+
+                // Solo queremos manejar toques si NO hubo arrastre (pan)
+                if (!isDragging && e.changedTouches.length === 1) {
+                    if (tapLength < 300 && tapLength > 0) {
+                        // Doble Toque
+                        clearTimeout(tapTimeout);
+                        if (scale > 1) {
+                            scale = 1;
+                            panX = 0;
+                            panY = 0;
+                            applyTransform();
+                        } else {
+                            // Ampliar al 2.5x con doble toque
+                            scale = 2.5;
+                            panX = 0;
+                            panY = 0;
+                            applyTransform();
+                        }
+                        lastTapTime = 0;
+                    } else {
+                        // Toque Simple (retrasado para esperar un posible doble toque)
+                        tapTimeout = setTimeout(() => {
+                            if (scale > 1) {
+                                scale = 1;
+                                panX = 0;
+                                panY = 0;
+                                applyTransform();
+                            } else {
+                                closeLightbox();
+                            }
+                        }, 300);
+                    }
+                }
+                lastTapTime = currentTime;
+            });
+
+            // Función para renderizar la galería con los eventos del Lightbox
+            function renderGalleryWithLightbox() {
+                const grid = document.getElementById('galleryGrid');
                 grid.innerHTML = galleryImagesData.map((img, i) => `
                     <div class="gallery-item" data-index="${i}">
                         <img src="${img.src}" alt="${img.alt}" loading="lazy" onerror="this.src='https://via.placeholder.com/600/333/666?text=Imagen+${i+1}'">
                     </div>
                 `).join('');
+                
+                grid.querySelectorAll('.gallery-item').forEach(item => {
+                    item.addEventListener('click', function() {
+                        openLightbox(parseInt(this.dataset.index));
+                    });
+                });
             }
 
             // ============ TESTIMONIOS ============
