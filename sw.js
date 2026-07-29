@@ -1,20 +1,23 @@
-const CACHE_NAME = 'lgtattoo-v1';
-const ASSETS_TO_CACHE = [
+const CACHE_NAME = 'lgtattoo-v2'; // ← Cambia la versión para forzar actualización
+
+// Solo cachea recursos críticos que no fallen
+const CRITICAL_ASSETS = [
   '/',
   '/index.html',
   '/images/LogoLGTatoo.png',
-  '/images/1.webp', '/images/2.webp', '/images/3.webp',
-  '/images/4.webp', '/images/5.webp', '/images/6.webp',
-  '/images/7.webp', '/images/8.webp', '/images/9.webp',
-  '/images/10.webp', '/images/11.webp', '/images/12.webp',
-  'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap',
   'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css'
 ];
 
+// Las imágenes se cachean bajo demanda (cuando se visitan), no en la instalación
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
-      .then(cache => cache.addAll(ASSETS_TO_CACHE))
+      .then(cache => {
+        // Solo cachea assets críticos, NO las imágenes de una vez
+        return cache.addAll(CRITICAL_ASSETS).catch(err => {
+          console.warn('Algunos assets no se pudieron cachear:', err);
+        });
+      })
       .then(() => self.skipWaiting())
   );
 });
@@ -32,9 +35,31 @@ self.addEventListener('activate', event => {
 });
 
 self.addEventListener('fetch', event => {
+  // Solo intercepta peticiones GET
+  if (event.request.method !== 'GET') return;
+  
   event.respondWith(
     caches.match(event.request)
-      .then(response => response || fetch(event.request))
-      .catch(() => new Response('Offline - No se pudo cargar el contenido'))
+      .then(cachedResponse => {
+        // Devuelve del caché si existe
+        if (cachedResponse) return cachedResponse;
+        
+        // Si no está en caché, va a la red y la guarda para después
+        return fetch(event.request).then(response => {
+          // No cachear respuestas que no sean OK
+          if (!response || response.status !== 200) return response;
+          
+          // Clonar la respuesta para guardarla en caché
+          const responseClone = response.clone();
+          caches.open(CACHE_NAME).then(cache => {
+            cache.put(event.request, responseClone);
+          });
+          
+          return response;
+        }).catch(() => {
+          // Si falla la red y es una imagen, podrías devolver un placeholder
+          // return caches.match('/images/placeholder.webp');
+        });
+      })
   );
 });
