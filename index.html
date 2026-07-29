@@ -985,6 +985,11 @@
             font-weight: 600;
         }
 
+        #currentTimeDisplay {
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 0.2rem;
+        }
         #hoursStatus {
             margin-bottom: 0.2rem;
             color: var(--gold);
@@ -1254,7 +1259,8 @@
                 <div class="contact-info-item">
                     <div class="contact-icon"><i class="fa-solid fa-clock"></i></div>
                     <div>
-                        <h4 data-i18n="contact_hours_title">Horarios</h4>
+                        <!-- NUEVA ESTRUCTURA DE HORARIO -->
+                        <p id="currentTimeDisplay"></p>
                         <p id="hoursStatus"></p>
                         <p data-i18n="contact_hours_text">Lun a Sáb: 9:00 – 13:00 · 16:00 – 21:00</p>
                     </div>
@@ -1416,10 +1422,10 @@
                     contact_location_title: 'Ubicación',
                     contact_location_text: 'Santander, España',
                     contact_phone_title: 'Teléfono',
-                    contact_hours_title: 'Horarios',
                     contact_hours_text: 'Lun a Sáb: 9:00 – 13:00 · 16:00 – 21:00',
                     contact_hours_open: 'Horarios: ABIERTO, cerramos en {time}',
-                    contact_hours_closed: 'Horarios: CERRADO, abriremos a las {time}', // <-- CAMBIO REALIZADO AQUÍ
+                    contact_hours_closed: 'Horarios: CERRADO, abriremos a las {time}',
+                    contact_hours_current_time: 'Hora actual : {time}',
                     form_name_label: 'Nombre *',
                     form_phone_label: 'Teléfono *',
                     form_body_part_label: 'Partes del cuerpo a tatuar *',
@@ -1482,10 +1488,10 @@
                     contact_location_title: 'Ubicació',
                     contact_location_text: 'Santander, Espanya',
                     contact_phone_title: 'Telèfon',
-                    contact_hours_title: 'Horaris',
                     contact_hours_text: 'Dll a Diss: 9:00 – 13:00 · 16:00 – 21:00',
                     contact_hours_open: 'Horari: OBERT, tanquem a les {time}',
                     contact_hours_closed: 'Horari: TANCAT, obrirem a les {time}',
+                    contact_hours_current_time: 'Hora actual : {time}',
                     form_name_label: 'Nom *',
                     form_phone_label: 'Telèfon *',
                     form_body_part_label: 'Parts del cos a tatuar *',
@@ -1548,10 +1554,10 @@
                     contact_location_title: 'Location',
                     contact_location_text: 'Santander, Spain',
                     contact_phone_title: 'Phone',
-                    contact_hours_title: 'Hours',
                     contact_hours_text: 'Mon to Sat: 9:00 – 13:00 · 16:00 – 21:00',
                     contact_hours_open: 'Hours: OPEN, closes at {time}',
                     contact_hours_closed: 'Hours: CLOSED, opens at {time}',
+                    contact_hours_current_time: 'Current time : {time}',
                     form_name_label: 'Name *',
                     form_phone_label: 'Phone *',
                     form_body_part_label: 'Body parts to tattoo *',
@@ -1809,6 +1815,16 @@
                 
                 // Obtener la hora actual exacta de Santander, España
                 const nowMadrid = new Date(new Date().toLocaleString('en-US', { timeZone: 'Europe/Madrid' }));
+                const hours = String(nowMadrid.getHours()).padStart(2, '0');
+                const mins = String(nowMadrid.getMinutes()).padStart(2, '0');
+                
+                // Actualizar la hora actual (NUEVA LÍNEA)
+                const currentTimeEl = document.getElementById('currentTimeDisplay');
+                if (currentTimeEl) {
+                    const currentTimeStr = t.contact_hours_current_time.replace('{time}', `${hours}:${mins}`);
+                    currentTimeEl.textContent = currentTimeStr;
+                }
+
                 const day = nowMadrid.getDay(); // 0 = Domingo, 6 = Sábado
                 const minutes = nowMadrid.getHours() * 60 + nowMadrid.getMinutes();
 
