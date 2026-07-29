@@ -1268,8 +1268,8 @@
             <div class="contact-form-card" id="contactFormCard">
                 <form id="contactForm" style="position: relative;">
                     
-                    <!-- NUEVA FRASE AÑADIDA -->
-                    <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 1rem; font-style: italic;">Su solicitud sera atendida dentro del horario comercial, Muchas Gracias.</p>
+                    <!-- AVISO DE HORARIO COMERCIAL (ahora con data-i18n) -->
+                    <p data-i18n="form_business_hours_notice" style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 1rem; font-style: italic;">Su solicitud será atendida dentro del horario comercial. Muchas gracias.</p>
                     
                     <div class="form-row">
                         <div class="form-group">
@@ -1283,36 +1283,8 @@
                     </div>
                     <div class="form-group">
                         <label for="bodyPart" data-i18n="form_body_part_label">Partes del cuerpo a tatuar *</label>
-                        <select id="bodyPart" multiple required>
-                            <option value="Brazo">Brazo</option>
-                            <option value="Antebrazo">Antebrazo</option>
-                            <option value="Hombro">Hombro</option>
-                            <option value="Pecho">Pecho</option>
-                            <option value="Espalda">Espalda</option>
-                            <option value="Costillas">Costillas</option>
-                            <option value="Abdomen">Abdomen</option>
-                            <option value="Pierna">Pierna</option>
-                            <option value="Muslo">Muslo</option>
-                            <option value="Pantorrilla">Pantorrilla</option>
-                            <option value="Tobillo">Tobillo</option>
-                            <option value="Cuello">Cuello</option>
-                            <option value="Cara">Cara</option>
-                            <option value="Mano">Mano</option>
-                            <option value="Dedos">Dedos</option>
-                            <option value="Muñeca">Muñeca</option>
-                            <option value="Codo">Codo</option>
-                            <option value="Rodilla">Rodilla</option>
-                            <option value="Glúteo">Glúteo</option>
-                            <option value="Cadera">Cadera</option>
-                            <option value="Cabeza/Cuero cabelludo">Cabeza/Cuero cabelludo</option>
-                            <option value="Oreja">Oreja</option>
-                            <option value="Pie">Pie</option>
-                            <option value="Manga completa">Manga completa</option>
-                            <option value="Espalda completa">Espalda completa</option>
-                            <option value="Pecho completo">Pecho completo</option>
-                            <option value="Otro">Otro</option>
-                        </select>
-                        <small style="color: var(--text-muted); font-size: 0.7rem; display: block; margin-top: 0.3rem;">
+                        <select id="bodyPart" multiple required></select>
+                        <small data-i18n="form_multiselect_hint" style="color: var(--text-muted); font-size: 0.7rem; display: block; margin-top: 0.3rem;">
                             Mantén presionada la tecla Ctrl (Windows) o Cmd (Mac) para seleccionar múltiples opciones
                         </small>
                     </div>
@@ -1320,7 +1292,7 @@
                     <div class="form-group">
                         <label for="message" data-i18n="form_message_label">Mensaje *</label>
                         <div style="position: relative; width: 100%;">
-                            <textarea id="message" required placeholder="Describe tu idea, estilo, tamaño, colores, etc. o utiliza el micrófono para escribirnos !!" style="padding-right: 70px;"></textarea>
+                            <textarea id="message" required data-i18n-placeholder="form_message_placeholder" placeholder="Describe tu idea, estilo, tamaño, colores, etc. o utiliza el micrófono para escribirnos !!" style="padding-right: 70px;"></textarea>
                             <button type="button" id="voiceBtn" style="position: absolute; bottom: 12px; right: 12px; background: rgba(0,0,0,0.7); border: none; color: var(--gold); cursor: pointer; font-size: 1.8rem; transition: var(--transition); padding: 12px 18px; border-radius: 50px; line-height: 1;">
                                 <i class="fa-solid fa-microphone" style="display: block;"></i>
                             </button>
@@ -1350,23 +1322,18 @@
     <!-- ============ LIMPIAR CACHÉ VIEJO Y REGISTRAR NUEVO SW ============ -->
     <script>
         if ('serviceWorker' in navigator) {
-            // Primero: limpiar todos los cachés viejos
             caches.keys().then(function(names) {
                 for (let name of names) {
-                    console.log('🗑️ Eliminando caché:', name);
                     caches.delete(name);
                 }
             });
             
-            // Desregistrar todos los SW viejos
             navigator.serviceWorker.getRegistrations().then(function(registrations) {
                 for(let registration of registrations) {
                     registration.unregister();
-                    console.log('🗑️ SW antiguo desregistrado');
                 }
             });
             
-            // Esperar un momento y registrar el nuevo SW
             setTimeout(function() {
                 navigator.serviceWorker.register('/sw.js')
                     .then(function(registration) {
@@ -1381,6 +1348,37 @@
 
     <script>
         (function() {
+            // ============ LISTA DE PARTES DEL CUERPO ============
+            const BODY_PARTS = [
+                { key: 'brazo', value: 'Brazo' },
+                { key: 'antebrazo', value: 'Antebrazo' },
+                { key: 'hombro', value: 'Hombro' },
+                { key: 'pecho', value: 'Pecho' },
+                { key: 'espalda', value: 'Espalda' },
+                { key: 'costillas', value: 'Costillas' },
+                { key: 'abdomen', value: 'Abdomen' },
+                { key: 'pierna', value: 'Pierna' },
+                { key: 'muslo', value: 'Muslo' },
+                { key: 'pantorrilla', value: 'Pantorrilla' },
+                { key: 'tobillo', value: 'Tobillo' },
+                { key: 'cuello', value: 'Cuello' },
+                { key: 'cara', value: 'Cara' },
+                { key: 'mano', value: 'Mano' },
+                { key: 'dedos', value: 'Dedos' },
+                { key: 'muneca', value: 'Muñeca' },
+                { key: 'codo', value: 'Codo' },
+                { key: 'rodilla', value: 'Rodilla' },
+                { key: 'gluteo', value: 'Glúteo' },
+                { key: 'cadera', value: 'Cadera' },
+                { key: 'cabeza', value: 'Cabeza/Cuero cabelludo' },
+                { key: 'oreja', value: 'Oreja' },
+                { key: 'pie', value: 'Pie' },
+                { key: 'manga_completa', value: 'Manga completa' },
+                { key: 'espalda_completa', value: 'Espalda completa' },
+                { key: 'pecho_completo', value: 'Pecho completo' },
+                { key: 'otro', value: 'Otro' }
+            ];
+
             // ============ TRADUCCIONES ============
             const translations = {
                 es: {
@@ -1433,6 +1431,9 @@
                     form_phone_label: 'Teléfono *',
                     form_body_part_label: 'Partes del cuerpo a tatuar *',
                     form_message_label: 'Mensaje *',
+                    form_message_placeholder: 'Describe tu idea, estilo, tamaño, colores, etc. o utiliza el micrófono para escribirnos !!',
+                    form_multiselect_hint: 'Mantén presionada la tecla Ctrl (Windows) o Cmd (Mac) para seleccionar múltiples opciones',
+                    form_business_hours_notice: 'Su solicitud será atendida dentro del horario comercial. Muchas gracias.',
                     form_submit: 'Enviar por WhatsApp',
                     form_success: '¡Listo! Abriremos WhatsApp...',
                     footer_text: '© 2026 LG Tattoo | SC Photo Br',
@@ -1447,7 +1448,35 @@
                     testimonial3_text: 'Increíble resultado, la atención y el cuidado son impecables. Volveré sin duda.',
                     instagram_cta_title: 'Descubrí más trabajos en Instagram',
                     instagram_cta_text: 'Seguí el día a día del estudio, procesos y diseños exclusivos',
-                    gallery_titles: {}
+                    body_parts: {
+                        brazo: 'Brazo',
+                        antebrazo: 'Antebrazo',
+                        hombro: 'Hombro',
+                        pecho: 'Pecho',
+                        espalda: 'Espalda',
+                        costillas: 'Costillas',
+                        abdomen: 'Abdomen',
+                        pierna: 'Pierna',
+                        muslo: 'Muslo',
+                        pantorrilla: 'Pantorrilla',
+                        tobillo: 'Tobillo',
+                        cuello: 'Cuello',
+                        cara: 'Cara',
+                        mano: 'Mano',
+                        dedos: 'Dedos',
+                        muneca: 'Muñeca',
+                        codo: 'Codo',
+                        rodilla: 'Rodilla',
+                        gluteo: 'Glúteo',
+                        cadera: 'Cadera',
+                        cabeza: 'Cabeza/Cuero cabelludo',
+                        oreja: 'Oreja',
+                        pie: 'Pie',
+                        manga_completa: 'Manga completa',
+                        espalda_completa: 'Espalda completa',
+                        pecho_completo: 'Pecho completo',
+                        otro: 'Otro'
+                    }
                 },
                 ca: {
                     lang_title: '🌐 Idioma',
@@ -1499,6 +1528,9 @@
                     form_phone_label: 'Telèfon *',
                     form_body_part_label: 'Parts del cos a tatuar *',
                     form_message_label: 'Missatge *',
+                    form_message_placeholder: 'Descriu la teva idea, estil, mida, colors, etc. o utilitza el micròfon per escriure\'ns !!',
+                    form_multiselect_hint: 'Mantingues premuda la tecla Ctrl (Windows) o Cmd (Mac) per seleccionar múltiples opcions',
+                    form_business_hours_notice: 'La seva sol·licitud serà atesa dins de l\'horari comercial. Moltes gràcies.',
                     form_submit: 'Enviar per WhatsApp',
                     form_success: 'Llest! Obrim WhatsApp...',
                     footer_text: '© 2026 LG Tattoo | SC Photo Br',
@@ -1513,7 +1545,35 @@
                     testimonial3_text: 'Increïble resultat, l\'atenció i la cura són impecables. Tornaré sens dubte.',
                     instagram_cta_title: 'Descobreix més treballs a Instagram',
                     instagram_cta_text: 'Segueix el dia a dia de l\'estudi, processos i dissenys exclusius',
-                    gallery_titles: {}
+                    body_parts: {
+                        brazo: 'Braç',
+                        antebrazo: 'Avantbraç',
+                        hombro: 'Espatlla',
+                        pecho: 'Pit',
+                        espalda: 'Esquena',
+                        costillas: 'Costelles',
+                        abdomen: 'Abdomen',
+                        pierna: 'Cama',
+                        muslo: 'Cuixa',
+                        pantorrilla: 'Panxell',
+                        tobillo: 'Turmell',
+                        cuello: 'Coll',
+                        cara: 'Cara',
+                        mano: 'Mà',
+                        dedos: 'Dits',
+                        muneca: 'Canell',
+                        codo: 'Colze',
+                        rodilla: 'Genoll',
+                        gluteo: 'Gluti',
+                        cadera: 'Maluc',
+                        cabeza: 'Cap/Cuir cabellut',
+                        oreja: 'Orella',
+                        pie: 'Peu',
+                        manga_completa: 'Màniga completa',
+                        espalda_completa: 'Esquena completa',
+                        pecho_completo: 'Pit complet',
+                        otro: 'Altre'
+                    }
                 },
                 en: {
                     lang_title: '🌐 Language',
@@ -1565,6 +1625,9 @@
                     form_phone_label: 'Phone *',
                     form_body_part_label: 'Body parts to tattoo *',
                     form_message_label: 'Message *',
+                    form_message_placeholder: 'Describe your idea, style, size, colors, etc. or use the microphone to write to us !!',
+                    form_multiselect_hint: 'Hold down the Ctrl (Windows) or Cmd (Mac) key to select multiple options',
+                    form_business_hours_notice: 'Your request will be attended during business hours. Thank you very much.',
                     form_submit: 'Send via WhatsApp',
                     form_success: 'Ready! Opening WhatsApp...',
                     footer_text: '© 2026 LG Tattoo | SC Photo Br',
@@ -1579,7 +1642,35 @@
                     testimonial3_text: 'Amazing result, the attention and care are impeccable. I will definitely come back.',
                     instagram_cta_title: 'Discover more work on Instagram',
                     instagram_cta_text: 'Follow the studio\'s daily life, processes and exclusive designs',
-                    gallery_titles: {}
+                    body_parts: {
+                        brazo: 'Arm',
+                        antebrazo: 'Forearm',
+                        hombro: 'Shoulder',
+                        pecho: 'Chest',
+                        espalda: 'Back',
+                        costillas: 'Ribs',
+                        abdomen: 'Abdomen',
+                        pierna: 'Leg',
+                        muslo: 'Thigh',
+                        pantorrilla: 'Calf',
+                        tobillo: 'Ankle',
+                        cuello: 'Neck',
+                        cara: 'Face',
+                        mano: 'Hand',
+                        dedos: 'Fingers',
+                        muneca: 'Wrist',
+                        codo: 'Elbow',
+                        rodilla: 'Knee',
+                        gluteo: 'Buttocks',
+                        cadera: 'Hip',
+                        cabeza: 'Head/Scalp',
+                        oreja: 'Ear',
+                        pie: 'Foot',
+                        manga_completa: 'Full sleeve',
+                        espalda_completa: 'Full back',
+                        pecho_completo: 'Full chest',
+                        otro: 'Other'
+                    }
                 }
             };
 
@@ -1607,6 +1698,16 @@
                 document.getElementById('langToggleTab').classList.remove('hidden-tab');
             }
 
+            // ============ RENDERIZAR SELECT DE PARTES DEL CUERPO ============
+            function renderBodyPartsSelect() {
+                const select = document.getElementById('bodyPart');
+                if (!select) return;
+                const t = translations[currentLang].body_parts;
+                select.innerHTML = BODY_PARTS.map(part => 
+                    `<option value="${part.value}">${t[part.key] || part.value}</option>`
+                ).join('');
+            }
+
             function setLanguage(lang) {
                 currentLang = lang;
                 const t = translations[lang];
@@ -1621,6 +1722,7 @@
                 
                 renderGalleryWithLightbox();
                 renderTestimonials();
+                renderBodyPartsSelect();
                 updateHoursStatus();
                 
                 document.querySelectorAll('.lang-option').forEach(b => b.classList.remove('active'));
@@ -1675,7 +1777,6 @@
                     lightboxImg.src = imgData.src;
                     lightboxImg.alt = imgData.alt;
                     lightboxCounter.textContent = `${index + 1} / ${galleryImagesData.length}`;
-                    // Resetear zoom y pan
                     scale = 1;
                     panX = 0;
                     panY = 0;
@@ -1692,12 +1793,10 @@
 
             lightboxClose.addEventListener('click', closeLightbox);
             
-            // Click en el fondo/imagen para cerrar o resetear zoom (Escritorio/Mouse)
             lightboxWrapper.addEventListener('click', function(e) {
                 if (e.target.closest('.lightbox-close')) return; 
                 
                 if (scale > 1) {
-                    // Resetear zoom al hacer clic si está ampliado
                     scale = 1;
                     panX = 0;
                     panY = 0;
@@ -1707,7 +1806,6 @@
                 }
             });
 
-            // Rueda del ratón para hacer zoom (Escritorio)
             lightboxWrapper.addEventListener('wheel', function(e) {
                 e.preventDefault();
                 const delta = e.deltaY > 0 ? -0.1 : 0.1;
@@ -1718,34 +1816,28 @@
                 }
             });
 
-            // Eventos táctiles para móviles (Pellizco y Arrastre + Doble Toque)
             lightboxWrapper.addEventListener('touchstart', function(e) {
-                e.preventDefault(); // Previene eventos de click por defecto en móviles
+                e.preventDefault();
                 isDragging = false;
                 
                 if (e.touches.length === 1) {
-                    // Un dedo - preparar para hacer scroll/pan (solo si está ampliado)
                     startTouchX = e.touches[0].clientX - panX;
                     startTouchY = e.touches[0].clientY - panY;
                 } else if (e.touches.length === 2) {
-                    // Dos dedos - preparar para hacer zoom por pellizco
                     initialDist = getDistance(e.touches[0], e.touches[1]);
                     startScale = scale;
                 }
             });
 
             lightboxWrapper.addEventListener('touchmove', function(e) {
-                // Evitar gestos predeterminados del navegador
                 e.preventDefault();
                 
                 if (e.touches.length === 1 && scale > 1) {
-                    // Hacer scroll/pan con un dedo cuando está ampliado
                     isDragging = true;
                     panX = e.touches[0].clientX - startTouchX;
                     panY = e.touches[0].clientY - startTouchY;
                     applyTransform();
                 } else if (e.touches.length === 2) {
-                    // Hacer zoom con pellizco
                     isDragging = true;
                     const newDist = getDistance(e.touches[0], e.touches[1]);
                     const newScale = Math.min(4, Math.max(1, startScale * (newDist / initialDist)));
@@ -1757,14 +1849,11 @@
             });
 
             lightboxWrapper.addEventListener('touchend', function(e) {
-                // Manejar doble toque vs toque simple
                 const currentTime = new Date().getTime();
                 const tapLength = currentTime - lastTapTime;
 
-                // Solo queremos manejar toques si NO hubo arrastre (pan)
                 if (!isDragging && e.changedTouches.length === 1) {
                     if (tapLength < 300 && tapLength > 0) {
-                        // Doble Toque
                         clearTimeout(tapTimeout);
                         if (scale > 1) {
                             scale = 1;
@@ -1772,7 +1861,6 @@
                             panY = 0;
                             applyTransform();
                         } else {
-                            // Ampliar al 2.5x con doble toque
                             scale = 2.5;
                             panX = 0;
                             panY = 0;
@@ -1780,7 +1868,6 @@
                         }
                         lastTapTime = 0;
                     } else {
-                        // Toque Simple (retrasado para esperar un posible doble toque)
                         tapTimeout = setTimeout(() => {
                             if (scale > 1) {
                                 scale = 1;
@@ -1796,7 +1883,6 @@
                 lastTapTime = currentTime;
             });
 
-            // Función para renderizar la galería con los eventos del Lightbox
             function renderGalleryWithLightbox() {
                 const grid = document.getElementById('galleryGrid');
                 grid.innerHTML = galleryImagesData.map((img, i) => `
@@ -1816,32 +1902,28 @@
             function updateHoursStatus() {
                 const t = translations[currentLang];
                 
-                // Obtener la hora actual exacta de Santander, España
                 const nowMadrid = new Date(new Date().toLocaleString('en-US', { timeZone: 'Europe/Madrid' }));
                 const hours = String(nowMadrid.getHours()).padStart(2, '0');
                 const mins = String(nowMadrid.getMinutes()).padStart(2, '0');
                 
-                // Actualizar la hora actual
                 const currentTimeEl = document.getElementById('currentTimeDisplay');
                 if (currentTimeEl) {
                     const currentTimeStr = t.contact_hours_current_time.replace('{time}', `${hours}:${mins}`);
                     currentTimeEl.textContent = currentTimeStr;
                 }
 
-                const day = nowMadrid.getDay(); // 0 = Domingo, 6 = Sábado
+                const day = nowMadrid.getDay();
                 const minutes = nowMadrid.getHours() * 60 + nowMadrid.getMinutes();
 
-                // Definir los slots horarios (Lun a Sáb)
-                const slot1Start = 9 * 60;   // 9:00
-                const slot1End = 13 * 60;    // 13:00
-                const slot2Start = 16 * 60;  // 16:00
-                const slot2End = 21 * 60;    // 21:00
+                const slot1Start = 9 * 60;
+                const slot1End = 13 * 60;
+                const slot2Start = 16 * 60;
+                const slot2End = 21 * 60;
 
                 let statusText = '';
                 let targetTime = '';
 
-                // Lógica de apertura/cierre
-                if (day === 0) { // Domingo (Cerrado)
+                if (day === 0) {
                     statusText = t.contact_hours_closed;
                     targetTime = '9:00';
                 } else if (minutes >= slot1Start && minutes < slot1End) {
@@ -1856,12 +1938,11 @@
                         targetTime = '9:00';
                     } else if (minutes < slot2Start) {
                         targetTime = '16:00';
-                    } else { // Después de las 21:00
+                    } else {
                         targetTime = '9:00';
                     }
                 }
 
-                // Reemplazar el marcador {time} en el texto traducido
                 const finalText = statusText.replace('{time}', targetTime);
                 
                 const el = document.getElementById('hoursStatus');
@@ -2054,7 +2135,7 @@
             document.getElementById('langToggleTab').classList.remove('hidden-tab');
 
             // ============ ACTUALIZACIÓN AUTOMÁTICA DEL RELOJ ============
-            setInterval(updateHoursStatus, 60000); // Actualiza cada 60 segundos (1 minuto)
+            setInterval(updateHoursStatus, 60000);
         })();
     </script>
 </body>
