@@ -1259,7 +1259,6 @@
                 <div class="contact-info-item">
                     <div class="contact-icon"><i class="fa-solid fa-clock"></i></div>
                     <div>
-                        <!-- NUEVA ESTRUCTURA DE HORARIO -->
                         <p id="currentTimeDisplay"></p>
                         <p id="hoursStatus"></p>
                         <p data-i18n="contact_hours_text">Lun a Sáb: 9:00 – 13:00 · 16:00 – 21:00</p>
@@ -2049,6 +2048,9 @@
             
             document.body.classList.remove('lang-panel-visible');
             document.getElementById('langToggleTab').classList.remove('hidden-tab');
+
+            // ============ ACTUALIZACIÓN AUTOMÁTICA DEL RELOJ ============
+            setInterval(updateHoursStatus, 60000); // Actualiza cada 60 segundos (1 minuto)
         })();
     </script>
 </body>
