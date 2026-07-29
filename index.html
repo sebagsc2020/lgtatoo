@@ -638,7 +638,7 @@
             color: #fff;
         }
 
-        /* ============ LIGHTBOX ============ */
+        /* ============ LIGHTBOX (MODIFICADO PARA PERMITIR ZOOM) ============ */
         .lightbox {
             position: fixed;
             inset: 0;
@@ -650,7 +650,6 @@
             opacity: 0;
             pointer-events: none;
             transition: 0.3s;
-            touch-action: none;
             user-select: none;
             -webkit-user-select: none;
         }
@@ -665,15 +664,19 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            touch-action: none;
+            touch-action: pan-x pan-y !important; 
+            overflow: auto;
         }
         .lightbox-content img {
             max-width: 85vw;
             max-height: 85vh;
             border-radius: var(--radius);
-            pointer-events: none;
-            touch-action: none;
+            pointer-events: auto !important; 
+            touch-action: pan-x pan-y !important;
             transition: transform 0.2s ease;
+            object-fit: contain; 
+            width: auto;
+            height: auto;
         }
         .lightbox-close {
             position: absolute;
@@ -1224,7 +1227,7 @@
                     <li data-i18n="recomendaciones_post_2"><strong>Secado correcto:</strong> Seca la zona dando pequeños toques con una gasa o papel de cocina limpio. Nunca uses una toalla convencional, ya que puede acumular bacterias o irritar la piel.</li>
                     <li data-i18n="recomendaciones_post_3"><strong>Hidratación con crema específica:</strong> Aplica una capa muy fina de crema regeneradora recomendada por tu tatuador (como Bepanthol u otras cremas específicas para tatuajes). No satures la piel; el tatuaje debe "respirar".</li>
                     <li data-i18n="recomendaciones_post_4"><strong>Prohibido rascar o arrancar costras:</strong> Durante el proceso de curación es normal que aparezca picor o que comience a descamarse. Nunca arranques las pielecitas ni rasques, ya que puedes perder parte de la tinta o provocar una infección.</li>
-                    <li data-i18n="recomendaciones_post_5"><strong>Cero sol, piscinas y playas:</strong> Durante las primeras 3 a 4 semanas debes evitar por completo la exposición solar directa, los baños en piscinas, el mar, saunas y jacuzzis. El agua estancada y el cloro son muy perjudiciales para una herida abierta.</li>
+                    <li data-i18n="recomendaciones_post_5"><strong>Cero sol, piscinas y playas:</strong> Durante las primeras 3 a 4 semanas debes evitar por completo la exposición solar directa, los baños en piscinas, el mar, saunas y jacuzzis. El agua estancada y el clor son muy perjudiciales para una herida abierta.</li>
                     <li data-i18n="recomendaciones_post_6"><strong>Evita ropa ajustada:</strong> Usa ropa de algodón y holgada para evitar la fricción constante sobre el diseño fresco.</li>
                 </ul>
             </div>
@@ -1634,20 +1637,13 @@
             const lightboxImg = document.getElementById('lightboxImg');
             const lightboxCounter = document.getElementById('lightboxCounter');
 
-            let touchStartX = 0;
-            let touchEndX = 0;
-            let touchStartY = 0;
-            let touchEndY = 0;
-            let isSwiping = false;
+            // NOTA: El swipe táctil se ha eliminado para permitir el zoom nativo en móviles.
 
             function openLightbox(index) {
                 currentLightboxIndex = index;
                 updateLightboxImage();
                 lightbox.classList.add('active');
                 document.body.style.overflow = 'hidden';
-                touchStartX = 0;
-                touchEndX = 0;
-                isSwiping = false;
             }
 
             function updateLightboxImage() {
@@ -1656,6 +1652,8 @@
                     lightboxImg.src = img;
                     lightboxImg.alt = "Trabajo de tatuaje";
                     lightboxCounter.textContent = `${currentLightboxIndex + 1} / ${siteData.gallery.length}`;
+                    // Resetea el zoom al cambiar de imagen
+                    lightboxImg.style.transform = 'scale(1)';
                 }
             }
 
@@ -1689,48 +1687,6 @@
             lightbox.addEventListener('click', function(e) {
                 if (e.target === this) closeLightbox();
             });
-
-            lightbox.addEventListener('touchstart', function(e) {
-                const touch = e.touches[0];
-                touchStartX = touch.clientX;
-                touchStartY = touch.clientY;
-                isSwiping = false;
-            }, { passive: true });
-
-            lightbox.addEventListener('touchmove', function(e) {
-                const touch = e.touches[0];
-                const diffX = touch.clientX - touchStartX;
-                const diffY = touch.clientY - touchStartY;
-                
-                if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 10) {
-                    e.preventDefault();
-                    isSwiping = true;
-                    const moveX = diffX * 0.3;
-                    lightboxImg.style.transform = `translateX(${moveX}px) scale(0.95)`;
-                    lightboxImg.style.transition = 'none';
-                }
-            }, { passive: false });
-
-            lightbox.addEventListener('touchend', function(e) {
-                const touchEndX = e.changedTouches[0].clientX;
-                const diffX = touchEndX - touchStartX;
-                const diffY = e.changedTouches[0].clientY - touchStartY;
-                
-                lightboxImg.style.transition = 'transform 0.3s ease';
-                lightboxImg.style.transform = '';
-                
-                if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 40) {
-                    if (diffX < 0) {
-                        goToNext();
-                    } else {
-                        goToPrev();
-                    }
-                }
-                
-                isSwiping = false;
-                touchStartX = 0;
-                touchEndX = 0;
-            }, { passive: true });
 
             document.addEventListener('keydown', function(e) {
                 if (!lightbox.classList.contains('active')) return;
