@@ -985,6 +985,13 @@
             font-weight: 600;
         }
 
+        #hoursStatus {
+            margin-bottom: 0.2rem;
+            color: var(--gold);
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
         /* ============ FOOTER ============ */
         .footer {
             background: var(--bg-primary);
@@ -1248,6 +1255,7 @@
                     <div class="contact-icon"><i class="fa-solid fa-clock"></i></div>
                     <div>
                         <h4 data-i18n="contact_hours_title">Horarios</h4>
+                        <p id="hoursStatus"></p>
                         <p data-i18n="contact_hours_text">Lun a Sáb: 9:00 – 13:00 · 16:00 – 21:00</p>
                     </div>
                 </div>
@@ -1311,11 +1319,6 @@
                     </div>
 
                     <button type="submit" class="btn-submit"><i class="fa-brands fa-whatsapp"></i> <span data-i18n="form_submit">Enviar por WhatsApp</span></button>
-
-                    <div style="text-align: center; margin-top: 15px; font-size: 0.75rem; color: var(--text-muted);">
-                        <i class="fa-regular fa-clock"></i> 
-                        <span data-i18n="form_auto_reset">El formulario se reiniciará automáticamente cuando el local vuelva a abrir.</span>
-                    </div>
                 </form>
                 <div class="form-success-msg" id="formSuccessMsg">
                     <i class="fa-solid fa-circle-check"></i>
@@ -1415,13 +1418,14 @@
                     contact_phone_title: 'Teléfono',
                     contact_hours_title: 'Horarios',
                     contact_hours_text: 'Lun a Sáb: 9:00 – 13:00 · 16:00 – 21:00',
+                    contact_hours_open: 'Horarios: ABIERTO, cerramos en {time}',
+                    contact_hours_closed: 'Horarios: CERRADO, abriremos en {time}',
                     form_name_label: 'Nombre *',
                     form_phone_label: 'Teléfono *',
                     form_body_part_label: 'Partes del cuerpo a tatuar *',
                     form_message_label: 'Mensaje *',
                     form_submit: 'Enviar por WhatsApp',
                     form_success: '¡Listo! Abriremos WhatsApp...',
-                    form_auto_reset: 'El formulario se reiniciará automáticamente cuando el local vuelva a abrir.',
                     footer_text: '© 2026 LG Tattoo | SC Photo Br',
                     whatsapp_msg_intro: '👋 ¡Hola Lean! Quisiera consultar por un tatuaje.',
                     whatsapp_msg_name: '👤 Nombre',
@@ -1480,13 +1484,14 @@
                     contact_phone_title: 'Telèfon',
                     contact_hours_title: 'Horaris',
                     contact_hours_text: 'Dll a Diss: 9:00 – 13:00 · 16:00 – 21:00',
+                    contact_hours_open: 'Horari: OBERT, tanquem a les {time}',
+                    contact_hours_closed: 'Horari: TANCAT, obrirem a les {time}',
                     form_name_label: 'Nom *',
                     form_phone_label: 'Telèfon *',
                     form_body_part_label: 'Parts del cos a tatuar *',
                     form_message_label: 'Missatge *',
                     form_submit: 'Enviar per WhatsApp',
                     form_success: 'Llest! Obrim WhatsApp...',
-                    form_auto_reset: 'El formulari es reiniciarà automàticament quan el local torni a obrir.',
                     footer_text: '© 2026 LG Tattoo | SC Photo Br',
                     whatsapp_msg_intro: '👋 Hola Lean! Voldria consultar per un tatuatge.',
                     whatsapp_msg_name: '👤 Nom',
@@ -1545,13 +1550,14 @@
                     contact_phone_title: 'Phone',
                     contact_hours_title: 'Hours',
                     contact_hours_text: 'Mon to Sat: 9:00 – 13:00 · 16:00 – 21:00',
+                    contact_hours_open: 'Hours: OPEN, closes at {time}',
+                    contact_hours_closed: 'Hours: CLOSED, opens at {time}',
                     form_name_label: 'Name *',
                     form_phone_label: 'Phone *',
                     form_body_part_label: 'Body parts to tattoo *',
                     form_message_label: 'Message *',
                     form_submit: 'Send via WhatsApp',
                     form_success: 'Ready! Opening WhatsApp...',
-                    form_auto_reset: 'The form will automatically reset when the shop reopens.',
                     footer_text: '© 2026 LG Tattoo | SC Photo Br',
                     whatsapp_msg_intro: '👋 Hey Lean! I would like to inquire about a tattoo.',
                     whatsapp_msg_name: '👤 Name',
@@ -1604,8 +1610,9 @@
                     if (t[el.dataset.i18nPlaceholder]) el.placeholder = t[el.dataset.i18nPlaceholder];
                 });
                 
-                renderGalleryWithLightbox(); // Se cambió a la nueva función
+                renderGalleryWithLightbox();
                 renderTestimonials();
+                updateHoursStatus();
                 
                 document.querySelectorAll('.lang-option').forEach(b => b.classList.remove('active'));
                 document.querySelector(`.lang-option[data-lang="${lang}"]`)?.classList.add('active');
@@ -1794,6 +1801,54 @@
                         openLightbox(parseInt(this.dataset.index));
                     });
                 });
+            }
+
+            // ============ ACTUALIZACIÓN DINÁMICA DE HORARIOS ============
+            function updateHoursStatus() {
+                const t = translations[currentLang];
+                
+                // Obtener la hora actual exacta de Santander, España
+                const nowMadrid = new Date(new Date().toLocaleString('en-US', { timeZone: 'Europe/Madrid' }));
+                const day = nowMadrid.getDay(); // 0 = Domingo, 6 = Sábado
+                const minutes = nowMadrid.getHours() * 60 + nowMadrid.getMinutes();
+
+                // Definir los slots horarios (Lun a Sáb)
+                const slot1Start = 9 * 60;   // 9:00
+                const slot1End = 13 * 60;    // 13:00
+                const slot2Start = 16 * 60;  // 16:00
+                const slot2End = 21 * 60;    // 21:00
+
+                let statusText = '';
+                let targetTime = '';
+
+                // Lógica de apertura/cierre
+                if (day === 0) { // Domingo (Cerrado)
+                    statusText = t.contact_hours_closed;
+                    targetTime = '9:00';
+                } else if (minutes >= slot1Start && minutes < slot1End) {
+                    statusText = t.contact_hours_open;
+                    targetTime = '13:00';
+                } else if (minutes >= slot2Start && minutes < slot2End) {
+                    statusText = t.contact_hours_open;
+                    targetTime = '21:00';
+                } else {
+                    statusText = t.contact_hours_closed;
+                    if (minutes < slot1Start) {
+                        targetTime = '9:00';
+                    } else if (minutes < slot2Start) {
+                        targetTime = '16:00';
+                    } else { // Después de las 21:00
+                        targetTime = '9:00';
+                    }
+                }
+
+                // Reemplazar el marcador {time} en el texto traducido
+                const finalText = statusText.replace('{time}', targetTime);
+                
+                const el = document.getElementById('hoursStatus');
+                if (el) {
+                    el.textContent = finalText;
+                }
             }
 
             // ============ TESTIMONIOS ============
