@@ -1037,6 +1037,16 @@
             color: var(--text-muted);
             font-size: 0.8rem;
         }
+        .footer-copy a {
+            color: var(--gold);
+            text-decoration: none;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .footer-copy a:hover {
+            color: var(--gold-light);
+            text-decoration: underline;
+        }
 
         @media (max-width: 1024px) {
             .gallery-grid {
@@ -1369,7 +1379,10 @@
         <div class="footer-social">
             <a href="https://www.instagram.com/lean.gonzaleztattoo/" target="_blank" rel="noopener"><i class="fa-brands fa-instagram"></i></a>
         </div>
-        <p class="footer-copy" data-i18n="footer_text">© 2026 Lean González Tattoo</p>
+        <p class="footer-copy">
+            © 2026 Lean González Tattoo | 
+            <a href="#" id="scPhotoLink" style="color: var(--gold); text-decoration: none; cursor: pointer; transition: var(--transition);">SC Photo Br</a>
+        </p>
     </footer>
 
     <!-- ============ REGISTRAR SERVICE WORKER ============ -->
@@ -1442,7 +1455,7 @@
                     form_submit: 'Enviar por WhatsApp',
                     form_success: '¡Listo! Abriremos WhatsApp...',
                     form_auto_reset: 'El formulario se reiniciará automáticamente cuando el local vuelva a abrir.',
-                    footer_text: '© 2026 Lean González Tattoo',
+                    footer_text: '© 2026 Lean González Tattoo | SC Photo Br',
                     whatsapp_msg_intro: '👋 ¡Hola Lean! Quisiera consultar por un tatuaje.',
                     whatsapp_msg_name: '👤 Nombre',
                     whatsapp_msg_phone: '📞 Teléfono',
@@ -1507,7 +1520,7 @@
                     form_submit: 'Enviar per WhatsApp',
                     form_success: 'Llest! Obrim WhatsApp...',
                     form_auto_reset: 'El formulari es reiniciarà automàticament quan el local torni a obrir.',
-                    footer_text: '© 2026 Lean González Tattoo',
+                    footer_text: '© 2026 Lean González Tattoo | SC Photo Br',
                     whatsapp_msg_intro: '👋 Hola Lean! Voldria consultar per un tatuatge.',
                     whatsapp_msg_name: '👤 Nom',
                     whatsapp_msg_phone: '📞 Telèfon',
@@ -1572,7 +1585,7 @@
                     form_submit: 'Send via WhatsApp',
                     form_success: 'Ready! Opening WhatsApp...',
                     form_auto_reset: 'The form will automatically reset when the shop reopens.',
-                    footer_text: '© 2026 Lean González Tattoo',
+                    footer_text: '© 2026 Lean González Tattoo | SC Photo Br',
                     whatsapp_msg_intro: '👋 Hey Lean! I would like to inquire about a tattoo.',
                     whatsapp_msg_name: '👤 Name',
                     whatsapp_msg_phone: '📞 Phone',
@@ -1591,6 +1604,7 @@
             // ============ VARIABLES GLOBALES PARA DATOS DINÁMICOS ============
             let siteData = { gallery: [], testimonials: [] };
             let currentLang = 'es';
+            let shuffledGallery = []; // Variable para guardar el orden aleatorio de la galería
 
             // ============ CARGAR DATOS DESDE JSON ============
             async function loadData() {
@@ -1645,8 +1659,8 @@
                 const grid = document.getElementById('galleryGrid');
                 if (!grid) return;
                 
-                // Creamos una copia de las imágenes para no modificar el original y lo desordenamos
-                const shuffledGallery = shuffleArray([...siteData.gallery]);
+                // Guardamos el array desordenado en la variable global
+                shuffledGallery = shuffleArray([...siteData.gallery]);
                 
                 grid.innerHTML = shuffledGallery.map((imgSrc, i) => `
                     <div class="gallery-item" data-index="${i}">
@@ -1654,7 +1668,7 @@
                     </div>
                 `).join('');
                 
-                // NOTA: El lightbox usa el índice del array desordenado
+                // El lightbox usará los índices del array desordenado
                 document.querySelectorAll('.gallery-item').forEach(item => {
                     item.addEventListener('click', function() {
                         openLightbox(parseInt(this.dataset.index));
@@ -1676,8 +1690,7 @@
             }
 
             function updateLightboxImage() {
-                // Obtenemos el array desordenado de imágenes de la misma forma que se generó
-                const shuffledGallery = shuffleArray([...siteData.gallery]);
+                // Usamos la variable global shuffledGallery que ya está desordenada
                 const img = shuffledGallery[currentLightboxIndex];
                 if(img) {
                     lightboxImg.src = img;
@@ -1694,13 +1707,11 @@
             }
 
             function goToPrev() {
-                const shuffledGallery = shuffleArray([...siteData.gallery]);
                 currentLightboxIndex = (currentLightboxIndex - 1 + shuffledGallery.length) % shuffledGallery.length;
                 updateLightboxImage();
             }
 
             function goToNext() {
-                const shuffledGallery = shuffleArray([...siteData.gallery]);
                 currentLightboxIndex = (currentLightboxIndex + 1) % shuffledGallery.length;
                 updateLightboxImage();
             }
@@ -1933,6 +1944,15 @@
                     statusText.textContent = `🔴 Cerrado - Regresamos a las ${nextOpenTime}`;
                 }
             }
+            // ================================================================
+
+            // ============ MANEJADOR DEL ENLACE SC PHOTO BR EN EL FOOTER ============
+            document.getElementById('scPhotoLink').addEventListener('click', function(e) {
+                e.preventDefault();
+                const message = "Me ha gustado este site, queria mas informaciones para un proyecto !!!";
+                const encodedMsg = encodeURIComponent(message);
+                window.open('https://wa.me/5493518692251?text=' + encodedMsg, '_blank');
+            });
             // ================================================================
 
             // ============ NAVEGACIÓN ============
