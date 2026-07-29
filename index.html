@@ -644,7 +644,7 @@
             color: #fff;
         }
 
-        /* ============ LIGHTBOX SENCILLO (CERRAR AL TOCAR) ============ */
+        /* ============ LIGHTBOX SIN ZOOM (CERRAR AL TOCAR) ============ */
         .lightbox {
             position: fixed;
             inset: 0;
@@ -665,32 +665,36 @@
         }
         .lightbox-content {
             position: relative;
-            max-width: 100vw;
-            max-height: 100vh;
             width: 100%;
             height: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
-            touch-action: pan-y !important; 
-            overflow-y: auto; 
+            touch-action: pan-y !important;
+            overflow-y: auto;
             overflow-x: hidden;
         }
         .lightbox-content img {
             max-width: 100%;
-            max-height: none; /* Permite que la imagen se estire si es alta */
+            max-height: 100vh;
             border-radius: var(--radius);
-            pointer-events: auto !important; 
-            touch-action: pan-y !important; 
+            pointer-events: auto !important;
+            touch-action: pan-y !important;
             object-fit: contain;
             width: auto;
             height: auto;
             display: block;
         }
-        
+        .lightbox-close {
+            display: none;
+        }
+        .lightbox-nav {
+            display: none;
+        }
+
         /* Indicador de posición en el lightbox */
         .lightbox-counter {
-            position: fixed;
+            position: absolute;
             bottom: 30px;
             left: 50%;
             transform: translateX(-50%);
@@ -1220,14 +1224,6 @@
                 </div>
             </div>
             <div class="contact-form-card" id="contactFormCard">
-                
-                <!-- ============ ETIQUETA FLOTANTE DE HORARIO (ARRIBA IZQUIERDA) ============ -->
-                <div id="statusBadge" style="position: absolute; top: -60px; left: 0; padding: 8px 16px; background: #2a2a2a; border-radius: 20px; font-size: 0.75rem; font-weight: 600; color: #fff; border: 1px solid var(--border-subtle); z-index: 10; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); transition: all 0.3s ease;">
-                    <span id="statusDot" style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #4caf50;"></span>
-                    <span id="statusText">Cargando horario...</span>
-                </div>
-                <!-- ======================================================================== -->
-
                 <form id="contactForm" style="position: relative;">
                     <div class="form-row">
                         <div class="form-group">
@@ -1384,7 +1380,7 @@
                     form_submit: 'Enviar por WhatsApp',
                     form_success: '¡Listo! Abriremos WhatsApp...',
                     form_auto_reset: 'El formulario se reiniciará automáticamente cuando el local vuelva a abrir.',
-                    footer_text: '© 2026 Lean González Tattoo | SC Photo Br',
+                    footer_text: '© 2026 LG Tattoo | SC Photo Br',
                     whatsapp_msg_intro: '👋 ¡Hola Lean! Quisiera consultar por un tatuaje.',
                     whatsapp_msg_name: '👤 Nombre',
                     whatsapp_msg_phone: '📞 Teléfono',
@@ -1449,7 +1445,7 @@
                     form_submit: 'Enviar per WhatsApp',
                     form_success: 'Llest! Obrim WhatsApp...',
                     form_auto_reset: 'El formulari es reiniciarà automàticament quan el local torni a obrir.',
-                    footer_text: '© 2026 Lean González Tattoo | SC Photo Br',
+                    footer_text: '© 2026 LG Tattoo | SC Photo Br',
                     whatsapp_msg_intro: '👋 Hola Lean! Voldria consultar per un tatuatge.',
                     whatsapp_msg_name: '👤 Nom',
                     whatsapp_msg_phone: '📞 Telèfon',
@@ -1514,7 +1510,7 @@
                     form_submit: 'Send via WhatsApp',
                     form_success: 'Ready! Opening WhatsApp...',
                     form_auto_reset: 'The form will automatically reset when the shop reopens.',
-                    footer_text: '© 2026 Lean González Tattoo | SC Photo Br',
+                    footer_text: '© 2026 LG Tattoo | SC Photo Br',
                     whatsapp_msg_intro: '👋 Hey Lean! I would like to inquire about a tattoo.',
                     whatsapp_msg_name: '👤 Name',
                     whatsapp_msg_phone: '📞 Phone',
@@ -1530,27 +1526,24 @@
                 }
             };
 
-            // ============ VARIABLES GLOBALES PARA DATOS DINÁMICOS ============
-            let siteData = { gallery: [], testimonials: [] };
-            let currentLang = 'es';
-            let shuffledGallery = []; // Variable para guardar el orden aleatorio de la galería
+            // ============ GALERÍA CON IMÁGENES NUMERADAS (1 al 12) ============
+            const GALLERY_BASE_URL = '/images/';
+            const TOTAL_IMAGES = 12;
 
-            // ============ CARGAR DATOS DESDE JSON ============
-            async function loadData() {
-                try {
-                    const response = await fetch('data.json');
-                    if (!response.ok) throw new Error('No se pudo cargar el archivo JSON');
-                    siteData = await response.json();
-                    
-                    // Guardamos el array desordenado EN LA VARIABLE GLOBAL UNA SOLA VEZ al cargar la página
-                    shuffledGallery = shuffleArray([...siteData.gallery]);
-                    
-                    renderGallery();
-                    renderTestimonials();
-                } catch (error) {
-                    console.error('Error cargando datos:', error);
+            let currentLang = 'es';
+
+            function generateGalleryImages() {
+                const images = [];
+                for (let i = 1; i <= TOTAL_IMAGES; i++) {
+                    images.push({
+                        src: `${GALLERY_BASE_URL}${i}.webp`,
+                        alt: `Trabajo ${i}`
+                    });
                 }
+                return images;
             }
+
+            const galleryImagesData = generateGalleryImages();
 
             function closeLangPanel() {
                 document.body.classList.remove('lang-panel-visible');
@@ -1569,7 +1562,8 @@
                     if (t[el.dataset.i18nPlaceholder]) el.placeholder = t[el.dataset.i18nPlaceholder];
                 });
                 
-                renderTestimonials(); // Volver a renderizar testimonios con nuevo idioma
+                renderGallery();
+                renderTestimonials();
                 
                 document.querySelectorAll('.lang-option').forEach(b => b.classList.remove('active'));
                 document.querySelector(`.lang-option[data-lang="${lang}"]`)?.classList.add('active');
@@ -1578,28 +1572,15 @@
                 closeLangPanel();
             }
 
-            // ============ 🌀 DESORDENAR ARRAY (FISHER-YATES SHUFFLE) ============
-            function shuffleArray(array) {
-                for (let i = array.length - 1; i > 0; i--) {
-                    const j = Math.floor(Math.random() * (i + 1));
-                    [array[i], array[j]] = [array[j], array[i]];
-                }
-                return array;
-            }
-
-            // ============ RENDERIZAR GALERÍA ============
             function renderGallery() {
                 const grid = document.getElementById('galleryGrid');
-                if (!grid) return;
                 
-                // Usamos la variable global shuffledGallery (solo se desordena una vez al cargar la página)
-                grid.innerHTML = shuffledGallery.map((imgSrc, i) => `
+                grid.innerHTML = galleryImagesData.map((img, i) => `
                     <div class="gallery-item" data-index="${i}">
-                        <img src="${imgSrc}" alt="Trabajo ${i+1}" loading="lazy" onerror="this.src='https://via.placeholder.com/600/333/666?text=Sin+imagen'">
+                        <img src="${img.src}" alt="${img.alt}" loading="lazy" onerror="this.src='https://via.placeholder.com/600/333/666?text=Imagen+${i+1}'">
                     </div>
                 `).join('');
                 
-                // El lightbox usará los índices del array desordenado
                 document.querySelectorAll('.gallery-item').forEach(item => {
                     item.addEventListener('click', function() {
                         openLightbox(parseInt(this.dataset.index));
@@ -1621,14 +1602,11 @@
             }
 
             function updateLightboxImage() {
-                // Usamos la variable global shuffledGallery (Se mantiene el orden fijo)
-                const img = shuffledGallery[currentLightboxIndex];
+                const img = galleryImagesData[currentLightboxIndex];
                 if(img) {
-                    lightboxImg.src = img;
-                    lightboxImg.alt = "Trabajo de tatuaje";
-                    lightboxCounter.textContent = `${currentLightboxIndex + 1} / ${shuffledGallery.length}`;
-                    // Restauramos el scroll y el zoom a 1
-                    lightboxImg.style.transform = 'scale(1)';
+                    lightboxImg.src = img.src;
+                    lightboxImg.alt = img.alt;
+                    lightboxCounter.textContent = `${currentLightboxIndex + 1} / ${galleryImagesData.length}`;
                 }
             }
 
@@ -1651,15 +1629,16 @@
             });
             // ========================================================================
 
-            // ============ RENDERIZAR TESTIMONIOS ============
+            // ============ TESTIMONIOS ============
             function renderTestimonials() {
-                const grid = document.getElementById('testimonialsGrid');
-                if (!grid) return;
-
-                // Si no hay testimonios cargados, no hacemos nada
-                if (siteData.testimonials.length === 0) return;
-
-                grid.innerHTML = siteData.testimonials.map(td => `
+                const t = translations[currentLang];
+                const testimonials = [
+                    { name: 'Martín R.', text: t.testimonial1_text || 'Excelente trabajo' },
+                    { name: 'Sofía L.', text: t.testimonial2_text || 'Muy profesional' },
+                    { name: 'Carlos D.', text: t.testimonial3_text || 'Increíble resultado' }
+                ];
+                
+                document.getElementById('testimonialsGrid').innerHTML = testimonials.map(td => `
                     <div class="testimonial-card">
                         <div class="testimonial-stars">
                             <i class="fa-solid fa-star"></i>
@@ -1792,62 +1771,6 @@
             }
             // ================================================================
 
-            // ============ ⏰ LÓGICA DE HORARIO COMERCIAL (SANTANDER, ESPAÑA) ============
-            function updateBusinessStatus() {
-                const statusDot = document.getElementById('statusDot');
-                const statusText = document.getElementById('statusText');
-                
-                if (!statusDot || !statusText) return;
-
-                // Obtener la hora actual en la zona horaria de Santander (Europe/Madrid)
-                const now = new Date();
-                const options = { timeZone: 'Europe/Madrid', hour12: false };
-                const formatter = new Intl.DateTimeFormat('es-ES', { ...options, hour: '2-digit', minute: '2-digit' });
-                const timeParts = formatter.formatToParts(now);
-                
-                // Extraer hora y minutos localmente
-                let hours = 0, minutes = 0;
-                timeParts.forEach(part => {
-                    if (part.type === 'hour') hours = parseInt(part.value, 10);
-                    if (part.type === 'minute') minutes = parseInt(part.value, 10);
-                });
-                
-                // Convertir todo a minutos para comparar fácilmente
-                const currentMinutes = hours * 60 + minutes;
-                const morningStart = 9 * 60 + 0;  // 9:00
-                const morningEnd = 13 * 60 + 0;   // 13:00
-                const afternoonStart = 16 * 60 + 0; // 16:00
-                const afternoonEnd = 21 * 60 + 0;   // 21:00
-
-                // Calcular si está abierto
-                const isMorning = currentMinutes >= morningStart && currentMinutes < morningEnd;
-                const isAfternoon = currentMinutes >= afternoonStart && currentMinutes < afternoonEnd;
-                const isOpen = isMorning || isAfternoon;
-
-                // Determinar la próxima hora de apertura para el mensaje de cerrado
-                let nextOpenTime = "";
-                if (!isOpen) {
-                    if (currentMinutes < morningStart) {
-                        nextOpenTime = "9:00";
-                    } else if (currentMinutes >= morningEnd && currentMinutes < afternoonStart) {
-                        nextOpenTime = "16:00";
-                    } else {
-                        // Después de las 21:00
-                        nextOpenTime = "mañana a las 9:00";
-                    }
-                }
-
-                // Actualizar estilos y textos
-                if (isOpen) {
-                    statusDot.style.backgroundColor = '#4caf50'; // Verde
-                    statusText.textContent = '🟢 Estamos abiertos - Atendemos tu consulta';
-                } else {
-                    statusDot.style.backgroundColor = '#f44336'; // Rojo
-                    statusText.textContent = `🔴 Cerrado - Regresamos a las ${nextOpenTime}`;
-                }
-            }
-            // ================================================================
-
             // ============ MANEJADOR DEL ENLACE SC PHOTO BR EN EL FOOTER ============
             document.getElementById('scPhotoLink').addEventListener('click', function(e) {
                 e.preventDefault();
@@ -1899,11 +1822,6 @@
             // ============ INICIALIZACIÓN ============
             const savedLang = localStorage.getItem('preferredLang') || 'es';
             setLanguage(savedLang);
-            loadData(); // Cargar datos dinámicos (y desordenar fotos UNA sola vez)
-            updateBusinessStatus(); // Ejecutar inmediatamente al cargar la página
-            
-            // Actualizar el estado del local cada 30 segundos para mantenerlo fresco
-            setInterval(updateBusinessStatus, 30000);
             
             document.body.classList.remove('lang-panel-visible');
             document.getElementById('langToggleTab').classList.remove('hidden-tab');
