@@ -1406,7 +1406,7 @@
                     recomendaciones_post_2: '<strong>Secado correcto:</strong> Seca la zona dando pequeños toques con una gasa o papel de cocina limpio. Nunca uses una toalla convencional, ya que puede acumular bacterias o irritar la piel.',
                     recomendaciones_post_3: '<strong>Hidratación con crema específica:</strong> Aplica una capa muy fina de crema regeneradora recomendada por tu tatuador (como Bepanthol u otras cremas específicas para tatuajes). No satures la piel; el tatuaje debe "respirar".',
                     recomendaciones_post_4: '<strong>Prohibido rascar o arrancar costras:</strong> Durante el proceso de curación es normal que aparezca picor o que comience a descamarse. Nunca arranques las pielecitas ni rasques, ya que puedes perder parte de la tinta o provocar una infección.',
-                    recomendaciones_post_5: '<strong>Cero sol, piscinas y playas:</strong> Durante las primeras 3 a 4 semanas debes evitar por completo la exposición solar directa, los baños en piscinas, el mar, saunas y jacuzzis. El agua estancada y el cloro son muy perjudiciales para una herida abierta.',
+                    recomendaciones_post_5: '<strong>Cero sol, piscinas y playas:</strong> Durante las primeras 3 a 4 semanas debes evitar por completo la exposición solar directa, los baños en piscinas, el mar, saunas y jacuzzis. El agua estancada y el clor son muy perjudiciales para una herida abierta.',
                     recomendaciones_post_6: '<strong>Evita ropa ajustada:</strong> Usa ropa de algodón y holgada para evitar la fricción constante sobre el diseño fresco.',
                     testimonials_tag: 'Lo que dicen',
                     testimonials_title: 'Testimonios Reales',
@@ -1567,24 +1567,22 @@
                 }
             };
 
-            // ============ GALERÍA CON IMÁGENES NUMERADAS (1 al 12) ============
-            const GALLERY_BASE_URL = '/images/';
-            const TOTAL_IMAGES = 12;
-
+            // ============ VARIABLES GLOBALES PARA DATOS DINÁMICOS ============
+            let siteData = { gallery: [], testimonials: [] };
             let currentLang = 'es';
 
-            function generateGalleryImages() {
-                const images = [];
-                for (let i = 1; i <= TOTAL_IMAGES; i++) {
-                    images.push({
-                        src: `${GALLERY_BASE_URL}${i}.webp`,
-                        alt: `Trabajo ${i}`
-                    });
+            // ============ CARGAR DATOS DESDE JSON ============
+            async function loadData() {
+                try {
+                    const response = await fetch('data.json');
+                    if (!response.ok) throw new Error('No se pudo cargar el archivo JSON');
+                    siteData = await response.json();
+                    renderGallery();
+                    renderTestimonials();
+                } catch (error) {
+                    console.error('Error cargando datos:', error);
                 }
-                return images;
             }
-
-            const galleryImagesData = generateGalleryImages();
 
             function closeLangPanel() {
                 document.body.classList.remove('lang-panel-visible');
@@ -1603,8 +1601,7 @@
                     if (t[el.dataset.i18nPlaceholder]) el.placeholder = t[el.dataset.i18nPlaceholder];
                 });
                 
-                renderGallery();
-                renderTestimonials();
+                renderTestimonials(); // Volver a renderizar testimonios con nuevo idioma
                 
                 document.querySelectorAll('.lang-option').forEach(b => b.classList.remove('active'));
                 document.querySelector(`.lang-option[data-lang="${lang}"]`)?.classList.add('active');
@@ -1613,12 +1610,14 @@
                 closeLangPanel();
             }
 
+            // ============ RENDERIZAR GALERÍA ============
             function renderGallery() {
                 const grid = document.getElementById('galleryGrid');
+                if (!grid) return;
                 
-                grid.innerHTML = galleryImagesData.map((img, i) => `
+                grid.innerHTML = siteData.gallery.map((imgSrc, i) => `
                     <div class="gallery-item" data-index="${i}">
-                        <img src="${img.src}" alt="${img.alt}" loading="lazy" onerror="this.src='https://via.placeholder.com/600/333/666?text=Imagen+${i+1}'">
+                        <img src="${imgSrc}" alt="Trabajo ${i+1}" loading="lazy" onerror="this.src='https://via.placeholder.com/600/333/666?text=Sin+imagen'">
                     </div>
                 `).join('');
                 
@@ -1652,10 +1651,12 @@
             }
 
             function updateLightboxImage() {
-                const img = galleryImagesData[currentLightboxIndex];
-                lightboxImg.src = img.src;
-                lightboxImg.alt = img.alt;
-                lightboxCounter.textContent = `${currentLightboxIndex + 1} / ${galleryImagesData.length}`;
+                const img = siteData.gallery[currentLightboxIndex];
+                if(img) {
+                    lightboxImg.src = img;
+                    lightboxImg.alt = "Trabajo de tatuaje";
+                    lightboxCounter.textContent = `${currentLightboxIndex + 1} / ${siteData.gallery.length}`;
+                }
             }
 
             function closeLightbox() {
@@ -1664,12 +1665,12 @@
             }
 
             function goToPrev() {
-                currentLightboxIndex = (currentLightboxIndex - 1 + galleryImagesData.length) % galleryImagesData.length;
+                currentLightboxIndex = (currentLightboxIndex - 1 + siteData.gallery.length) % siteData.gallery.length;
                 updateLightboxImage();
             }
 
             function goToNext() {
-                currentLightboxIndex = (currentLightboxIndex + 1) % galleryImagesData.length;
+                currentLightboxIndex = (currentLightboxIndex + 1) % siteData.gallery.length;
                 updateLightboxImage();
             }
 
@@ -1748,16 +1749,15 @@
                 }
             });
 
-            // ============ TESTIMONIOS ============
+            // ============ RENDERIZAR TESTIMONIOS ============
             function renderTestimonials() {
-                const t = translations[currentLang];
-                const testimonials = [
-                    { name: 'Martín R.', text: t.testimonial1_text || 'Excelente trabajo' },
-                    { name: 'Sofía L.', text: t.testimonial2_text || 'Muy profesional' },
-                    { name: 'Carlos D.', text: t.testimonial3_text || 'Increíble resultado' }
-                ];
-                
-                document.getElementById('testimonialsGrid').innerHTML = testimonials.map(td => `
+                const grid = document.getElementById('testimonialsGrid');
+                if (!grid) return;
+
+                // Si no hay testimonios cargados, no hacemos nada
+                if (siteData.testimonials.length === 0) return;
+
+                grid.innerHTML = siteData.testimonials.map(td => `
                     <div class="testimonial-card">
                         <div class="testimonial-stars">
                             <i class="fa-solid fa-star"></i>
@@ -1932,6 +1932,7 @@
             // ============ INICIALIZACIÓN ============
             const savedLang = localStorage.getItem('preferredLang') || 'es';
             setLanguage(savedLang);
+            loadData(); // <--- CARGAMOS LOS DATOS DINÁMICOS AQUÍ
             
             document.body.classList.remove('lang-panel-visible');
             document.getElementById('langToggleTab').classList.remove('hidden-tab');
