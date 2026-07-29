@@ -1613,17 +1613,30 @@
                 closeLangPanel();
             }
 
+            // ============ 🌀 DESORDENAR ARRAY (FISHER-YATES SHUFFLE) ============
+            function shuffleArray(array) {
+                for (let i = array.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [array[i], array[j]] = [array[j], array[i]];
+                }
+                return array;
+            }
+
             // ============ RENDERIZAR GALERÍA ============
             function renderGallery() {
                 const grid = document.getElementById('galleryGrid');
                 if (!grid) return;
                 
-                grid.innerHTML = siteData.gallery.map((imgSrc, i) => `
+                // Creamos una copia de las imágenes para no modificar el original y lo desordenamos
+                const shuffledGallery = shuffleArray([...siteData.gallery]);
+                
+                grid.innerHTML = shuffledGallery.map((imgSrc, i) => `
                     <div class="gallery-item" data-index="${i}">
                         <img src="${imgSrc}" alt="Trabajo ${i+1}" loading="lazy" onerror="this.src='https://via.placeholder.com/600/333/666?text=Sin+imagen'">
                     </div>
                 `).join('');
                 
+                // NOTA: El lightbox usa el índice del array desordenado
                 document.querySelectorAll('.gallery-item').forEach(item => {
                     item.addEventListener('click', function() {
                         openLightbox(parseInt(this.dataset.index));
@@ -1637,8 +1650,6 @@
             const lightboxImg = document.getElementById('lightboxImg');
             const lightboxCounter = document.getElementById('lightboxCounter');
 
-            // NOTA: El swipe táctil se ha eliminado para permitir el zoom nativo en móviles.
-
             function openLightbox(index) {
                 currentLightboxIndex = index;
                 updateLightboxImage();
@@ -1647,11 +1658,13 @@
             }
 
             function updateLightboxImage() {
-                const img = siteData.gallery[currentLightboxIndex];
+                // Obtenemos el array desordenado de imágenes de la misma forma que se generó
+                const shuffledGallery = shuffleArray([...siteData.gallery]);
+                const img = shuffledGallery[currentLightboxIndex];
                 if(img) {
                     lightboxImg.src = img;
                     lightboxImg.alt = "Trabajo de tatuaje";
-                    lightboxCounter.textContent = `${currentLightboxIndex + 1} / ${siteData.gallery.length}`;
+                    lightboxCounter.textContent = `${currentLightboxIndex + 1} / ${shuffledGallery.length}`;
                     // Resetea el zoom al cambiar de imagen
                     lightboxImg.style.transform = 'scale(1)';
                 }
@@ -1663,12 +1676,14 @@
             }
 
             function goToPrev() {
-                currentLightboxIndex = (currentLightboxIndex - 1 + siteData.gallery.length) % siteData.gallery.length;
+                const shuffledGallery = shuffleArray([...siteData.gallery]);
+                currentLightboxIndex = (currentLightboxIndex - 1 + shuffledGallery.length) % shuffledGallery.length;
                 updateLightboxImage();
             }
 
             function goToNext() {
-                currentLightboxIndex = (currentLightboxIndex + 1) % siteData.gallery.length;
+                const shuffledGallery = shuffleArray([...siteData.gallery]);
+                currentLightboxIndex = (currentLightboxIndex + 1) % shuffledGallery.length;
                 updateLightboxImage();
             }
 
