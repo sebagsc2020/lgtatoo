@@ -572,7 +572,7 @@
             aspect-ratio: 1/1;
             border-radius: var(--radius-sm);
             overflow: hidden;
-            cursor: pointer;
+            cursor: default; /* Cambiado a default porque ya no hay lightbox */
         }
         .gallery-item img {
             width: 100%;
@@ -640,69 +640,6 @@
             transform: scale(1.05);
             box-shadow: 0 8px 30px rgba(225, 48, 108, 0.5);
             color: #fff;
-        }
-
-        /* ============ LIGHTBOX ============ */
-        .lightbox {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.94);
-            z-index: 2000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: 0.3s;
-            user-select: none;
-            -webkit-user-select: none;
-        }
-        .lightbox.active {
-            opacity: 1;
-            pointer-events: all;
-        }
-        .lightbox-content {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            touch-action: pan-y !important;
-            overflow-y: auto;
-            overflow-x: hidden;
-        }
-        .lightbox-content img {
-            max-width: 100%;
-            max-height: 100vh;
-            border-radius: var(--radius);
-            pointer-events: auto !important;
-            touch-action: pan-y !important;
-            object-fit: contain;
-            width: auto;
-            height: auto;
-            display: block;
-        }
-        .lightbox-close {
-            display: none;
-        }
-        .lightbox-nav {
-            display: none;
-        }
-        .lightbox-counter {
-            position: absolute;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: rgba(255,255,255,0.6);
-            font-size: 0.8rem;
-            background: rgba(0,0,0,0.5);
-            padding: 0.3rem 1rem;
-            border-radius: 20px;
-            z-index: 2001;
-            font-family: 'Inter', sans-serif;
-            letter-spacing: 1px;
-            pointer-events: none;
         }
 
         /* ============ RECOMENDACIONES ============ */
@@ -1129,13 +1066,6 @@
             </a>
         </div>
     </section>
-
-    <div class="lightbox" id="lightbox">
-        <div class="lightbox-content">
-            <img src="" id="lightboxImg" alt="Trabajo de tatuaje">
-        </div>
-        <div class="lightbox-counter" id="lightboxCounter">1 / 12</div>
-    </div>
 
     <!-- ============ SECCIÓN RECOMENDACIONES ============ -->
     <section class="recomendaciones-section section" id="recomendaciones">
@@ -1588,52 +1518,7 @@
                         <img src="${img.src}" alt="${img.alt}" loading="lazy" onerror="this.src='https://via.placeholder.com/600/333/666?text=Imagen+${i+1}'">
                     </div>
                 `).join('');
-                
-                document.querySelectorAll('.gallery-item').forEach(item => {
-                    item.addEventListener('click', function() {
-                        openLightbox(parseInt(this.dataset.index));
-                    });
-                });
             }
-
-            // ============ LIGHTBOX SIMPLIFICADO ============
-            let currentLightboxIndex = 0;
-            const lightbox = document.getElementById('lightbox');
-            const lightboxImg = document.getElementById('lightboxImg');
-            const lightboxCounter = document.getElementById('lightboxCounter');
-
-            function openLightbox(index) {
-                currentLightboxIndex = index;
-                updateLightboxImage();
-                lightbox.classList.add('active');
-                document.body.style.overflow = 'hidden';
-            }
-
-            function updateLightboxImage() {
-                const img = galleryImagesData[currentLightboxIndex];
-                if(img) {
-                    lightboxImg.src = img.src;
-                    lightboxImg.alt = img.alt;
-                    lightboxCounter.textContent = `${currentLightboxIndex + 1} / ${galleryImagesData.length}`;
-                }
-            }
-
-            function closeLightbox() {
-                lightbox.classList.remove('active');
-                document.body.style.overflow = '';
-            }
-
-            lightbox.addEventListener('click', function(e) {
-                closeLightbox();
-            });
-
-            document.addEventListener('keydown', function(e) {
-                if (!lightbox.classList.contains('active')) return;
-                if (e.key === 'Escape') {
-                    closeLightbox();
-                    closeLangPanel();
-                }
-            });
 
             // ============ TESTIMONIOS ============
             function renderTestimonials() {
