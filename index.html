@@ -561,7 +561,7 @@
         /* Ajuste para evitar superposición en móviles */
         @media (max-width: 768px) {
             .gallery-section .section-header {
-                margin-top: 30px; 
+                margin-top: 60px; /* Aumentado para evitar la barra de idiomas y el badge */
             }
         }
         .gallery-grid {
@@ -644,7 +644,7 @@
             color: #fff;
         }
 
-        /* ============ LIGHTBOX (MODIFICADO PARA PERMITIR ZOOM) ============ */
+        /* ============ LIGHTBOX SIN ZOOM (CERRAR AL TOCAR) ============ */
         .lightbox {
             position: fixed;
             inset: 0;
@@ -670,62 +670,26 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            touch-action: pan-x pan-y !important; 
-            overflow: auto;
+            touch-action: pan-y !important; /* Solo permite desplazamiento vertical nativo */
+            overflow-y: auto; /* Permite hacer scroll con un dedo */
+            overflow-x: hidden;
         }
         .lightbox-content img {
-            max-width: 85vw;
-            max-height: 85vh;
+            max-width: 100%; 
+            max-height: 100vh;
             border-radius: var(--radius);
-            pointer-events: auto !important; 
-            touch-action: pan-x pan-y !important;
-            transition: transform 0.2s ease;
-            object-fit: contain; 
+            pointer-events: auto !important; /* Permite hacer click para cerrar */
+            touch-action: pan-y !important; /* Permite scroll vertical */
+            object-fit: contain;
             width: auto;
             height: auto;
+            display: block;
         }
         .lightbox-close {
-            position: absolute;
-            top: 20px;
-            right: 30px;
-            background: none;
-            border: none;
-            color: #fff;
-            font-size: 2.5rem;
-            cursor: pointer;
-            z-index: 2001;
-            transition: var(--transition);
-        }
-        .lightbox-close:hover {
-            transform: rotate(90deg);
-            color: var(--gold);
+            display: none; /* Ocultamos la X, el usuario cerrará tocando la imagen o el fondo */
         }
         .lightbox-nav {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(255,255,255,0.1);
-            border: none;
-            color: #fff;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            font-size: 1.2rem;
-            cursor: pointer;
-            transition: var(--transition);
-            z-index: 2001;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .lightbox-nav:hover {
-            background: rgba(255,255,255,0.2);
-        }
-        .lightbox-prev {
-            left: 20px;
-        }
-        .lightbox-next {
-            right: 20px;
+            display: none; /* Ocultamos las flechas para simplificar en móvil */
         }
 
         /* Indicador de posición en el lightbox */
@@ -743,29 +707,6 @@
             font-family: 'Inter', sans-serif;
             letter-spacing: 1px;
             pointer-events: none;
-        }
-
-        @media (max-width: 768px) {
-            .lightbox-nav {
-                width: 35px;
-                height: 35px;
-                font-size: 0.9rem;
-            }
-            .lightbox-prev {
-                left: 5px;
-            }
-            .lightbox-next {
-                right: 5px;
-            }
-            .lightbox-close {
-                top: 15px;
-                right: 20px;
-                font-size: 2rem;
-            }
-            .lightbox-content img {
-                max-width: 92vw;
-                max-height: 80vh;
-            }
         }
 
         /* ============ RECOMENDACIONES ============ */
@@ -1100,17 +1041,6 @@
             .contact-form-card {
                 padding: 1.5rem;
             }
-            .lightbox-nav {
-                width: 35px;
-                height: 35px;
-                font-size: 0.9rem;
-            }
-            .lightbox-prev {
-                left: 5px;
-            }
-            .lightbox-next {
-                right: 5px;
-            }
             .hero-buttons {
                 flex-direction: column;
                 align-items: center;
@@ -1206,9 +1136,6 @@
     </section>
 
     <div class="lightbox" id="lightbox">
-        <button class="lightbox-close" id="lightboxClose">&times;</button>
-        <button class="lightbox-nav lightbox-prev" id="lightboxPrev"><i class="fa-solid fa-chevron-left"></i></button>
-        <button class="lightbox-nav lightbox-next" id="lightboxNext"><i class="fa-solid fa-chevron-right"></i></button>
         <div class="lightbox-content">
             <img src="" id="lightboxImg" alt="Trabajo de tatuaje">
         </div>
@@ -1299,7 +1226,7 @@
             <div class="contact-form-card" id="contactFormCard">
                 
                 <!-- ============ ETIQUETA FLOTANTE DE HORARIO (ARRIBA IZQUIERDA) ============ -->
-                <div id="statusBadge" style="position: absolute; top: -40px; left: 0; padding: 8px 16px; background: #2a2a2a; border-radius: 20px; font-size: 0.75rem; font-weight: 600; color: #fff; border: 1px solid var(--border-subtle); z-index: 10; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); transition: all 0.3s ease;">
+                <div id="statusBadge" style="position: absolute; top: -60px; left: 0; padding: 8px 16px; background: #2a2a2a; border-radius: 20px; font-size: 0.75rem; font-weight: 600; color: #fff; border: 1px solid var(--border-subtle); z-index: 10; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); transition: all 0.3s ease;">
                     <span id="statusDot" style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #4caf50;"></span>
                     <span id="statusText">Cargando horario...</span>
                 </div>
@@ -1684,7 +1611,7 @@
                 });
             }
 
-            // ============ LIGHTBOX CON SOPORTE TÁCTIL ============
+            // ============ LIGHTBOX SIMPLIFICADO (Sin Zoom, scroll y cerrar al tocar) ============
             let currentLightboxIndex = 0;
             const lightbox = document.getElementById('lightbox');
             const lightboxImg = document.getElementById('lightboxImg');
@@ -1704,7 +1631,7 @@
                     lightboxImg.src = img;
                     lightboxImg.alt = "Trabajo de tatuaje";
                     lightboxCounter.textContent = `${currentLightboxIndex + 1} / ${shuffledGallery.length}`;
-                    // Resetea el zoom al cambiar de imagen
+                    // Restauramos el scroll y el zoom a 1
                     lightboxImg.style.transform = 'scale(1)';
                 }
             }
@@ -1714,48 +1641,19 @@
                 document.body.style.overflow = '';
             }
 
-            function goToPrev() {
-                currentLightboxIndex = (currentLightboxIndex - 1 + shuffledGallery.length) % shuffledGallery.length;
-                updateLightboxImage();
-            }
-
-            function goToNext() {
-                currentLightboxIndex = (currentLightboxIndex + 1) % shuffledGallery.length;
-                updateLightboxImage();
-            }
-
-            document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
-            
-            document.getElementById('lightboxPrev').addEventListener('click', function(e) {
-                e.stopPropagation();
-                goToPrev();
-            });
-            
-            document.getElementById('lightboxNext').addEventListener('click', function(e) {
-                e.stopPropagation();
-                goToNext();
-            });
-            
+            // Evento para cerrar al tocar la imagen o el fondo
             lightbox.addEventListener('click', function(e) {
-                if (e.target === this) closeLightbox();
+                closeLightbox();
             });
 
             document.addEventListener('keydown', function(e) {
                 if (!lightbox.classList.contains('active')) return;
-                
                 if (e.key === 'Escape') {
                     closeLightbox();
                     closeLangPanel();
                 }
-                if (e.key === 'ArrowLeft') {
-                    e.preventDefault();
-                    goToPrev();
-                }
-                if (e.key === 'ArrowRight') {
-                    e.preventDefault();
-                    goToNext();
-                }
             });
+            // ========================================================================
 
             // ============ RENDERIZAR TESTIMONIOS ============
             function renderTestimonials() {
