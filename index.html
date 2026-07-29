@@ -558,6 +558,12 @@
             color: var(--text-secondary);
             font-size: 1rem;
         }
+        /* Ajuste para evitar superposición en móviles */
+        @media (max-width: 768px) {
+            .gallery-section .section-header {
+                margin-top: 30px; 
+            }
+        }
         .gallery-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -1612,6 +1618,10 @@
                     const response = await fetch('data.json');
                     if (!response.ok) throw new Error('No se pudo cargar el archivo JSON');
                     siteData = await response.json();
+                    
+                    // Guardamos el array desordenado EN LA VARIABLE GLOBAL UNA SOLA VEZ al cargar la página
+                    shuffledGallery = shuffleArray([...siteData.gallery]);
+                    
                     renderGallery();
                     renderTestimonials();
                 } catch (error) {
@@ -1659,9 +1669,7 @@
                 const grid = document.getElementById('galleryGrid');
                 if (!grid) return;
                 
-                // Guardamos el array desordenado en la variable global
-                shuffledGallery = shuffleArray([...siteData.gallery]);
-                
+                // Usamos la variable global shuffledGallery (solo se desordena una vez al cargar la página)
                 grid.innerHTML = shuffledGallery.map((imgSrc, i) => `
                     <div class="gallery-item" data-index="${i}">
                         <img src="${imgSrc}" alt="Trabajo ${i+1}" loading="lazy" onerror="this.src='https://via.placeholder.com/600/333/666?text=Sin+imagen'">
@@ -1690,7 +1698,7 @@
             }
 
             function updateLightboxImage() {
-                // Usamos la variable global shuffledGallery que ya está desordenada
+                // Usamos la variable global shuffledGallery (Se mantiene el orden fijo)
                 const img = shuffledGallery[currentLightboxIndex];
                 if(img) {
                     lightboxImg.src = img;
@@ -1997,7 +2005,7 @@
             // ============ INICIALIZACIÓN ============
             const savedLang = localStorage.getItem('preferredLang') || 'es';
             setLanguage(savedLang);
-            loadData(); // Cargar datos dinámicos
+            loadData(); // Cargar datos dinámicos (y desordenar fotos UNA sola vez)
             updateBusinessStatus(); // Ejecutar inmediatamente al cargar la página
             
             // Actualizar el estado del local cada 30 segundos para mantenerlo fresco
