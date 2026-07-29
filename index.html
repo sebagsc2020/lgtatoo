@@ -644,7 +644,7 @@
             color: #fff;
         }
 
-        /* ============ LIGHTBOX SIN ZOOM (CERRAR AL TOCAR) ============ */
+        /* ============ LIGHTBOX SENCILLO (CERRAR AL TOCAR) ============ */
         .lightbox {
             position: fixed;
             inset: 0;
@@ -665,36 +665,32 @@
         }
         .lightbox-content {
             position: relative;
-            max-width: 92vw;
-            max-height: 92vh;
+            max-width: 100vw;
+            max-height: 100vh;
+            width: 100%;
+            height: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
-            touch-action: pan-y !important; /* Solo permite desplazamiento vertical nativo */
-            overflow-y: auto; /* Permite hacer scroll con un dedo */
+            touch-action: pan-y !important; 
+            overflow-y: auto; 
             overflow-x: hidden;
         }
         .lightbox-content img {
-            max-width: 100%; 
-            max-height: 100vh;
+            max-width: 100%;
+            max-height: none; /* Permite que la imagen se estire si es alta */
             border-radius: var(--radius);
-            pointer-events: auto !important; /* Permite hacer click para cerrar */
-            touch-action: pan-y !important; /* Permite scroll vertical */
+            pointer-events: auto !important; 
+            touch-action: pan-y !important; 
             object-fit: contain;
             width: auto;
             height: auto;
             display: block;
         }
-        .lightbox-close {
-            display: none; /* Ocultamos la X, el usuario cerrará tocando la imagen o el fondo */
-        }
-        .lightbox-nav {
-            display: none; /* Ocultamos las flechas para simplificar en móvil */
-        }
-
+        
         /* Indicador de posición en el lightbox */
         .lightbox-counter {
-            position: absolute;
+            position: fixed;
             bottom: 30px;
             left: 50%;
             transform: translateX(-50%);
@@ -1388,7 +1384,7 @@
                     form_submit: 'Enviar por WhatsApp',
                     form_success: '¡Listo! Abriremos WhatsApp...',
                     form_auto_reset: 'El formulario se reiniciará automáticamente cuando el local vuelva a abrir.',
-                    footer_text: '© 2026 LG Tattoo | SC Photo Br',
+                    footer_text: '© 2026 Lean González Tattoo | SC Photo Br',
                     whatsapp_msg_intro: '👋 ¡Hola Lean! Quisiera consultar por un tatuaje.',
                     whatsapp_msg_name: '👤 Nombre',
                     whatsapp_msg_phone: '📞 Teléfono',
@@ -1453,7 +1449,7 @@
                     form_submit: 'Enviar per WhatsApp',
                     form_success: 'Llest! Obrim WhatsApp...',
                     form_auto_reset: 'El formulari es reiniciarà automàticament quan el local torni a obrir.',
-                    footer_text: '© 2026 LG Tattoo | SC Photo Br',
+                    footer_text: '© 2026 Lean González Tattoo | SC Photo Br',
                     whatsapp_msg_intro: '👋 Hola Lean! Voldria consultar per un tatuatge.',
                     whatsapp_msg_name: '👤 Nom',
                     whatsapp_msg_phone: '📞 Telèfon',
@@ -1518,7 +1514,7 @@
                     form_submit: 'Send via WhatsApp',
                     form_success: 'Ready! Opening WhatsApp...',
                     form_auto_reset: 'The form will automatically reset when the shop reopens.',
-                    footer_text: '© 2026 LG Tattoo | SC Photo Br',
+                    footer_text: '© 2026 Lean González Tattoo | SC Photo Br',
                     whatsapp_msg_intro: '👋 Hey Lean! I would like to inquire about a tattoo.',
                     whatsapp_msg_name: '👤 Name',
                     whatsapp_msg_phone: '📞 Phone',
