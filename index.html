@@ -1256,16 +1256,16 @@
                 <form id="contactForm" style="position: relative;">
                     <div class="form-row">
                         <div class="form-group">
-                            <label data-i18n="form_name_label">Nombre *</label>
-                            <input type="text" id="name" required>
+                            <label for="name" data-i18n="form_name_label">Nombre *</label>
+                            <input type="text" id="name" autocomplete="name" required>
                         </div>
                         <div class="form-group">
-                            <label data-i18n="form_phone_label">Teléfono *</label>
-                            <input type="tel" id="phone" required>
+                            <label for="phone" data-i18n="form_phone_label">Teléfono *</label>
+                            <input type="tel" id="phone" autocomplete="tel" required>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label data-i18n="form_body_part_label">Partes del cuerpo a tatuar *</label>
+                        <label for="bodyPart" data-i18n="form_body_part_label">Partes del cuerpo a tatuar *</label>
                         <select id="bodyPart" multiple required>
                             <option value="Brazo">Brazo</option>
                             <option value="Antebrazo">Antebrazo</option>
@@ -1301,7 +1301,7 @@
                     </div>
                     
                     <div class="form-group">
-                        <label data-i18n="form_message_label">Mensaje *</label>
+                        <label for="message" data-i18n="form_message_label">Mensaje *</label>
                         <div style="position: relative; width: 100%;">
                             <textarea id="message" required placeholder="Describe tu idea, estilo, tamaño, colores, etc. o utiliza el micrófono para escribirnos !!" style="padding-right: 70px;"></textarea>
                             <button type="button" id="voiceBtn" style="position: absolute; bottom: 12px; right: 12px; background: rgba(0,0,0,0.7); border: none; color: var(--gold); cursor: pointer; font-size: 1.8rem; transition: var(--transition); padding: 12px 18px; border-radius: 50px; line-height: 1;">
