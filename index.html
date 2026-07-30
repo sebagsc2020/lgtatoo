@@ -328,7 +328,7 @@
             pointer-events: all;
         }
 
-        /* ============ NAVEGACIÓN ============ */
+        /* ============ NAVEGACIÓN (MODIFICADA PARA CENTRAR) ============ */
         .navbar {
             position: fixed;
             top: 0;
@@ -351,12 +351,15 @@
             padding: 0 2rem;
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: center;        /* CENTRA LOS ENLACES */
+            position: relative;            /* NECESARIO PARA EL LOGO ABSOLUTO */
         }
         .nav-logo {
             display: flex;
             align-items: center;
             text-decoration: none;
+            position: absolute;            /* SACA EL LOGO DEL FLUJO */
+            left: 2rem;                   /* RESPETA EL PADDING DEL CONTENEDOR */
         }
         .nav-logo img {
             height: 45px;
@@ -372,6 +375,7 @@
             align-items: center;
             gap: 2.2rem;
             list-style: none;
+            margin: 0;                    /* QUITA MÁRGENES QUE PODRÍAN DESAJUSTAR */
         }
         .nav-links a {
             text-decoration: none;
@@ -438,8 +442,8 @@
             max-width: 380px;
             width: 100%;
             height: auto;
-            aspect-ratio: 2 / 1;        /* ← RESERVA ESPACIO, ELIMINA CLS */
-            object-fit: contain;        /* ← EVITA DISTORSIÓN */
+            aspect-ratio: 2 / 1;
+            object-fit: contain;
             margin-bottom: 0.8rem;
             display: block;
             margin-left: auto;
@@ -519,10 +523,44 @@
             .hero-logo {
                 max-width: 320px;
             }
+            /* El menú hamburguesa se activa y los enlaces se ocultan */
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 280px;
+                height: 100vh;
+                background: rgba(10, 10, 10, 0.98);
+                flex-direction: column;
+                justify-content: center;
+                gap: 2rem;
+                transition: 0.3s;
+                padding: 2rem;
+                margin: 0;
+            }
+            .nav-links.active {
+                right: 0;
+            }
+            .hamburger {
+                display: flex;
+            }
+            .nav-logo {
+                position: static;          /* Restablece el logo en móvil */
+                left: auto;
+            }
+            .nav-container {
+                justify-content: space-between; /* Vuelve a separar logo y hamburguesa */
+            }
+            .nav-logo img {
+                height: 35px;
+            }
         }
         @media (max-width: 480px) {
             .hero-logo {
                 max-width: 280px;
+            }
+            .nav-logo img {
+                height: 30px;
             }
         }
 
@@ -1048,28 +1086,7 @@
             }
         }
         @media (max-width: 768px) {
-            .nav-links {
-                position: fixed;
-                top: 0;
-                right: -100%;
-                width: 280px;
-                height: 100vh;
-                background: rgba(10, 10, 10, 0.98);
-                flex-direction: column;
-                justify-content: center;
-                gap: 2rem;
-                transition: 0.3s;
-                padding: 2rem;
-            }
-            .nav-links.active {
-                right: 0;
-            }
-            .hamburger {
-                display: flex;
-            }
-            .nav-logo img {
-                height: 35px;
-            }
+            /* Los estilos de navegación en móvil ya están dentro de @media (max-width: 768px) más arriba */
             .gallery-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
@@ -1097,9 +1114,6 @@
             }
             .section {
                 padding: 3rem 1rem;
-            }
-            .nav-logo img {
-                height: 30px;
             }
         }
     </style>
