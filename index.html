@@ -5,6 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>LG Tattoo | Estudio Profesional</title>
 
+    <!-- ============ META DESCRIPTION Y SEO ============ -->
+    <meta name="description" content="Estudio profesional de tatuajes en Santander especializado en realismo y blackwork. Reserva tu cita y descubre nuestro portafolio.">
+    
+    <!-- ============ OPEN GRAPH ============ -->
+    <meta property="og:title" content="LG Tattoo | Estudio Profesional">
+    <meta property="og:description" content="Tinta que trasciende, arte que permanece. Especialistas en realismo y blackwork.">
+    <meta property="og:image" content="https://lgtatoo.com/images/LogoLGTatoo.jpg">
+    <meta property="og:url" content="https://lgtatoo.com">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="LG Tattoo | Estudio Profesional">
+    <meta name="twitter:description" content="Tinta que trasciende, arte que permanece. Especialistas en realismo y blackwork.">
+    <meta name="twitter:image" content="https://lgtatoo.com/images/LogoLGTatoo.jpg">
+
     <!-- ============ SEO AUTOMÁTICO ============ -->
     <script src="/seo-optimizer.js" defer></script>
     
@@ -25,1099 +39,14 @@
     <meta name="apple-mobile-web-app-title" content="LG Tattoo">
     <link rel="apple-touch-icon" href="/images/icon-192x192.png">
     
-    <!-- ============ FUENTES Y ESTILOS ============ -->
+    <!-- ============ FUENTES OPTIMIZADAS ============ -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <style>
-        /* ===== ESTILOS PREVIOS ===== */
-        :root {
-            --bg-primary: #0a0a0a;
-            --bg-secondary: #111111;
-            --bg-card: #181818;
-            --bg-input: #1a1a1a;
-            --gold: #c8a45c;
-            --gold-light: #d4b36a;
-            --gold-dark: #a07d3e;
-            --text-primary: #f0ece6;
-            --text-secondary: #b0a89a;
-            --text-muted: #7a7265;
-            --border-subtle: rgba(200, 164, 92, 0.2);
-            --border-input: #2a2a2a;
-            --accent-dot: #c8a45c;
-            --shadow-lg: 0 25px 60px rgba(0, 0, 0, 0.5);
-            --shadow-card: 0 8px 30px rgba(0, 0, 0, 0.4);
-            --transition: 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            --radius: 12px;
-            --radius-sm: 8px;
-            --lang-panel-width: 260px;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-            font-size: 16px;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-primary);
-            color: var(--text-primary);
-            line-height: 1.7;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            overflow-x: hidden;
-            transition: margin-right 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-
-        body.lang-panel-visible {
-            margin-right: var(--lang-panel-width);
-        }
-
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: var(--bg-primary);
-        }
-        ::-webkit-scrollbar-thumb {
-            background: var(--gold-dark);
-            border-radius: 10px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--gold);
-        }
-
-        /* ============ BOTÓN FLOTANTE DE INSTAGRAM ============ */
-        .floating-btn-instagram {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            z-index: 3000;
-            border: none;
-            border-radius: 50%;
-            width: 60px;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.8rem;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-            text-decoration: none;
-            color: #fff;
-            background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
-        }
-        .floating-btn-instagram:hover {
-            transform: scale(1.1);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
-            background: linear-gradient(45deg, #f0a040, #e07050, #dc3050, #cc3070, #bc2090);
-        }
-        .floating-btn-instagram .tooltip {
-            position: absolute;
-            right: 70px;
-            background: rgba(0,0,0,0.9);
-            color: #fff;
-            padding: 0.4rem 1rem;
-            border-radius: 6px;
-            font-size: 0.75rem;
-            white-space: nowrap;
-            opacity: 0;
-            pointer-events: none;
-            transition: var(--transition);
-        }
-        .floating-btn-instagram:hover .tooltip {
-            opacity: 1;
-        }
-
-        @media (max-width: 768px) {
-            .floating-btn-instagram {
-                width: 50px;
-                height: 50px;
-                font-size: 1.4rem;
-                bottom: 20px;
-                right: 20px;
-            }
-            .floating-btn-instagram .tooltip {
-                display: none;
-            }
-        }
-
-        /* ============ PANEL DE IDIOMAS ============ */
-        .lang-toggle-tab {
-            position: fixed;
-            right: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            z-index: 5000;
-            background: var(--gold);
-            color: #0a0a0a;
-            width: 38px;
-            height: 90px;
-            border-radius: 12px 0 0 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 0.7rem;
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            box-shadow: -4px 0 20px rgba(0, 0, 0, 0.4);
-            border: none;
-            writing-mode: vertical-rl;
-            letter-spacing: 2px;
-            font-weight: 700;
-            font-family: 'Inter', sans-serif;
-            text-transform: uppercase;
-            gap: 0.3rem;
-        }
-        .lang-toggle-tab i {
-            writing-mode: horizontal-tb;
-            font-size: 0.9rem;
-        }
-        .lang-toggle-tab.hidden-tab {
-            right: -50px;
-            opacity: 0;
-            pointer-events: none;
-        }
-        body.lang-panel-visible .lang-toggle-tab {
-            right: var(--lang-panel-width);
-            border-radius: 0;
-            width: 32px;
-            height: 70px;
-            font-size: 0.65rem;
-            background: #3a3a3a;
-            color: #ccc;
-        }
-        body.lang-panel-visible .lang-toggle-tab:hover {
-            background: #555;
-        }
-
-        .lang-panel {
-            position: fixed;
-            top: 0;
-            right: calc(-1 * var(--lang-panel-width));
-            width: var(--lang-panel-width);
-            height: 100vh;
-            background: rgba(18, 18, 18, 0.97);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
-            z-index: 4999;
-            transition: right 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            border-left: 1px solid var(--border-subtle);
-            display: flex;
-            flex-direction: column;
-            padding: 2rem 1.5rem;
-            box-shadow: -10px 0 40px rgba(0, 0, 0, 0.6);
-        }
-        body.lang-panel-visible .lang-panel {
-            right: 0;
-        }
-        .lang-panel-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid var(--border-subtle);
-        }
-        .lang-panel-header h3 {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.3rem;
-            color: var(--gold);
-            letter-spacing: 1px;
-            font-weight: 600;
-        }
-        .lang-panel-close {
-            background: none;
-            border: none;
-            color: var(--text-secondary);
-            font-size: 1.3rem;
-            cursor: pointer;
-            transition: var(--transition);
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .lang-option {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 0.9rem 1rem;
-            margin-bottom: 0.5rem;
-            border-radius: var(--radius-sm);
-            cursor: pointer;
-            transition: var(--transition);
-            border: 1px solid transparent;
-            background: transparent;
-            color: var(--text-secondary);
-            font-family: 'Inter', sans-serif;
-            font-size: 0.95rem;
-            font-weight: 500;
-            text-align: left;
-            width: 100%;
-        }
-        .lang-option.active {
-            background: rgba(200, 164, 92, 0.12);
-            border-color: var(--gold);
-            color: var(--gold);
-            font-weight: 600;
-        }
-        .lang-flag {
-            font-size: 1.5rem;
-            width: 32px;
-            text-align: center;
-            flex-shrink: 0;
-        }
-        .lang-name {
-            flex: 1;
-        }
-        .lang-check {
-            color: var(--gold);
-            font-size: 0.8rem;
-            opacity: 0;
-            transition: var(--transition);
-        }
-        .lang-option.active .lang-check {
-            opacity: 1;
-        }
-        .lang-panel-footer {
-            margin-top: auto;
-            font-size: 0.7rem;
-            color: var(--text-muted);
-            text-align: center;
-            padding-top: 1.5rem;
-            border-top: 1px solid var(--border-subtle);
-        }
-        .hide-panel-btn {
-            background: transparent;
-            border: 1px solid var(--border-input);
-            color: var(--text-muted);
-            padding: 0.5rem 1rem;
-            border-radius: 50px;
-            cursor: pointer;
-            font-size: 0.7rem;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            transition: var(--transition);
-            margin-top: 1rem;
-            width: 100%;
-            font-family: 'Inter', sans-serif;
-        }
-        .lang-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 4998;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.4s ease;
-        }
-        body.lang-panel-visible .lang-overlay {
-            opacity: 1;
-            pointer-events: all;
-        }
-
-        /* ============ NAVEGACIÓN (MODIFICADA PARA CENTRAR) ============ */
-        .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 1000;
-            padding: 1.2rem 0;
-            transition: var(--transition);
-            background: transparent;
-        }
-        .navbar.scrolled {
-            background: rgba(10, 10, 10, 0.92);
-            backdrop-filter: blur(20px);
-            padding: 0.8rem 0;
-            border-bottom: 1px solid var(--border-subtle);
-        }
-        .nav-container {
-            max-width: 1300px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;        /* CENTRA LOS ENLACES */
-            position: relative;            /* NECESARIO PARA EL LOGO ABSOLUTO */
-        }
-        .nav-logo {
-            display: flex;
-            align-items: center;
-            text-decoration: none;
-            position: absolute;            /* SACA EL LOGO DEL FLUJO */
-            left: 2rem;                   /* RESPETA EL PADDING DEL CONTENEDOR */
-        }
-        .nav-logo img {
-            height: 45px;
-            width: auto;
-            display: block;
-            transition: var(--transition);
-        }
-        .nav-logo img:hover {
-            opacity: 0.85;
-        }
-        .nav-links {
-            display: flex;
-            align-items: center;
-            gap: 2.2rem;
-            list-style: none;
-            margin: 0;                    /* QUITA MÁRGENES QUE PODRÍAN DESAJUSTAR */
-        }
-        .nav-links a {
-            text-decoration: none;
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            font-weight: 500;
-            letter-spacing: 0.6px;
-            text-transform: uppercase;
-            position: relative;
-            transition: var(--transition);
-            padding: 0.3rem 0;
-        }
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 0;
-            height: 1.5px;
-            background: var(--gold);
-            transition: var(--transition);
-        }
-        .nav-links a:hover {
-            color: var(--text-primary);
-        }
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-        .nav-cta {
-            background: var(--gold);
-            color: #0a0a0a !important;
-            padding: 0.6rem 1.5rem !important;
-            border-radius: 50px;
-            font-weight: 600 !important;
-        }
-        .hamburger {
-            display: none;
-            flex-direction: column;
-            gap: 5px;
-            cursor: pointer;
-            background: none;
-            border: none;
-        }
-        .hamburger span {
-            width: 26px;
-            height: 2px;
-            background: var(--text-primary);
-        }
-
-        /* ============ HERO ============ */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 4.5rem 2rem 3.5rem;
-            background: radial-gradient(ellipse at 50% 30%, rgba(200, 164, 92, 0.06) 0%, transparent 70%), var(--bg-primary);
-        }
-        .hero-content {
-            max-width: 850px;
-        }
-        .hero-logo {
-            max-width: 380px;
-            width: 100%;
-            height: auto;
-            aspect-ratio: 2 / 1;
-            object-fit: contain;
-            margin-bottom: 0.8rem;
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-            filter: drop-shadow(0 0 40px rgba(200, 164, 92, 0.15));
-            transition: var(--transition);
-        }
-        .hero-logo:hover {
-            filter: drop-shadow(0 0 60px rgba(200, 164, 92, 0.25));
-            transform: scale(1.02);
-        }
-        .hero-badge {
-            display: inline-block;
-            padding: 0.4rem 1.2rem;
-            border: 1px solid var(--border-subtle);
-            border-radius: 50px;
-            font-size: 0.8rem;
-            letter-spacing: 3px;
-            color: var(--gold);
-            margin-bottom: 1.5rem;
-        }
-        .hero h1 {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: clamp(2.8rem, 6vw, 5rem);
-            font-weight: 600;
-            line-height: 1.15;
-            color: var(--text-primary);
-        }
-        .hero h1 .accent {
-            color: var(--gold);
-            font-style: italic;
-        }
-        .hero p {
-            font-size: 1.1rem;
-            color: var(--text-secondary);
-            max-width: 550px;
-            margin: 0 auto 2.5rem;
-        }
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.85rem 2rem;
-            border-radius: 50px;
-            font-weight: 600;
-            text-transform: uppercase;
-            text-decoration: none;
-            transition: var(--transition);
-        }
-        .btn-primary {
-            background: var(--gold);
-            color: #0a0a0a;
-        }
-        .btn-primary:hover {
-            background: var(--gold-light);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(200, 164, 92, 0.3);
-        }
-        .btn-outline {
-            background: transparent;
-            color: var(--text-primary);
-            border: 1.5px solid var(--text-muted);
-        }
-        .btn-outline:hover {
-            border-color: var(--gold);
-            color: var(--gold);
-            transform: translateY(-2px);
-        }
-        .hero-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-
-        @media (max-width: 768px) {
-            .hero-logo {
-                max-width: 320px;
-            }
-            /* El menú hamburguesa se activa y los enlaces se ocultan */
-            .nav-links {
-                position: fixed;
-                top: 0;
-                right: -100%;
-                width: 280px;
-                height: 100vh;
-                background: rgba(10, 10, 10, 0.98);
-                flex-direction: column;
-                justify-content: center;
-                gap: 2rem;
-                transition: 0.3s;
-                padding: 2rem;
-                margin: 0;
-            }
-            .nav-links.active {
-                right: 0;
-            }
-            .hamburger {
-                display: flex;
-            }
-            .nav-logo {
-                position: static;          /* Restablece el logo en móvil */
-                left: auto;
-            }
-            .nav-container {
-                justify-content: space-between; /* Vuelve a separar logo y hamburguesa */
-            }
-            .nav-logo img {
-                height: 35px;
-            }
-        }
-        @media (max-width: 480px) {
-            .hero-logo {
-                max-width: 280px;
-            }
-            .nav-logo img {
-                height: 30px;
-            }
-        }
-
-        /* ============ GALERÍA ============ */
-        .gallery-section {
-            background: var(--bg-secondary);
-        }
-        .section {
-            padding: 6rem 2rem;
-            max-width: 1300px;
-            margin: 0 auto;
-        }
-        .section-header {
-            text-align: center;
-            margin-bottom: 4.5rem;
-        }
-        .section-tag {
-            color: var(--gold);
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            font-size: 0.75rem;
-        }
-        .section-title {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: clamp(2.2rem, 4vw, 3.2rem);
-        }
-        .divider {
-            width: 50px;
-            height: 2px;
-            background: var(--gold);
-            margin: 1.5rem auto;
-        }
-        .section-subtitle {
-            color: var(--text-secondary);
-            font-size: 1rem;
-        }
-        @media (max-width: 768px) {
-            .gallery-section .section-header {
-                margin-top: 60px;
-            }
-        }
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.2rem;
-        }
-        .gallery-item {
-            position: relative;
-            aspect-ratio: 1/1;
-            border-radius: var(--radius-sm);
-            overflow: hidden;
-            cursor: pointer;
-        }
-        .gallery-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.4s;
-        }
-        .gallery-item:hover img {
-            transform: scale(1.06);
-        }
-        .gallery-item-overlay {
-            display: none;
-        }
-
-        /* ============ BANNER DE INSTAGRAM ============ */
-        .instagram-cta-banner {
-            margin-top: 3.5rem;
-            padding: 2.5rem 2rem;
-            background: radial-gradient(ellipse at center, rgba(200, 164, 92, 0.08) 0%, transparent 70%);
-            border: 1px solid var(--border-subtle);
-            border-radius: var(--radius);
-            text-align: center;
-            transition: var(--transition);
-        }
-        .instagram-cta-banner:hover {
-            border-color: var(--gold);
-            background: radial-gradient(ellipse at center, rgba(200, 164, 92, 0.15) 0%, transparent 70%);
-        }
-        .instagram-cta-banner .cta-icon {
-            font-size: 3rem;
-            background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            display: inline-block;
-            margin-bottom: 0.5rem;
-        }
-        .instagram-cta-banner h3 {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.8rem;
-            color: var(--text-primary);
-            margin-bottom: 0.5rem;
-        }
-        .instagram-cta-banner p {
-            color: var(--text-secondary);
-            margin-bottom: 1.5rem;
-            font-size: 1rem;
-        }
-        .btn-instagram-cta {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.8rem;
-            padding: 0.8rem 2.5rem;
-            background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
-            color: #fff;
-            border: none;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 1rem;
-            text-decoration: none;
-            transition: var(--transition);
-            box-shadow: 0 4px 20px rgba(225, 48, 108, 0.3);
-        }
-        .btn-instagram-cta:hover {
-            transform: scale(1.05);
-            box-shadow: 0 8px 30px rgba(225, 48, 108, 0.5);
-            color: #fff;
-        }
-
-        /* ============ NUEVO LIGHTBOX ============ */
-        .lightbox {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.95);
-            backdrop-filter: blur(10px);
-            z-index: 2000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-            touch-action: none;
-            user-select: none;
-            -webkit-user-select: none;
-        }
-        .lightbox.active {
-            opacity: 1;
-            pointer-events: all;
-        }
-        
-        .lightbox-content {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            touch-action: none;
-            cursor: zoom-in;
-        }
-        
-        .lightbox-content img {
-            max-width: 100%;
-            max-height: 100%;
-            display: block;
-            object-fit: contain;
-            will-change: transform;
-            pointer-events: none;
-            touch-action: none;
-            transform-origin: center center;
-        }
-        
-        .lightbox-close {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            z-index: 2001;
-            background: rgba(0, 0, 0, 0.5);
-            color: #fff;
-            border: none;
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            font-size: 1.5rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background 0.3s ease, transform 0.2s ease;
-        }
-        .lightbox-close:hover {
-            background: #fff;
-            color: #000;
-            transform: scale(1.1);
-        }
-        
-        .lightbox-counter {
-            position: absolute;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 0.9rem;
-            background: rgba(0, 0, 0, 0.4);
-            padding: 0.4rem 1.2rem;
-            border-radius: 20px;
-            z-index: 2001;
-            font-family: 'Inter', sans-serif;
-            letter-spacing: 1px;
-            pointer-events: none;
-        }
-
-        @media (max-width: 768px) {
-            .lightbox-close {
-                width: 40px;
-                height: 40px;
-                font-size: 1.2rem;
-                top: 15px;
-                right: 15px;
-            }
-        }
-
-        /* ============ RECOMENDACIONES ============ */
-        .recomendaciones-section {
-            background: var(--bg-secondary);
-        }
-        .recomendaciones-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-        }
-        .recomendacion-card {
-            background: var(--bg-card);
-            padding: 2rem;
-            border-radius: var(--radius);
-            border: 1px solid var(--border-subtle);
-            transition: var(--transition);
-        }
-        .recomendacion-card:hover {
-            border-color: var(--gold-dark);
-            transform: translateY(-4px);
-        }
-        .recomendacion-card .card-icon {
-            font-size: 2rem;
-            color: var(--gold);
-            margin-bottom: 0.8rem;
-        }
-        .recomendacion-card h4 {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: var(--gold);
-        }
-        .recomendacion-card ul {
-            list-style: none;
-            padding: 0;
-        }
-        .recomendacion-card ul li {
-            padding: 0.4rem 0;
-            padding-left: 1.5rem;
-            position: relative;
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-            line-height: 1.5;
-        }
-        .recomendacion-card ul li::before {
-            content: '◆';
-            position: absolute;
-            left: 0;
-            color: var(--gold);
-            font-size: 0.6rem;
-            top: 0.6rem;
-        }
-        .recomendacion-card.green {
-            border-left: 3px solid #4caf50;
-        }
-        .recomendacion-card.green h4 {
-            color: #4caf50;
-        }
-        .recomendacion-card.blue {
-            border-left: 3px solid #2196f3;
-        }
-        .recomendacion-card.blue h4 {
-            color: #2196f3;
-        }
-
-        @media (max-width: 768px) {
-            .recomendaciones-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* ============ TESTIMONIOS ============ */
-        .testimonials-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.8rem;
-        }
-        .testimonial-card {
-            background: var(--bg-card);
-            padding: 2.2rem;
-            border-radius: var(--radius);
-            border: 1px solid var(--border-subtle);
-            transition: var(--transition);
-        }
-        .testimonial-card:hover {
-            border-color: var(--gold-dark);
-            transform: translateY(-4px);
-        }
-        .testimonial-stars {
-            color: var(--gold);
-            margin-bottom: 0.8rem;
-        }
-        .testimonial-card p {
-            color: var(--text-secondary);
-            font-style: italic;
-            margin-bottom: 1rem;
-        }
-        .testimonial-card strong {
-            color: var(--text-primary);
-        }
-
-        /* ============ CONTACTO ============ */
-        .contact-wrapper {
-            display: grid;
-            grid-template-columns: 1fr 1.2fr;
-            gap: 3rem;
-        }
-        .contact-info {
-            display: flex;
-            flex-direction: column;
-            gap: 2rem;
-        }
-        .contact-info-item {
-            display: flex;
-            gap: 1rem;
-            align-items: flex-start;
-        }
-        .contact-icon {
-            width: 40px;
-            height: 40px;
-            background: var(--bg-card);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--gold);
-            flex-shrink: 0;
-        }
-        .contact-info-item h4 {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.1rem;
-            font-weight: 600;
-        }
-        .contact-info-item p {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-        }
-        .contact-form-card {
-            background: var(--bg-card);
-            padding: 2.5rem;
-            border-radius: var(--radius);
-            border: 1px solid var(--border-subtle);
-        }
-        .form-group {
-            margin-bottom: 1.2rem;
-        }
-        .form-group label {
-            display: block;
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            margin-bottom: 0.4rem;
-        }
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 0.9rem;
-            background: var(--bg-input);
-            border: 1px solid var(--border-input);
-            border-radius: var(--radius-sm);
-            color: var(--text-primary);
-            font-family: 'Inter', sans-serif;
-            transition: var(--transition);
-            appearance: auto;
-        }
-        .form-group select {
-            cursor: pointer;
-        }
-        .form-group select option {
-            background: var(--bg-card);
-            color: var(--text-primary);
-        }
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: var(--gold);
-        }
-        .form-group textarea {
-            min-height: 100px;
-            resize: vertical;
-        }
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-        }
-        
-        .btn-submit {
-            width: 100%;
-            padding: 1.5rem 1.5rem;
-            margin-top: 0.5rem;
-            background: var(--gold);
-            color: #0a0a0a;
-            border: none;
-            border-radius: 50px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            font-size: 1.1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-        }
-        .btn-submit:hover {
-            background: var(--gold-light);
-            transform: scale(1.02);
-        }
-        
-        .form-success-msg {
-            display: none;
-            text-align: center;
-            padding: 1rem;
-            margin-top: 1rem;
-            background: rgba(200, 164, 92, 0.1);
-            border-radius: var(--radius-sm);
-            border: 1px solid var(--gold);
-        }
-        .form-success-msg i {
-            color: var(--gold);
-            font-size: 1.5rem;
-        }
-        .form-success-msg p {
-            color: var(--text-primary);
-            margin-top: 0.3rem;
-        }
-
-        .form-group select[multiple] {
-            height: auto;
-            min-height: 120px;
-            padding: 0.5rem;
-        }
-        .form-group select[multiple] option {
-            padding: 0.4rem 0.6rem;
-            border-radius: 4px;
-            margin: 2px 0;
-            cursor: pointer;
-        }
-        .form-group select[multiple] option:hover {
-            background: var(--gold-dark);
-        }
-        .form-group select[multiple] option:checked {
-            background: var(--gold);
-            color: #0a0a0a;
-            font-weight: 600;
-        }
-
-        #currentTimeDisplay {
-            font-weight: 500;
-            color: var(--text-primary);
-            margin-bottom: 0.2rem;
-        }
-        #hoursStatus {
-            margin-bottom: 0.2rem;
-            color: var(--gold);
-            font-weight: 500;
-            font-size: 0.95rem;
-        }
-
-        /* ============ FOOTER ============ */
-        .footer {
-            background: var(--bg-primary);
-            padding: 2.5rem;
-            text-align: center;
-            border-top: 1px solid var(--border-subtle);
-        }
-        .footer-social {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-        .footer-social a {
-            color: var(--text-muted);
-            font-size: 1.3rem;
-            transition: var(--transition);
-        }
-        .footer-social a:hover {
-            color: var(--gold);
-            transform: translateY(-3px);
-        }
-        .footer-copy {
-            color: var(--text-muted);
-            font-size: 0.8rem;
-        }
-        .footer-copy a {
-            color: var(--gold);
-            text-decoration: none;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-        .footer-copy a:hover {
-            color: var(--gold-light);
-            text-decoration: underline;
-        }
-
-        @media (max-width: 1024px) {
-            .gallery-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .testimonials-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .contact-wrapper {
-                grid-template-columns: 1fr;
-            }
-        }
-        @media (max-width: 768px) {
-            /* Los estilos de navegación en móvil ya están dentro de @media (max-width: 768px) más arriba */
-            .gallery-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .testimonials-grid {
-                grid-template-columns: 1fr;
-            }
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-            .contact-form-card {
-                padding: 1.5rem;
-            }
-            .hero-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-            .form-group select[multiple] {
-                min-height: 100px;
-            }
-        }
-        @media (max-width: 480px) {
-            .gallery-grid {
-                grid-template-columns: 1fr 1fr;
-                gap: 0.8rem;
-            }
-            .section {
-                padding: 3rem 1rem;
-            }
-        }
-    </style>
-
+    <!-- ============ CSS MINIFICADO EXTERNO ============ -->
+    <link rel="stylesheet" href="/styles.min.css">
+    
     <!-- ============ DATOS ESTRUCTURADOS SCHEMA.ORG ============ -->
     <script type="application/ld+json">
     {
@@ -1125,7 +54,7 @@
       "@type": "TattooParlor",
       "name": "LG Tattoo",
       "description": "Estudio profesional de tatuajes especializado en realismo, blackwork y diseños personalizados en Santander.",
-      "image": "https://lgtatoo.com/images/LogoLGTatoo.png",
+      "image": "https://lgtatoo.com/images/LogoLGTatoo.jpg",
       "url": "https://lgtatoo.com",
       "telephone": "+34697891324",
       "email": "Leangonzaleztattoo@icloud.com",
@@ -1167,32 +96,34 @@
 </head>
 <body>
 
-    <!-- BOTÓN FLOTANTE DE INSTAGRAM -->
+    <!-- ============ BOTÓN FLOTANTE DE INSTAGRAM ============ -->
     <a href="https://www.instagram.com/lean.gonzaleztattoo/" target="_blank" rel="noopener" class="floating-btn-instagram" aria-label="Instagram">
-        <i class="fa-brands fa-instagram"></i>
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="filter:drop-shadow(0 2px 4px rgba(0,0,0,0.3));"><rect x="2" y="2" width="20" height="20" rx="5" ry="5" stroke="white"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" stroke="white"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke="white"/></svg>
         <span class="tooltip">Sígueme en Instagram</span>
     </a>
 
+    <!-- ============ PANEL DE IDIOMAS ============ -->
     <div class="lang-overlay" id="langOverlay"></div>
     <div class="lang-panel" id="langPanel">
         <div class="lang-panel-header">
             <h3 data-i18n="lang_title">🌐 Idioma</h3>
-            <button class="lang-panel-close" id="langPanelClose"><i class="fa-solid fa-times"></i></button>
+            <button class="lang-panel-close" id="langPanelClose" aria-label="Cerrar panel de idiomas"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
         </div>
-        <button class="lang-option active" data-lang="es"><span class="lang-flag">🇪🇸</span><span class="lang-name">Español</span><span class="lang-check"><i class="fa-solid fa-check"></i></span></button>
-        <button class="lang-option" data-lang="ca"><span class="lang-flag">🇦🇩</span><span class="lang-name">Català</span><span class="lang-check"><i class="fa-solid fa-check"></i></span></button>
-        <button class="lang-option" data-lang="en"><span class="lang-flag">🇬🇧</span><span class="lang-name">English</span><span class="lang-check"><i class="fa-solid fa-check"></i></span></button>
+        <button class="lang-option active" data-lang="es"><span class="lang-flag">🇪🇸</span><span class="lang-name">Español</span><span class="lang-check"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></button>
+        <button class="lang-option" data-lang="ca"><span class="lang-flag">🇦🇩</span><span class="lang-name">Català</span><span class="lang-check"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></button>
+        <button class="lang-option" data-lang="en"><span class="lang-flag">🇬🇧</span><span class="lang-name">English</span><span class="lang-check"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></button>
         <div class="lang-panel-footer">
             <span data-i18n="lang_footer">Selecciona tu idioma</span>
-            <button class="hide-panel-btn" id="hidePanelBtn"><i class="fa-solid fa-eye-slash"></i> <span data-i18n="hide_panel">Ocultar panel</span></button>
+            <button class="hide-panel-btn" id="hidePanelBtn"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:6px;"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg> <span data-i18n="hide_panel">Ocultar panel</span></button>
         </div>
     </div>
-    <button class="lang-toggle-tab" id="langToggleTab"><i class="fa-solid fa-globe"></i> <span>IDIOMA</span></button>
+    <button class="lang-toggle-tab" id="langToggleTab" aria-label="Abrir panel de idiomas"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="writing-mode:horizontal-tb;margin-bottom:4px;"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> <span>IDIOMA</span></button>
 
+    <!-- ============ NAVEGACIÓN ============ -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
             <a href="#" class="nav-logo">
-                <img src="/images/LogoLGTatoo.png" alt="LG Tattoo">
+                <img src="https://lgtatoo.com/images/LogoLGTatoo.jpg" alt="LG Tattoo" width="760" height="380" fetchpriority="high">
             </a>
             <ul class="nav-links" id="navLinks">
                 <li><a href="#inicio" data-i18n="nav_home">Inicio</a></li>
@@ -1201,23 +132,25 @@
                 <li><a href="#testimonios" data-i18n="nav_testimonials">Testimonios</a></li>
                 <li><a href="#contacto" class="nav-cta" data-i18n="nav_cta">Reservar Cita</a></li>
             </ul>
-            <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+            <button class="hamburger" id="hamburger" aria-label="Abrir menú de navegación"><span></span><span></span><span></span></button>
         </div>
     </nav>
 
+    <!-- ============ HERO ============ -->
     <section class="hero" id="inicio">
         <div class="hero-content">
-            <img src="/images/LogoLGTatoo.png" alt="LG Tattoo" class="hero-logo">
+            <img src="https://lgtatoo.com/images/LogoLGTatoo.jpg" alt="LG Tattoo" class="hero-logo" width="760" height="380" fetchpriority="high">
             <span class="hero-badge" data-i18n="hero_badge">✦ Estudio Profesional ✦</span>
             <h1><span data-i18n="hero_title_1">Tinta que</span> <span class="accent" data-i18n="hero_title_accent">trasciende</span><br><span data-i18n="hero_title_2">arte que permanece</span></h1>
             <p data-i18n="hero_desc">Especialista en realismo, blackwork y diseños personalizados.</p>
             <div class="hero-buttons">
-                <a href="#contacto" class="btn btn-primary"><i class="fa-solid fa-calendar-check"></i> <span data-i18n="hero_btn_primary">Agendar Cita</span></a>
-                <a href="#galeria" class="btn btn-outline"><i class="fa-solid fa-images"></i> <span data-i18n="hero_btn_secondary">Ver Portafolio</span></a>
+                <a href="#contacto" class="btn btn-primary"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> <span data-i18n="hero_btn_primary">Agendar Cita</span></a>
+                <a href="#galeria" class="btn btn-outline"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg> <span data-i18n="hero_btn_secondary">Ver Portafolio</span></a>
             </div>
         </div>
     </section>
 
+    <!-- ============ GALERÍA ============ -->
     <section class="gallery-section section" id="galeria">
         <div class="section-header">
             <span class="section-tag" data-i18n="gallery_tag">Portafolio</span>
@@ -1228,25 +161,27 @@
         <div class="gallery-grid" id="galleryGrid"></div>
 
         <div class="instagram-cta-banner">
-            <div class="cta-icon"><i class="fa-brands fa-instagram"></i></div>
+            <div class="cta-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            </div>
             <h3 data-i18n="instagram_cta_title">Descubrí más trabajos en Instagram</h3>
             <p data-i18n="instagram_cta_text">Seguí el día a día del estudio, procesos y diseños exclusivos</p>
             <a href="https://www.instagram.com/lean.gonzaleztattoo/" target="_blank" rel="noopener" class="btn-instagram-cta">
-                <i class="fa-brands fa-instagram"></i> @lean.gonzaleztattoo
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg> @lean.gonzaleztattoo
             </a>
         </div>
     </section>
 
-    <!-- ============ NUEVO LIGHTBOX ============ -->
+    <!-- ============ LIGHTBOX ============ -->
     <div class="lightbox" id="lightbox">
-        <button class="lightbox-close" id="lightboxClose"><i class="fa-solid fa-xmark"></i></button>
+        <button class="lightbox-close" id="lightboxClose" aria-label="Cerrar imagen"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
         <div class="lightbox-content" id="lightboxWrapper">
             <img src="" id="lightboxImg" alt="Trabajo de tatuaje">
         </div>
         <div class="lightbox-counter" id="lightboxCounter">1 / 12</div>
     </div>
 
-    <!-- ============ SECCIÓN RECOMENDACIONES ============ -->
+    <!-- ============ RECOMENDACIONES ============ -->
     <section class="recomendaciones-section section" id="recomendaciones">
         <div class="section-header">
             <span class="section-tag" data-i18n="recomendaciones_tag">Cuidados</span>
@@ -1256,7 +191,7 @@
         </div>
         <div class="recomendaciones-grid">
             <div class="recomendacion-card green">
-                <div class="card-icon"><i class="fa-solid fa-circle-check"></i></div>
+                <div class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
                 <h4 data-i18n="recomendaciones_prev_title">🟢 Recomendaciones Previas</h4>
                 <ul>
                     <li data-i18n="recomendaciones_prev_1"><strong>Hidratación de la piel:</strong> Comienza a hidratar la zona a tatuar con crema corporal unos días antes. Una piel bien hidratada recibe mejor la tinta y facilita el trabajo del tatuador.</li>
@@ -1267,7 +202,7 @@
                 </ul>
             </div>
             <div class="recomendacion-card blue">
-                <div class="card-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                <div class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg></div>
                 <h4 data-i18n="recomendaciones_post_title">🔵 Recomendaciones Posteriores</h4>
                 <ul>
                     <li data-i18n="recomendaciones_post_1"><strong>Higiene diaria:</strong> Lava el tatuaje con agua templada y un jabón neutro (o antibacteriano sin perfume) utilizando las yemas de los dedos con mucha suavidad para retirar restos de sangre, plasma o tinta. Hazlo de 2 a 3 veces al día.</li>
@@ -1281,6 +216,7 @@
         </div>
     </section>
 
+    <!-- ============ TESTIMONIOS ============ -->
     <section class="testimonials-section section" id="testimonios">
         <div class="section-header">
             <span class="section-tag" data-i18n="testimonials_tag">Lo que dicen</span>
@@ -1290,6 +226,7 @@
         <div class="testimonials-grid" id="testimonialsGrid"></div>
     </section>
 
+    <!-- ============ CONTACTO ============ -->
     <section class="contact-section section" id="contacto">
         <div class="section-header">
             <span class="section-tag" data-i18n="contact_tag">Contacto</span>
@@ -1299,28 +236,28 @@
         <div class="contact-wrapper">
             <div class="contact-info">
                 <div class="contact-info-item">
-                    <div class="contact-icon"><i class="fa-solid fa-location-dot"></i></div>
+                    <div class="contact-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
                     <div>
                         <h4 data-i18n="contact_location_title">Ubicación</h4>
                         <p data-i18n="contact_location_text">Santander, España</p>
                     </div>
                 </div>
                 <div class="contact-info-item">
-                    <div class="contact-icon"><i class="fa-solid fa-phone"></i></div>
+                    <div class="contact-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
                     <div>
                         <h4 data-i18n="contact_phone_title">Teléfono</h4>
                         <p>+34 697 89 13 24</p>
                     </div>
                 </div>
                 <div class="contact-info-item">
-                    <div class="contact-icon"><i class="fa-solid fa-envelope"></i></div>
+                    <div class="contact-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
                     <div>
                         <h4>Email</h4>
                         <p>Leangonzaleztattoo@icloud.com</p>
                     </div>
                 </div>
                 <div class="contact-info-item">
-                    <div class="contact-icon"><i class="fa-solid fa-clock"></i></div>
+                    <div class="contact-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
                     <div>
                         <p id="currentTimeDisplay"></p>
                         <p id="hoursStatus"></p>
@@ -1329,24 +266,22 @@
                 </div>
             </div>
             <div class="contact-form-card" id="contactFormCard">
-                <form id="contactForm" style="position: relative;">
-                    
-                    <!-- AVISO DE HORARIO COMERCIAL (con data-i18n) -->
+                <form id="contactForm" style="position: relative;" novalidate>
                     <p data-i18n="form_business_hours_notice" style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 1rem; font-style: italic;">Su solicitud será atendida dentro del horario comercial. Muchas gracias.</p>
                     
                     <div class="form-row">
                         <div class="form-group">
                             <label for="name" data-i18n="form_name_label">Nombre *</label>
-                            <input type="text" id="name" autocomplete="name" required>
+                            <input type="text" id="name" autocomplete="name" required aria-describedby="name-error">
                         </div>
                         <div class="form-group">
                             <label for="phone" data-i18n="form_phone_label">Teléfono *</label>
-                            <input type="tel" id="phone" autocomplete="tel" required>
+                            <input type="tel" id="phone" autocomplete="tel" required aria-describedby="phone-error">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="bodyPart" data-i18n="form_body_part_label">Partes del cuerpo a tatuar *</label>
-                        <select id="bodyPart" multiple required></select>
+                        <select id="bodyPart" multiple required aria-describedby="bodypart-error"></select>
                         <small data-i18n="form_multiselect_hint" style="color: var(--text-muted); font-size: 0.7rem; display: block; margin-top: 0.3rem;">
                             Mantén presionada la tecla Ctrl (Windows) o Cmd (Mac) para seleccionar múltiples opciones
                         </small>
@@ -1355,26 +290,27 @@
                     <div class="form-group">
                         <label for="message" data-i18n="form_message_label">Mensaje *</label>
                         <div style="position: relative; width: 100%;">
-                            <textarea id="message" required data-i18n-placeholder="form_message_placeholder" placeholder="Describe tu idea, estilo, tamaño, colores, etc. o utiliza el micrófono para escribirnos !!" style="padding-right: 70px;"></textarea>
-                            <button type="button" id="voiceBtn" style="position: absolute; bottom: 12px; right: 12px; background: rgba(0,0,0,0.7); border: none; color: var(--gold); cursor: pointer; font-size: 1.8rem; transition: var(--transition); padding: 12px 18px; border-radius: 50px; line-height: 1;">
-                                <i class="fa-solid fa-microphone" style="display: block;"></i>
+                            <textarea id="message" required data-i18n-placeholder="form_message_placeholder" placeholder="Describe tu idea, estilo, tamaño, colores, etc. o utiliza el micrófono para escribirnos !!" style="padding-right: 70px;" aria-describedby="message-error"></textarea>
+                            <button type="button" id="voiceBtn" aria-label="Activar micrófono para dictado" style="position: absolute; bottom: 12px; right: 12px; background: rgba(0,0,0,0.7); border: none; color: var(--gold); cursor: pointer; font-size: 1.8rem; transition: var(--transition); padding: 12px 18px; border-radius: 50px; line-height: 1;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
                             </button>
                         </div>
                     </div>
 
-                    <button type="submit" class="btn-submit"><i class="fa-brands fa-whatsapp"></i> <span data-i18n="form_submit">Enviar por WhatsApp</span></button>
+                    <button type="submit" class="btn-submit"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> <span data-i18n="form_submit">Enviar por WhatsApp</span></button>
                 </form>
-                <div class="form-success-msg" id="formSuccessMsg">
-                    <i class="fa-solid fa-circle-check"></i>
+                <div class="form-success-msg" id="formSuccessMsg" role="status" aria-live="polite">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
                     <p data-i18n="form_success">¡Listo! Abriremos WhatsApp...</p>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- ============ FOOTER ============ -->
     <footer class="footer">
         <div class="footer-social">
-            <a href="https://www.instagram.com/lean.gonzaleztattoo/" target="_blank" rel="noopener"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://www.instagram.com/lean.gonzaleztattoo/" target="_blank" rel="noopener" aria-label="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
         </div>
         <p class="footer-copy">
             © 2026 LG Tattoo | 
@@ -1382,7 +318,7 @@
         </p>
     </footer>
 
-    <!-- ============ LIMPIAR CACHÉ VIEJO Y REGISTRAR NUEVO SW ============ -->
+    <!-- ============ SERVICE WORKER ============ -->
     <script>
         if ('serviceWorker' in navigator) {
             caches.keys().then(function(names) {
@@ -1409,797 +345,7 @@
         }
     </script>
 
-    <script>
-        (function() {
-            // ============ LISTA DE PARTES DEL CUERPO ============
-            const BODY_PARTS = [
-                { key: 'brazo', value: 'Brazo' },
-                { key: 'antebrazo', value: 'Antebrazo' },
-                { key: 'hombro', value: 'Hombro' },
-                { key: 'pecho', value: 'Pecho' },
-                { key: 'espalda', value: 'Espalda' },
-                { key: 'costillas', value: 'Costillas' },
-                { key: 'abdomen', value: 'Abdomen' },
-                { key: 'pierna', value: 'Pierna' },
-                { key: 'muslo', value: 'Muslo' },
-                { key: 'pantorrilla', value: 'Pantorrilla' },
-                { key: 'tobillo', value: 'Tobillo' },
-                { key: 'cuello', value: 'Cuello' },
-                { key: 'cara', value: 'Cara' },
-                { key: 'mano', value: 'Mano' },
-                { key: 'dedos', value: 'Dedos' },
-                { key: 'muneca', value: 'Muñeca' },
-                { key: 'codo', value: 'Codo' },
-                { key: 'rodilla', value: 'Rodilla' },
-                { key: 'gluteo', value: 'Glúteo' },
-                { key: 'cadera', value: 'Cadera' },
-                { key: 'cabeza', value: 'Cabeza/Cuero cabelludo' },
-                { key: 'oreja', value: 'Oreja' },
-                { key: 'pie', value: 'Pie' },
-                { key: 'manga_completa', value: 'Manga completa' },
-                { key: 'espalda_completa', value: 'Espalda completa' },
-                { key: 'pecho_completo', value: 'Pecho completo' },
-                { key: 'otro', value: 'Otro' }
-            ];
-
-            // ============ TRADUCCIONES ============
-            const translations = {
-                es: {
-                    lang_title: '🌐 Idioma',
-                    lang_footer: 'Selecciona tu idioma',
-                    hide_panel: 'Ocultar panel',
-                    nav_home: 'Inicio',
-                    nav_gallery: 'Galería',
-                    nav_recomendaciones: 'Recomendaciones',
-                    nav_testimonials: 'Testimonios',
-                    nav_cta: 'Reservar Cita',
-                    hero_badge: '✦ Estudio Profesional ✦',
-                    hero_title_1: 'Tinta que',
-                    hero_title_accent: 'trasciende',
-                    hero_title_2: 'arte que permanece',
-                    hero_desc: 'Especialista en realismo, blackwork y diseños personalizados.',
-                    hero_btn_primary: 'Agendar Cita',
-                    hero_btn_secondary: 'Ver Portafolio',
-                    gallery_tag: 'Portafolio',
-                    gallery_title: 'Trabajos Recientes',
-                    gallery_subtitle: 'Cada tatuaje es una historia grabada en piel.',
-                    recomendaciones_tag: 'Cuidados',
-                    recomendaciones_title: 'Recomendaciones para tu Tatuaje',
-                    recomendaciones_subtitle: 'Para garantizar que tu tatuaje cicatrice correctamente y los colores o la tinta negra se mantengan impecables, es fundamental seguir estos cuidados.',
-                    recomendaciones_prev_title: '🟢 Recomendaciones Previas (Antes de tatuarte)',
-                    recomendaciones_prev_1: '<strong>Hidratación de la piel:</strong> Comienza a hidratar la zona a tatuar con crema corporal unos días antes. Una piel bien hidratada recibe mejor la tinta y facilita el trabajo del tatuador.',
-                    recomendaciones_prev_2: '<strong>Evita el alcohol y drogas:</strong> No consumas bebidas alcohólicas ni sustancias estimulantes al menos 24 horas antes de la sesión, ya que fluidifican la sangre, provocan mayor sangrado y dificultan que la tinta se fije correctamente.',
-                    recomendaciones_prev_3: '<strong>Descanso y alimentación:</strong> Acude a tu cita habiendo descansado bien y con el estómago lleno. Venir con energía evita mareos, bajones de presión y ayuda a tolerar mejor el dolor.',
-                    recomendaciones_prev_4: '<strong>No te expongas al sol:</strong> Evita tomar sol o rayos UVA en la zona en los días previos. No se puede tatuar sobre piel quemada por el sol o irritada.',
-                    recomendaciones_prev_5: '<strong>Ropa cómoda:</strong> Usa prendas holgadas y cómodas que no rocen ni presionen la zona recién tatuada al salir del estudio.',
-                    recomendaciones_post_title: '🔵 Recomendaciones Posteriores (Cuidados del tatuaje nuevo)',
-                    recomendaciones_post_1: '<strong>Higiene diaria:</strong> Lava el tatuaje con agua templada y un jabón neutro (o antibacteriano sin perfume) utilizando las yemas de los dedos con mucha suavidad para retirar restos de sangre, plasma o tinta. Hazlo de 2 a 3 veces al día.',
-                    recomendaciones_post_2: '<strong>Secado correcto:</strong> Seca la zona dando pequeños toques con una gasa o papel de cocina limpio. Nunca uses una toalla convencional, ya que puede acumular bacterias o irritar la piel.',
-                    recomendaciones_post_3: '<strong>Hidratación con crema específica:</strong> Aplica una capa muy fina de crema regeneradora recomendada por tu tatuador (como Bepanthol u otras cremas específicas para tatuajes). No satures la piel; el tatuaje debe "respirar".',
-                    recomendaciones_post_4: '<strong>Prohibido rascar o arrancar costras:</strong> Durante el proceso de curación es normal que aparezca picor o que comience a descamarse. Nunca arranques las pielecitas ni rasques, ya que puedes perder parte de la tinta o provocar una infección.',
-                    recomendaciones_post_5: '<strong>Cero sol, piscinas y playas:</strong> Durante las primeras 3 a 4 semanas debes evitar por completo la exposición solar directa, los baños en piscinas, el mar, saunas y jacuzzis. El agua estancada y el clor son muy perjudiciales para una herida abierta.',
-                    recomendaciones_post_6: '<strong>Evita ropa ajustada:</strong> Usa ropa de algodón y holgada para evitar la fricción constante sobre el diseño fresco.',
-                    testimonials_tag: 'Lo que dicen',
-                    testimonials_title: 'Testimonios Reales',
-                    contact_tag: 'Contacto',
-                    contact_title: 'Comencemos Tu Proyecto',
-                    contact_location_title: 'Ubicación',
-                    contact_location_text: 'Santander, España',
-                    contact_phone_title: 'Teléfono',
-                    contact_hours_text: 'Lun a Sáb: 9:00 Hs. – 13:00 Hs. · 16:00 Hs. – 21:00 Hs.',
-                    contact_hours_open: 'ABIERTO, cerramos a las {time} Hs.',
-                    contact_hours_closed: 'CERRADO, abriremos a las {time} Hs.',
-                    contact_hours_current_time: 'Hora actual : {time} Hs.',
-                    form_name_label: 'Nombre *',
-                    form_phone_label: 'Teléfono *',
-                    form_body_part_label: 'Partes del cuerpo a tatuar *',
-                    form_message_label: 'Mensaje *',
-                    form_message_placeholder: 'Describe tu idea, estilo, tamaño, colores, etc. o utiliza el micrófono para escribirnos !!',
-                    form_multiselect_hint: 'Mantén presionada la tecla Ctrl (Windows) o Cmd (Mac) para seleccionar múltiples opciones',
-                    form_business_hours_notice: 'Su solicitud será atendida dentro del horario comercial. Muchas gracias.',
-                    form_submit: 'Enviar por WhatsApp',
-                    form_success: '¡Listo! Abriremos WhatsApp...',
-                    footer_text: '© 2026 LG Tattoo | SC Photo Br',
-                    whatsapp_msg_intro: '👋 ¡Hola Lean! Quisiera consultar por un tatuaje.',
-                    whatsapp_msg_name: '👤 Nombre',
-                    whatsapp_msg_phone: '📞 Teléfono',
-                    whatsapp_msg_body_parts: '📍 Partes del cuerpo',
-                    whatsapp_msg_message: '📝 Consulta',
-                    whatsapp_msg_footer: '✨ Enviado desde LGTatoo.com',
-                    testimonial1_text: 'Excelente trabajo, muy profesional y detallista. El mejor tatuador que he conocido.',
-                    testimonial2_text: 'El diseño superó mis expectativas. Muy recomendado para trabajos de realismo.',
-                    testimonial3_text: 'Increíble resultado, la atención y el cuidado son impecables. Volveré sin duda.',
-                    instagram_cta_title: 'Descubrí más trabajos en Instagram',
-                    instagram_cta_text: 'Seguí el día a día del estudio, procesos y diseños exclusivos',
-                    body_parts: {
-                        brazo: 'Brazo',
-                        antebrazo: 'Antebrazo',
-                        hombro: 'Hombro',
-                        pecho: 'Pecho',
-                        espalda: 'Espalda',
-                        costillas: 'Costillas',
-                        abdomen: 'Abdomen',
-                        pierna: 'Pierna',
-                        muslo: 'Muslo',
-                        pantorrilla: 'Pantorrilla',
-                        tobillo: 'Tobillo',
-                        cuello: 'Cuello',
-                        cara: 'Cara',
-                        mano: 'Mano',
-                        dedos: 'Dedos',
-                        muneca: 'Muñeca',
-                        codo: 'Codo',
-                        rodilla: 'Rodilla',
-                        gluteo: 'Glúteo',
-                        cadera: 'Cadera',
-                        cabeza: 'Cabeza/Cuero cabelludo',
-                        oreja: 'Oreja',
-                        pie: 'Pie',
-                        manga_completa: 'Manga completa',
-                        espalda_completa: 'Espalda completa',
-                        pecho_completo: 'Pecho completo',
-                        otro: 'Otro'
-                    }
-                },
-                ca: {
-                    lang_title: '🌐 Idioma',
-                    lang_footer: 'Selecciona el teu idioma',
-                    hide_panel: 'Amagar panell',
-                    nav_home: 'Inici',
-                    nav_gallery: 'Galeria',
-                    nav_recomendaciones: 'Recomanacions',
-                    nav_testimonials: 'Testimonis',
-                    nav_cta: 'Reservar Cita',
-                    hero_badge: '✦ Estudi Professional ✦',
-                    hero_title_1: 'Tinta que',
-                    hero_title_accent: 'transcendeix',
-                    hero_title_2: 'art que perdura',
-                    hero_desc: 'Especialista en realisme, blackwork i dissenys personalitzats.',
-                    hero_btn_primary: 'Agendar Cita',
-                    hero_btn_secondary: 'Veure Portafoli',
-                    gallery_tag: 'Portafoli',
-                    gallery_title: 'Treballs Recents',
-                    gallery_subtitle: 'Cada tatuatge és una història gravada a la pell.',
-                    recomendaciones_tag: 'Cures',
-                    recomendaciones_title: 'Recomanacions per al teu Tatuatge',
-                    recomendaciones_subtitle: 'Per garantir que el teu tatuatge cicatritzi correctament i els colors o la tinta negra es mantinguin impecables, és fonamental seguir aquestes cures.',
-                    recomendaciones_prev_title: '🟢 Recomanacions Prèvies (Abans de tatuar-te)',
-                    recomendaciones_prev_1: '<strong>Hidratació de la pell:</strong> Comença a hidratar la zona a tatuar amb crema corporal uns dies abans. Una pell ben hidratada rep millor la tinta i facilita la feina del tatuador.',
-                    recomendaciones_prev_2: '<strong>Evita l\'alcohol i drogues:</strong> No consumeixis begudes alcohòliques ni substàncies estimulants almenys 24 hores abans de la sessió, ja que fluidifiquen la sang, provoquen més sagnat i dificulten que la tinta es fixi correctament.',
-                    recomendaciones_prev_3: '<strong>Descans i alimentació:</strong> Acudeix a la teva cita havent descansat bé i amb l\'estómac ple. Venir amb energia evita marejos, baixades de pressió i ajuda a tolerar millor el dolor.',
-                    recomendaciones_prev_4: '<strong>No t\'exposis al sol:</strong> Evita prendre sol o raigs UVA a la zona en els dies previs. No es pot tatuar sobre pell cremada pel sol o irritada.',
-                    recomendaciones_prev_5: '<strong>Roba còmoda:</strong> Utilitza peces folgades i còmodes que no freguin ni pressionin la zona recent tatuada en sortir de l\'estudi.',
-                    recomendaciones_post_title: '🔵 Recomanacions Posteriors (Cures del tatuatge nou)',
-                    recomendaciones_post_1: '<strong>Higiene diària:</strong> Renta el tatuatge amb aigua tèbia i un sabó neutre (o antibacterià sense perfum) utilitzant les puntes dels dits amb molta suavitat per retirar restes de sang, plasma o tinta. Fes-ho de 2 a 3 vegades al dia.',
-                    recomendaciones_post_2: '<strong>Assecat correcte:</strong> Asseca la zona donant petits tocs amb una gasa o paper de cuina net. Mai utilitzis una tovallola convencional, ja que pot acumular bacteris o irritar la pell.',
-                    recomendaciones_post_3: '<strong>Hidratació amb crema específica:</strong> Aplica una capa molt fina de crema regeneradora recomanada pel teu tatuador (com Bepanthol o altres cremes específiques per a tatuatges). No saturis la pell; el tatuatge ha de "respirar".',
-                    recomendaciones_post_4: '<strong>Prohibit gratar o arrencar crostes:</strong> Durant el procés de curació és normal que aparegui picor o que comenci a descamar-se. Mai arrenquis les pellícules ni gratís, ja que pots perdre part de la tinta o provocar una infecció.',
-                    recomendaciones_post_5: '<strong>Zero sol, piscines i platges:</strong> Durant les primeres 3 a 4 setmanes has d\'evitar per complet l\'exposició solar directa, els banys a piscines, el mar, saunes i jacuzzis. L\'aigua estancada i el clor són molt perjudicials per a una ferida oberta.',
-                    recomendaciones_post_6: '<strong>Evita roba ajustada:</strong> Utilitza roba de cotó i folgada per evitar la fricció constant sobre el disseny fresc.',
-                    testimonials_tag: 'El que diuen',
-                    testimonials_title: 'Testimonis Reals',
-                    contact_tag: 'Contacte',
-                    contact_title: 'Comencem El Teu Projecte',
-                    contact_location_title: 'Ubicació',
-                    contact_location_text: 'Santander, Espanya',
-                    contact_phone_title: 'Telèfon',
-                    contact_hours_text: 'Dll a Diss: 9:00 h – 13:00 h · 16:00 h – 21:00 h',
-                    contact_hours_open: 'OBERT, tanquem a les {time} h',
-                    contact_hours_closed: 'TANCAT, obrirem a les {time} h',
-                    contact_hours_current_time: 'Hora actual : {time} h',
-                    form_name_label: 'Nom *',
-                    form_phone_label: 'Telèfon *',
-                    form_body_part_label: 'Parts del cos a tatuar *',
-                    form_message_label: 'Missatge *',
-                    form_message_placeholder: 'Descriu la teva idea, estil, mida, colors, etc. o utilitza el micròfon per escriure\'ns !!',
-                    form_multiselect_hint: 'Mantingues premuda la tecla Ctrl (Windows) o Cmd (Mac) per seleccionar múltiples opcions',
-                    form_business_hours_notice: 'La seva sol·licitud serà atesa dins de l\'horari comercial. Moltes gràcies.',
-                    form_submit: 'Enviar per WhatsApp',
-                    form_success: 'Llest! Obrim WhatsApp...',
-                    footer_text: '© 2026 LG Tattoo | SC Photo Br',
-                    whatsapp_msg_intro: '👋 Hola Lean! Voldria consultar per un tatuatge.',
-                    whatsapp_msg_name: '👤 Nom',
-                    whatsapp_msg_phone: '📞 Telèfon',
-                    whatsapp_msg_body_parts: '📍 Parts del cos',
-                    whatsapp_msg_message: '📝 Consulta',
-                    whatsapp_msg_footer: '✨ Enviat des de LG Tatoo.com',
-                    testimonial1_text: 'Excel·lent treball, molt professional i detallista. El millor tatuador que he conegut.',
-                    testimonial2_text: 'El disseny va superar les meves expectatives. Molt recomanat per a treballs de realisme.',
-                    testimonial3_text: 'Increïble resultat, l\'atenció i la cura són impecables. Tornaré sens dubte.',
-                    instagram_cta_title: 'Descobreix més treballs a Instagram',
-                    instagram_cta_text: 'Segueix el dia a dia de l\'estudi, processos i dissenys exclusius',
-                    body_parts: {
-                        brazo: 'Braç',
-                        antebrazo: 'Avantbraç',
-                        hombro: 'Espatlla',
-                        pecho: 'Pit',
-                        espalda: 'Esquena',
-                        costillas: 'Costelles',
-                        abdomen: 'Abdomen',
-                        pierna: 'Cama',
-                        muslo: 'Cuixa',
-                        pantorrilla: 'Panxell',
-                        tobillo: 'Turmell',
-                        cuello: 'Coll',
-                        cara: 'Cara',
-                        mano: 'Mà',
-                        dedos: 'Dits',
-                        muneca: 'Canell',
-                        codo: 'Colze',
-                        rodilla: 'Genoll',
-                        gluteo: 'Gluti',
-                        cadera: 'Maluc',
-                        cabeza: 'Cap/Cuir cabellut',
-                        oreja: 'Orella',
-                        pie: 'Peu',
-                        manga_completa: 'Màniga completa',
-                        espalda_completa: 'Esquena completa',
-                        pecho_completo: 'Pit complet',
-                        otro: 'Altre'
-                    }
-                },
-                en: {
-                    lang_title: '🌐 Language',
-                    lang_footer: 'Select your language',
-                    hide_panel: 'Hide panel',
-                    nav_home: 'Home',
-                    nav_gallery: 'Gallery',
-                    nav_recomendaciones: 'Recommendations',
-                    nav_testimonials: 'Testimonials',
-                    nav_cta: 'Book Now',
-                    hero_badge: '✦ Professional Studio ✦',
-                    hero_title_1: 'Ink that',
-                    hero_title_accent: 'transcends',
-                    hero_title_2: 'art that endures',
-                    hero_desc: 'Specialist in realism, blackwork and custom designs.',
-                    hero_btn_primary: 'Book Appointment',
-                    hero_btn_secondary: 'View Portfolio',
-                    gallery_tag: 'Portfolio',
-                    gallery_title: 'Recent Work',
-                    gallery_subtitle: 'Every tattoo is a story etched in skin.',
-                    recomendaciones_tag: 'Care',
-                    recomendaciones_title: 'Recommendations for Your Tattoo',
-                    recomendaciones_subtitle: 'To ensure your tattoo heals properly and the colors or black ink stay flawless, it is essential to follow these care guidelines.',
-                    recomendaciones_prev_title: '🟢 Previous Recommendations (Before getting tattooed)',
-                    recomendaciones_prev_1: '<strong>Skin hydration:</strong> Start hydrating the area to be tattooed with body cream a few days before. Well-hydrated skin receives the ink better and makes the tattoo artist\'s work easier.',
-                    recomendaciones_prev_2: '<strong>Avoid alcohol and drugs:</strong> Do not consume alcoholic beverages or stimulant substances at least 24 hours before the session, as they thin the blood, cause more bleeding, and make it harder for the ink to set properly.',
-                    recomendaciones_prev_3: '<strong>Rest and nutrition:</strong> Come to your appointment well-rested and with a full stomach. Coming with energy prevents dizziness, blood pressure drops, and helps tolerate pain better.',
-                    recomendaciones_prev_4: '<strong>Do not expose yourself to the sun:</strong> Avoid sunbathing or UVA rays on the area in the days before. You cannot tattoo on sunburned or irritated skin.',
-                    recomendaciones_prev_5: '<strong>Comfortable clothing:</strong> Wear loose and comfortable clothing that does not rub or press on the freshly tattooed area when leaving the studio.',
-                    recomendaciones_post_title: '🔵 Aftercare Recommendations (New tattoo care)',
-                    recomendaciones_post_1: '<strong>Daily hygiene:</strong> Wash the tattoo with warm water and a neutral soap (or antibacterial without perfume) using your fingertips very gently to remove blood, plasma, or ink residue. Do this 2 to 3 times a day.',
-                    recomendaciones_post_2: '<strong>Correct drying:</strong> Dry the area by gently patting with a clean gauze or kitchen paper. Never use a conventional towel, as it can accumulate bacteria or irritate the skin.',
-                    recomendaciones_post_3: '<strong>Moisturize with specific cream:</strong> Apply a very thin layer of regenerating cream recommended by your tattoo artist (such as Bepanthol or other specific tattoo creams). Do not saturate the skin; the tattoo should "breathe".',
-                    recomendaciones_post_4: '<strong>Do not scratch or pick scabs:</strong> During the healing process, it is normal for itching or peeling to occur. Never pick at the flakes or scratch, as you can lose part of the ink or cause an infection.',
-                    recomendaciones_post_5: '<strong>No sun, pools, or beaches:</strong> During the first 3 to 4 weeks, you must completely avoid direct sun exposure, swimming in pools, the sea, saunas, and hot tubs. Stagnant water and chlorine are very harmful to an open wound.',
-                    recomendaciones_post_6: '<strong>Avoid tight clothing:</strong> Wear cotton and loose clothing to avoid constant friction on the fresh design.',
-                    testimonials_tag: 'What They Say',
-                    testimonials_title: 'Real Testimonials',
-                    contact_tag: 'Contact',
-                    contact_title: "Let's Start Your Project",
-                    contact_location_title: 'Location',
-                    contact_location_text: 'Santander, Spain',
-                    contact_phone_title: 'Phone',
-                    contact_hours_text: 'Mon to Sat: 9:00 hrs – 13:00 hrs · 16:00 hrs – 21:00 hrs',
-                    contact_hours_open: 'OPEN, closes at {time} hrs',
-                    contact_hours_closed: 'CLOSED, opens at {time} hrs',
-                    contact_hours_current_time: 'Current time : {time} hrs',
-                    form_name_label: 'Name *',
-                    form_phone_label: 'Phone *',
-                    form_body_part_label: 'Body parts to tattoo *',
-                    form_message_label: 'Message *',
-                    form_message_placeholder: 'Describe your idea, style, size, colors, etc. or use the microphone to write to us !!',
-                    form_multiselect_hint: 'Hold down the Ctrl (Windows) or Cmd (Mac) key to select multiple options',
-                    form_business_hours_notice: 'Your request will be attended during business hours. Thank you very much.',
-                    form_submit: 'Send via WhatsApp',
-                    form_success: 'Ready! Opening WhatsApp...',
-                    footer_text: '© 2026 LG Tattoo | SC Photo Br',
-                    whatsapp_msg_intro: '👋 Hey Lean! I would like to inquire about a tattoo.',
-                    whatsapp_msg_name: '👤 Name',
-                    whatsapp_msg_phone: '📞 Phone',
-                    whatsapp_msg_body_parts: '📍 Body parts',
-                    whatsapp_msg_message: '📝 Inquiry',
-                    whatsapp_msg_footer: '✨ Sent from LG Tatoo.com',
-                    testimonial1_text: 'Excellent work, very professional and detail-oriented. The best tattoo artist I\'ve met.',
-                    testimonial2_text: 'The design exceeded my expectations. Highly recommended for realism work.',
-                    testimonial3_text: 'Amazing result, the attention and care are impeccable. I will definitely come back.',
-                    instagram_cta_title: 'Discover more work on Instagram',
-                    instagram_cta_text: 'Follow the studio\'s daily life, processes and exclusive designs',
-                    body_parts: {
-                        brazo: 'Arm',
-                        antebrazo: 'Forearm',
-                        hombro: 'Shoulder',
-                        pecho: 'Chest',
-                        espalda: 'Back',
-                        costillas: 'Ribs',
-                        abdomen: 'Abdomen',
-                        pierna: 'Leg',
-                        muslo: 'Thigh',
-                        pantorrilla: 'Calf',
-                        tobillo: 'Ankle',
-                        cuello: 'Neck',
-                        cara: 'Face',
-                        mano: 'Hand',
-                        dedos: 'Fingers',
-                        muneca: 'Wrist',
-                        codo: 'Elbow',
-                        rodilla: 'Knee',
-                        gluteo: 'Buttocks',
-                        cadera: 'Hip',
-                        cabeza: 'Head/Scalp',
-                        oreja: 'Ear',
-                        pie: 'Foot',
-                        manga_completa: 'Full sleeve',
-                        espalda_completa: 'Full back',
-                        pecho_completo: 'Full chest',
-                        otro: 'Other'
-                    }
-                }
-            };
-
-            // ============ GALERÍA CON IMÁGENES NUMERADAS (1 al 12) ============
-            const GALLERY_BASE_URL = '/images/';
-            const TOTAL_IMAGES = 12;
-
-            let currentLang = 'es';
-
-            function generateGalleryImages() {
-                const images = [];
-                for (let i = 1; i <= TOTAL_IMAGES; i++) {
-                    images.push({
-                        src: `${GALLERY_BASE_URL}${i}.webp`,
-                        alt: `Trabajo ${i}`
-                    });
-                }
-                return images;
-            }
-
-            const galleryImagesData = generateGalleryImages();
-
-            function closeLangPanel() {
-                document.body.classList.remove('lang-panel-visible');
-                document.getElementById('langToggleTab').classList.remove('hidden-tab');
-            }
-
-            // ============ RENDERIZAR SELECT DE PARTES DEL CUERPO ============
-            function renderBodyPartsSelect() {
-                const select = document.getElementById('bodyPart');
-                if (!select) return;
-                const t = translations[currentLang].body_parts;
-                select.innerHTML = BODY_PARTS.map(part => 
-                    `<option value="${part.value}">${t[part.key] || part.value}</option>`
-                ).join('');
-            }
-
-            function setLanguage(lang) {
-                currentLang = lang;
-                const t = translations[lang];
-                
-                document.querySelectorAll('[data-i18n]').forEach(el => {
-                    if (t[el.dataset.i18n]) el.innerHTML = t[el.dataset.i18n];
-                });
-                
-                document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-                    if (t[el.dataset.i18nPlaceholder]) el.placeholder = t[el.dataset.i18nPlaceholder];
-                });
-                
-                renderGalleryWithLightbox();
-                renderTestimonials();
-                renderBodyPartsSelect();
-                updateHoursStatus();
-                
-                document.querySelectorAll('.lang-option').forEach(b => b.classList.remove('active'));
-                document.querySelector(`.lang-option[data-lang="${lang}"]`)?.classList.add('active');
-                
-                localStorage.setItem('preferredLang', lang);
-                closeLangPanel();
-            }
-
-            // ============ NUEVO LIGHTBOX CON ZOOM Y SCROLL ============
-            const lightbox = document.getElementById('lightbox');
-            const lightboxImg = document.getElementById('lightboxImg');
-            const lightboxCounter = document.getElementById('lightboxCounter');
-            const lightboxClose = document.getElementById('lightboxClose');
-            const lightboxWrapper = document.getElementById('lightboxWrapper');
-
-            let currentIndex = 0;
-            let scale = 1;
-            let panX = 0;
-            let panY = 0;
-            let initialDist = 0;
-            let startScale = 1;
-            let startTouchX = 0;
-            let startTouchY = 0;
-            let isDragging = false;
-            let lastTapTime = 0;
-            let tapTimeout;
-
-            function getDistance(t1, t2) {
-                const dx = t1.clientX - t2.clientX;
-                const dy = t1.clientY - t2.clientY;
-                return Math.sqrt(dx * dx + dy * dy);
-            }
-
-            function applyTransform() {
-                if (scale === 1) {
-                    panX = 0;
-                    panY = 0;
-                    lightboxImg.style.cursor = 'zoom-in';
-                    lightboxWrapper.style.cursor = 'zoom-in';
-                } else {
-                    lightboxImg.style.cursor = 'grab';
-                    lightboxWrapper.style.cursor = 'grab';
-                }
-                lightboxImg.style.transform = `translate(${panX}px, ${panY}px) scale(${scale})`;
-            }
-
-            function openLightbox(index) {
-                currentIndex = index;
-                const imgData = galleryImagesData[index];
-                if (imgData) {
-                    lightboxImg.src = imgData.src;
-                    lightboxImg.alt = imgData.alt;
-                    lightboxCounter.textContent = `${index + 1} / ${galleryImagesData.length}`;
-                    scale = 1;
-                    panX = 0;
-                    panY = 0;
-                    applyTransform();
-                    lightbox.classList.add('active');
-                    document.body.style.overflow = 'hidden';
-                }
-            }
-
-            function closeLightbox() {
-                lightbox.classList.remove('active');
-                document.body.style.overflow = '';
-            }
-
-            lightboxClose.addEventListener('click', closeLightbox);
-            
-            lightboxWrapper.addEventListener('click', function(e) {
-                if (e.target.closest('.lightbox-close')) return; 
-                
-                if (scale > 1) {
-                    scale = 1;
-                    panX = 0;
-                    panY = 0;
-                    applyTransform();
-                } else {
-                    closeLightbox();
-                }
-            });
-
-            lightboxWrapper.addEventListener('wheel', function(e) {
-                e.preventDefault();
-                const delta = e.deltaY > 0 ? -0.1 : 0.1;
-                const newScale = Math.min(4, Math.max(1, scale + delta));
-                if (newScale !== scale) {
-                    scale = newScale;
-                    applyTransform();
-                }
-            });
-
-            lightboxWrapper.addEventListener('touchstart', function(e) {
-                e.preventDefault();
-                isDragging = false;
-                
-                if (e.touches.length === 1) {
-                    startTouchX = e.touches[0].clientX - panX;
-                    startTouchY = e.touches[0].clientY - panY;
-                } else if (e.touches.length === 2) {
-                    initialDist = getDistance(e.touches[0], e.touches[1]);
-                    startScale = scale;
-                }
-            });
-
-            lightboxWrapper.addEventListener('touchmove', function(e) {
-                e.preventDefault();
-                
-                if (e.touches.length === 1 && scale > 1) {
-                    isDragging = true;
-                    panX = e.touches[0].clientX - startTouchX;
-                    panY = e.touches[0].clientY - startTouchY;
-                    applyTransform();
-                } else if (e.touches.length === 2) {
-                    isDragging = true;
-                    const newDist = getDistance(e.touches[0], e.touches[1]);
-                    const newScale = Math.min(4, Math.max(1, startScale * (newDist / initialDist)));
-                    if (newScale !== scale) {
-                        scale = newScale;
-                        applyTransform();
-                    }
-                }
-            });
-
-            lightboxWrapper.addEventListener('touchend', function(e) {
-                const currentTime = new Date().getTime();
-                const tapLength = currentTime - lastTapTime;
-
-                if (!isDragging && e.changedTouches.length === 1) {
-                    if (tapLength < 300 && tapLength > 0) {
-                        clearTimeout(tapTimeout);
-                        if (scale > 1) {
-                            scale = 1;
-                            panX = 0;
-                            panY = 0;
-                            applyTransform();
-                        } else {
-                            scale = 2.5;
-                            panX = 0;
-                            panY = 0;
-                            applyTransform();
-                        }
-                        lastTapTime = 0;
-                    } else {
-                        tapTimeout = setTimeout(() => {
-                            if (scale > 1) {
-                                scale = 1;
-                                panX = 0;
-                                panY = 0;
-                                applyTransform();
-                            } else {
-                                closeLightbox();
-                            }
-                        }, 300);
-                    }
-                }
-                lastTapTime = currentTime;
-            });
-
-            function renderGalleryWithLightbox() {
-                const grid = document.getElementById('galleryGrid');
-                grid.innerHTML = galleryImagesData.map((img, i) => `
-                    <div class="gallery-item" data-index="${i}">
-                        <img src="${img.src}" alt="${img.alt}" loading="lazy" onerror="this.src='https://via.placeholder.com/600/333/666?text=Imagen+${i+1}'">
-                    </div>
-                `).join('');
-                
-                grid.querySelectorAll('.gallery-item').forEach(item => {
-                    item.addEventListener('click', function() {
-                        openLightbox(parseInt(this.dataset.index));
-                    });
-                });
-            }
-
-            // ============ ACTUALIZACIÓN DINÁMICA DE HORARIOS ============
-            function updateHoursStatus() {
-                const t = translations[currentLang];
-                
-                const nowMadrid = new Date(new Date().toLocaleString('en-US', { timeZone: 'Europe/Madrid' }));
-                const hours = String(nowMadrid.getHours()).padStart(2, '0');
-                const mins = String(nowMadrid.getMinutes()).padStart(2, '0');
-                
-                const currentTimeEl = document.getElementById('currentTimeDisplay');
-                if (currentTimeEl) {
-                    const currentTimeStr = t.contact_hours_current_time.replace('{time}', `${hours}:${mins}`);
-                    currentTimeEl.textContent = currentTimeStr;
-                }
-
-                const day = nowMadrid.getDay();
-                const minutes = nowMadrid.getHours() * 60 + nowMadrid.getMinutes();
-
-                const slot1Start = 9 * 60;
-                const slot1End = 13 * 60;
-                const slot2Start = 16 * 60;
-                const slot2End = 21 * 60;
-
-                let statusText = '';
-                let targetTime = '';
-
-                if (day === 0) {
-                    statusText = t.contact_hours_closed;
-                    targetTime = '9:00';
-                } else if (minutes >= slot1Start && minutes < slot1End) {
-                    statusText = t.contact_hours_open;
-                    targetTime = '13:00';
-                } else if (minutes >= slot2Start && minutes < slot2End) {
-                    statusText = t.contact_hours_open;
-                    targetTime = '21:00';
-                } else {
-                    statusText = t.contact_hours_closed;
-                    if (minutes < slot1Start) {
-                        targetTime = '9:00';
-                    } else if (minutes < slot2Start) {
-                        targetTime = '16:00';
-                    } else {
-                        targetTime = '9:00';
-                    }
-                }
-
-                const finalText = statusText.replace('{time}', targetTime);
-                
-                const el = document.getElementById('hoursStatus');
-                if (el) {
-                    el.textContent = finalText;
-                }
-            }
-
-            // ============ TESTIMONIOS ============
-            function renderTestimonials() {
-                const t = translations[currentLang];
-                const testimonials = [
-                    { name: 'Martín R.', text: t.testimonial1_text || 'Excelente trabajo' },
-                    { name: 'Sofía L.', text: t.testimonial2_text || 'Muy profesional' },
-                    { name: 'Carlos D.', text: t.testimonial3_text || 'Increíble resultado' }
-                ];
-                
-                document.getElementById('testimonialsGrid').innerHTML = testimonials.map(td => `
-                    <div class="testimonial-card">
-                        <div class="testimonial-stars">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                        </div>
-                        <p>"${td.text}"</p>
-                        <div><strong>${td.name}</strong></div>
-                    </div>
-                `).join('');
-            }
-
-            // ============ FORMULARIO ============
-            document.getElementById('contactForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                const t = translations[currentLang];
-                
-                const name = document.getElementById('name').value.trim();
-                const phone = document.getElementById('phone').value.trim();
-                const bodyPartSelect = document.getElementById('bodyPart');
-                const message = document.getElementById('message').value.trim();
-                
-                const selectedOptions = Array.from(bodyPartSelect.selectedOptions);
-                const bodyParts = selectedOptions.map(opt => opt.value);
-                
-                if (!name || !phone || bodyParts.length === 0 || !message) {
-                    alert(t.form_error || 'Por favor completa todos los campos obligatorios (*)');
-                    return;
-                }
-                
-                let msg = '👋 *' + t.whatsapp_msg_intro + '*\r\n\r\n';
-                msg += '▸ *' + t.whatsapp_msg_name + ':* ' + name + '\r\n';
-                msg += '▸ *' + t.whatsapp_msg_phone + ':* ' + phone + '\r\n';
-                msg += '▸ *' + t.whatsapp_msg_body_parts + ':* ' + bodyParts.join(', ') + '\r\n';
-                msg += '▸ *' + t.whatsapp_msg_message + ':* ' + message + '\r\n\r\n';
-                msg += t.whatsapp_msg_footer;
-                
-                const encodedMsg = encodeURIComponent(msg);
-                window.open('https://wa.me/34697891324?text=' + encodedMsg, '_blank');
-                
-                const successMsg = document.getElementById('formSuccessMsg');
-                successMsg.style.display = 'block';
-                
-                setTimeout(() => {
-                    this.reset();
-                    bodyPartSelect.selectedIndex = -1;
-                    successMsg.style.display = 'none';
-                }, 5000);
-            });
-
-            // ============ RECONOCIMIENTO DE VOZ ============
-            const voiceBtn = document.getElementById('voiceBtn');
-            const messageArea = document.getElementById('message');
-
-            if (voiceBtn && messageArea) {
-                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-                
-                if (SpeechRecognition) {
-                    const recognition = new SpeechRecognition();
-                    recognition.lang = 'es-ES';
-                    recognition.continuous = false;
-                    recognition.interimResults = true;
-                    let isListening = false;
-
-                    voiceBtn.addEventListener('click', function() {
-                        if (isListening) {
-                            recognition.stop();
-                            return;
-                        }
-
-                        try {
-                            recognition.start();
-                            isListening = true;
-                            voiceBtn.style.color = '#ff4d4d';
-                            voiceBtn.style.transform = 'scale(1.1)';
-                            messageArea.focus();
-                        } catch (err) {
-                            console.warn('Error al iniciar el micrófono:', err);
-                        }
-                    });
-
-                    recognition.addEventListener('result', function(e) {
-                        let finalTranscript = '';
-                        
-                        for (let i = e.resultIndex; i < e.results.length; i++) {
-                            const transcript = e.results[i][0].transcript;
-                            if (e.results[i].isFinal) {
-                                finalTranscript += transcript;
-                            }
-                        }
-                        
-                        if (finalTranscript) {
-                            const currentText = messageArea.value;
-                            messageArea.value = currentText + (currentText && !currentText.endsWith(' ') ? ' ' : '') + finalTranscript;
-                        }
-                    });
-
-                    recognition.addEventListener('end', function() {
-                        isListening = false;
-                        voiceBtn.style.color = 'var(--gold)';
-                        voiceBtn.style.transform = 'scale(1)';
-                    });
-                    
-                    recognition.addEventListener('error', function(e) {
-                        console.warn('Error en reconocimiento de voz:', e.error);
-                        isListening = false;
-                        voiceBtn.style.color = 'var(--gold)';
-                        voiceBtn.style.transform = 'scale(1)';
-                    });
-
-                } else {
-                    voiceBtn.style.opacity = '0.5';
-                    voiceBtn.style.cursor = 'not-allowed';
-                    voiceBtn.title = 'Tu navegador no soporta reconocimiento de voz';
-                }
-            }
-
-            // ============ SC PHOTO BR ============
-            document.getElementById('scPhotoLink').addEventListener('click', function(e) {
-                e.preventDefault();
-                const message = "Me ha gustado este site, queria mas informaciones para un proyecto !!!";
-                const encodedMsg = encodeURIComponent(message);
-                window.open('https://wa.me/5493518692251?text=' + encodedMsg, '_blank');
-            });
-
-            // ============ NAVEGACIÓN ============
-            const navbar = document.getElementById('navbar');
-            window.addEventListener('scroll', function() {
-                if (window.scrollY > 50) {
-                    navbar.classList.add('scrolled');
-                } else {
-                    navbar.classList.remove('scrolled');
-                }
-            });
-
-            const hamburger = document.getElementById('hamburger');
-            const navLinks = document.getElementById('navLinks');
-            
-            hamburger.addEventListener('click', function() {
-                navLinks.classList.toggle('active');
-            });
-            
-            navLinks.querySelectorAll('a').forEach(link => {
-                link.addEventListener('click', function() {
-                    navLinks.classList.remove('active');
-                });
-            });
-
-            document.querySelectorAll('.lang-option').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const lang = this.dataset.lang;
-                    setLanguage(lang);
-                });
-            });
-            
-            document.getElementById('langOverlay').addEventListener('click', closeLangPanel);
-            document.getElementById('langPanelClose').addEventListener('click', closeLangPanel);
-            document.getElementById('hidePanelBtn').addEventListener('click', closeLangPanel);
-            
-            document.getElementById('langToggleTab').addEventListener('click', function() {
-                document.body.classList.add('lang-panel-visible');
-                this.classList.add('hidden-tab');
-            });
-
-            // ============ INICIALIZACIÓN ============
-            const savedLang = localStorage.getItem('preferredLang') || 'es';
-            setLanguage(savedLang);
-            
-            document.body.classList.remove('lang-panel-visible');
-            document.getElementById('langToggleTab').classList.remove('hidden-tab');
-
-            // ============ ACTUALIZACIÓN AUTOMÁTICA DEL RELOJ ============
-            setInterval(updateHoursStatus, 60000);
-        })();
-    </script>
+    <!-- ============ JAVASCRIPT MINIFICADO EXTERNO ============ -->
+    <script src="/app.min.js" defer></script>
 </body>
 </html>
