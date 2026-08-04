@@ -1,22 +1,10 @@
 // ============ SERVICE WORKER ============
-const CACHE_NAME = 'lgtattoo-v1';
-const ASSETS_TO_CACHE = [
+const CACHE_NAME = 'lgtattoo-v2';
+// SOLO LOS ARCHIVOS VITALES. NADA DE IMÁGENES NI FUENTES AQUÍ.
+const CRITICAL_ASSETS = [
   '/',
   '/index.html',
   '/images/LogoLGTatoo.png',
-  '/images/1.webp',
-  '/images/2.webp',
-  '/images/3.webp',
-  '/images/4.webp',
-  '/images/5.webp',
-  '/images/6.webp',
-  '/images/7.webp',
-  '/images/8.webp',
-  '/images/9.webp',
-  '/images/10.webp',
-  '/images/11.webp',
-  '/images/12.webp',
-  'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap',
   'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css'
 ];
 
@@ -25,8 +13,10 @@ self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then(cache => {
-        console.log('Cache abierto');
-        return cache.addAll(ASSETS_TO_CACHE);
+        console.log('Cacheando assets críticos');
+        return cache.addAll(CRITICAL_ASSETS).catch(err => {
+          console.warn('Error cacheando assets críticos:', err);
+        });
       })
       .then(() => self.skipWaiting())
   );
@@ -48,28 +38,32 @@ self.addEventListener('activate', event => {
   );
 });
 
-// ============ INTERCEPCIÓN DE SOLICITUDES ============
+// ============ INTERCEPCIÓN DE SOLICITUDES (ESTRATEGIA CACHE PRIMERO) ============
 self.addEventListener('fetch', event => {
+  // Solo interceptar peticiones GET
+  if (event.request.method !== 'GET') return;
+
   event.respondWith(
     caches.match(event.request)
-      .then(response => {
-        if (response) {
-          return response;
-        }
+      .then(cachedResponse => {
+        // Si está en caché, lo devolvemos
+        if (cachedResponse) return cachedResponse;
+
+        // Si no está en caché, lo pedimos a la red y lo guardamos
         return fetch(event.request).then(response => {
+          // Solo guardar respuestas exitosas
           if (!response || response.status !== 200 || response.type !== 'basic') {
             return response;
           }
-          const responseToCache = response.clone();
-          caches.open(CACHE_NAME)
-            .then(cache => {
-              cache.put(event.request, responseToCache);
-            });
+          const responseClone = response.clone();
+          caches.open(CACHE_NAME).then(cache => {
+            cache.put(event.request, responseClone);
+          });
           return response;
+        }).catch(() => {
+          // Si falla todo, devolver algo genérico
+          return new Response('Offline', { status: 503 });
         });
-      })
-      .catch(() => {
-        return new Response('Offline - No se pudo cargar el contenido');
       })
   );
 });
