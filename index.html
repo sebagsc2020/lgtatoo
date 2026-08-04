@@ -192,7 +192,6 @@
         .toast.success{border-color:#4caf50}
         .toast.error{border-color:#f44336}
 
-        /* Lightbox */
         .lightbox-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:9999;display:flex;align-items:center;justify-content:center;cursor:zoom-out;padding:40px;animation:fadeIn 0.3s ease;backdrop-filter:blur(8px)}
         .lightbox-overlay img{max-width:90%;max-height:90%;object-fit:contain;border-radius:8px;box-shadow:0 20px 60px rgba(0,0,0,0.8)}
         @keyframes fadeIn{from{opacity:0;transform:scale(0.95)}to{opacity:1;transform:scale(1)}}
@@ -393,11 +392,78 @@
     <script>
         (function() {
             // ============================================================
-            //  CONFIGURACIÓN - TU ID DE GOOGLE SHEETS
+            //  CONFIGURACIÓN - FORMATO DE FECHA DD-MM-YYYY
             // ============================================================
             const SHEET_ID = '1N63wzIzUu_z9z2CzA1kQ5z6lUtOQp25qQy2tBfBOBws';
             const SHEET_NAME = 'Reservas';
             const CSV_URL = `https://docs.google.com/1N63wzIzUu_z9z2CzA1kQ5z6lUtOQp25qQy2tBfBOBws/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${SHEET_NAME}`;
+
+            // ============================================================
+            //  FUNCIONES DE FORMATO DE FECHA
+            // ============================================================
+            
+            // Convertir fecha de YYYY-MM-DD a DD-MM-YYYY
+            function formatDateToDDMMYYYY(dateStr) {
+                if (!dateStr) return '';
+                const parts = dateStr.split('-');
+                if (parts.length === 3) {
+                    // Si viene en formato YYYY-MM-DD (de la API)
+                    return `${parts[2]}-${parts[1]}-${parts[0]}`;
+                }
+                return dateStr;
+            }
+
+            // Convertir fecha de DD-MM-YYYY a YYYY-MM-DD (para comparaciones)
+            function formatDateToYYYYMMDD(dateStr) {
+                if (!dateStr) return '';
+                const parts = dateStr.split('-');
+                if (parts.length === 3) {
+                    // Si viene en formato DD-MM-YYYY
+                    return `${parts[2]}-${parts[1]}-${parts[0]}`;
+                }
+                return dateStr;
+            }
+
+            // Obtener fecha actual en formato DD-MM-YYYY
+            function getTodayDDMMYYYY() {
+                const today = new Date();
+                const day = String(today.getDate()).padStart(2, '0');
+                const month = String(today.getMonth() + 1).padStart(2, '0');
+                const year = today.getFullYear();
+                return `${day}-${month}-${year}`;
+            }
+
+            // Obtener fecha actual en formato YYYY-MM-DD (para comparaciones)
+            function getTodayYYYYMMDD() {
+                const today = new Date();
+                const day = String(today.getDate()).padStart(2, '0');
+                const month = String(today.getMonth() + 1).padStart(2, '0');
+                const year = today.getFullYear();
+                return `${year}-${month}-${day}`;
+            }
+
+            // Convertir DD-MM-YYYY a objeto Date
+            function parseDDMMYYYY(dateStr) {
+                if (!dateStr) return null;
+                const parts = dateStr.split('-');
+                if (parts.length === 3) {
+                    const day = parseInt(parts[0], 10);
+                    const month = parseInt(parts[1], 10) - 1;
+                    const year = parseInt(parts[2], 10);
+                    return new Date(year, month, day);
+                }
+                return null;
+            }
+
+            // Verificar si una fecha es pasada (en formato DD-MM-YYYY)
+            function isPastDateDDMMYYYY(dateStr) {
+                const dateObj = parseDDMMYYYY(dateStr);
+                if (!dateObj) return true;
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                dateObj.setHours(0, 0, 0, 0);
+                return dateObj < today;
+            }
 
             // ============================================================
             //  CARGAR GALERÍA DE IMÁGENES (1.webp a 12.webp)
@@ -414,7 +480,6 @@
                     img.loading = 'lazy';
                     img.decoding = 'async';
                     
-                    // Si la imagen no carga, mostrar placeholder
                     img.onerror = function() {
                         this.style.display = 'none';
                         const fallback = document.createElement('div');
@@ -429,7 +494,7 @@
             }
 
             // ============================================================
-            //  LIGHTBOX PARA VER IMÁGENES AMPLIADAS
+            //  LIGHTBOX
             // ============================================================
             document.addEventListener('click', function(e) {
                 const galleryItem = e.target.closest('.gallery-item');
@@ -457,29 +522,32 @@
             });
 
             // ============================================================
-            //  FERIADOS DE ESPAÑA Y CANTABRIA 2026
+            //  FERIADOS (en formato DD-MM-YYYY)
             // ============================================================
             const HOLIDAYS = {
-                '2026-01-01': 'Año Nuevo',
-                '2026-01-06': 'Día de Reyes',
-                '2026-04-03': 'Viernes Santo',
-                '2026-04-05': 'Domingo de Resurrección',
-                '2026-05-01': 'Día del Trabajador',
-                '2026-08-15': 'Asunción de la Virgen',
-                '2026-10-12': 'Fiesta Nacional de España',
-                '2026-11-01': 'Día de Todos los Santos',
-                '2026-12-06': 'Día de la Constitución',
-                '2026-12-08': 'Inmaculada Concepción',
-                '2026-12-25': 'Navidad',
-                '2026-07-25': 'Día de Santiago Apóstol (Patrón de Cantabria)',
-                '2026-09-15': 'Día de la Bien Aparecida (Patrona de Cantabria)',
-                '2026-07-28': 'Fiestas de Santander (Virgen del Mar)',
-                '2026-08-05': 'Fiestas de Santander (Virgen de la Consolación)',
+                '01-01-2026': 'Año Nuevo',
+                '06-01-2026': 'Día de Reyes',
+                '03-04-2026': 'Viernes Santo',
+                '05-04-2026': 'Domingo de Resurrección',
+                '01-05-2026': 'Día del Trabajador',
+                '15-08-2026': 'Asunción de la Virgen',
+                '12-10-2026': 'Fiesta Nacional de España',
+                '01-11-2026': 'Día de Todos los Santos',
+                '06-12-2026': 'Día de la Constitución',
+                '08-12-2026': 'Inmaculada Concepción',
+                '25-12-2026': 'Navidad',
+                '25-07-2026': 'Día de Santiago Apóstol (Patrón de Cantabria)',
+                '15-09-2026': 'Día de la Bien Aparecida (Patrona de Cantabria)',
+                '28-07-2026': 'Fiestas de Santander (Virgen del Mar)',
+                '05-08-2026': 'Fiestas de Santander (Virgen de la Consolación)',
             };
 
             function isHoliday(dateStr) { return HOLIDAYS[dateStr] || false; }
             function getHolidayName(dateStr) { return HOLIDAYS[dateStr] || null; }
 
+            // ============================================================
+            //  FUNCIONES DE HORA
+            // ============================================================
             function getCurrentTime() {
                 const now = new Date();
                 return { hours: now.getHours(), minutes: now.getMinutes(), full: now };
@@ -507,7 +575,7 @@
             }
 
             // ============================================================
-            //  CARGAR RESERVAS DESDE GOOGLE SHEETS
+            //  CARGAR RESERVAS DESDE GOOGLE SHEETS (formato DD-MM-YYYY)
             // ============================================================
             async function fetchBookings() {
                 try {
@@ -521,6 +589,7 @@
                     for (let i = 1; i < lines.length; i++) {
                         const cols = lines[i].split(',').map(c => c.trim().replace(/^"|"$/g, ''));
                         if (cols.length < 2) continue;
+                        // La fecha en Google Sheets está en formato DD-MM-YYYY
                         const date = cols[0];
                         const time = cols[1];
                         if (!date || !time) continue;
@@ -535,7 +604,7 @@
             }
 
             // ============================================================
-            //  GUARDAR RESERVA EN GOOGLE SHEETS
+            //  GUARDAR RESERVA (formato DD-MM-YYYY)
             // ============================================================
             async function saveBookingToSheet(data) {
                 try {
@@ -548,11 +617,11 @@
             }
 
             // ============================================================
-            //  RENDER CALENDARIO
+            //  RENDER CALENDARIO (con formato DD-MM-YYYY)
             // ============================================================
             let currentMonth = new Date().getMonth();
             let currentYear = new Date().getFullYear();
-            let selectedDate = null;
+            let selectedDate = null; // Formato DD-MM-YYYY
             let selectedSlot = null;
             let isProcessing = false;
             const WORK_HOURS = [
@@ -566,8 +635,7 @@
                 
                 const firstDay = new Date(currentYear, currentMonth, 1).getDay();
                 const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-                const today = new Date();
-                today.setHours(0,0,0,0);
+                const todayStr = getTodayYYYYMMDD(); // Formato YYYY-MM-DD para comparar
                 
                 const grid = document.getElementById('calendarGrid');
                 grid.innerHTML = '';
@@ -591,16 +659,20 @@
                 
                 for (let d = 1; d <= daysInMonth; d++) {
                     const dateObj = new Date(currentYear, currentMonth, d);
-                    const dateStr = dateObj.toISOString().split('T')[0];
+                    const year = dateObj.getFullYear();
+                    const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+                    const day = String(d).padStart(2, '0');
+                    const dateStrYYYYMMDD = `${year}-${month}-${day}`;
+                    const dateStrDDMMYYYY = `${day}-${month}-${year}`;
                     
-                    const isPast = dateObj < today;
-                    const holidayName = getHolidayName(dateStr);
+                    const isPast = dateStrYYYYMMDD < todayStr;
+                    const holidayName = getHolidayName(dateStrDDMMYYYY);
                     const isHolidayDate = holidayName !== null;
                     
-                    const bookedForDate = bookings[dateStr] || [];
+                    const bookedForDate = bookings[dateStrDDMMYYYY] || [];
                     const availableSlots = WORK_HOURS.filter(h => !bookedForDate.includes(h));
                     
-                    const isToday = dateStr === today.toISOString().split('T')[0];
+                    const isToday = dateStrYYYYMMDD === todayStr;
                     let hasAvailableSlots = false;
                     if (isToday && !isHolidayDate) {
                         const futureSlots = availableSlots.filter(slot => !isSlotPastToday(slot));
@@ -616,7 +688,7 @@
                     if (isPast) div.classList.add('past');
                     if (isHolidayDate && !isPast) div.classList.add('holiday');
                     if (hasSlots && !isPast) div.classList.add('has-slots');
-                    if (selectedDate === dateStr) div.classList.add('selected');
+                    if (selectedDate === dateStrDDMMYYYY) div.classList.add('selected');
                     
                     const numSpan = document.createElement('span');
                     numSpan.className = 'day-number';
@@ -647,7 +719,7 @@
                         
                         div.addEventListener('click', () => {
                             if (isPast) return;
-                            selectedDate = dateStr;
+                            selectedDate = dateStrDDMMYYYY;
                             selectedSlot = null;
                             renderCalendar(bookings);
                             renderSlots(bookings);
@@ -681,9 +753,10 @@
                     return;
                 }
                 
-                const today = new Date();
-                today.setHours(0,0,0,0);
-                const isToday = selectedDate === today.toISOString().split('T')[0];
+                const todayStr = getTodayYYYYMMDD();
+                const dateObj = parseDDMMYYYY(selectedDate);
+                const dateStrYYYYMMDD = dateObj ? dateObj.toISOString().split('T')[0] : '';
+                const isToday = dateStrYYYYMMDD === todayStr;
                 
                 const bookedForDate = bookings[selectedDate] || [];
                 let availableSlots = WORK_HOURS.filter(h => !bookedForDate.includes(h));
@@ -714,7 +787,7 @@
             }
 
             // ============================================================
-            //  CONFIRMAR RESERVA
+            //  CONFIRMAR RESERVA (con formato DD-MM-YYYY)
             // ============================================================
             async function confirmReservation() {
                 if (isProcessing) return;
@@ -750,6 +823,7 @@
                 btnLoader.style.display = 'inline-block';
                 
                 try {
+                    // Guardar con fecha en formato DD-MM-YYYY
                     const bookingData = {
                         date: selectedDate,
                         time: selectedSlot,
@@ -761,7 +835,7 @@
                     
                     await saveBookingToSheet(bookingData);
                     
-                    const phoneNumber = '543518692251';
+                    const phoneNumber = '34697891324';
                     let whatsappMsg = `Hola, soy ${name}.`;
                     whatsappMsg += `\n📞 Teléfono: ${phone}`;
                     whatsappMsg += `\n🎨 Parte del cuerpo: ${selectedParts}`;
