@@ -1,357 +1,75 @@
+// ============ SERVICE WORKER ============
+const CACHE_NAME = 'lgtattoo-v1';
+const ASSETS_TO_CACHE = [
+  '/',
+  '/index.html',
+  '/images/LogoLGTatoo.png',
+  '/images/1.webp',
+  '/images/2.webp',
+  '/images/3.webp',
+  '/images/4.webp',
+  '/images/5.webp',
+  '/images/6.webp',
+  '/images/7.webp',
+  '/images/8.webp',
+  '/images/9.webp',
+  '/images/10.webp',
+  '/images/11.webp',
+  '/images/12.webp',
+  'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap',
+  'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css'
+];
 
-<!DOCTYPE html>
-<!-- saved from url=(0027)https://lgtatoo.com/#inicio -->
-<html lang="es"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>LG Tattoo | Estudio de Tatuajes Profesional en Santander</title>
+// ============ INSTALACIÓN ============
+self.addEventListener('install', event => {
+  event.waitUntil(
+    caches.open(CACHE_NAME)
+      .then(cache => {
+        console.log('Cache abierto');
+        return cache.addAll(ASSETS_TO_CACHE);
+      })
+      .then(() => self.skipWaiting())
+  );
+});
 
-    <!-- ============ META DESCRIPTION Y SEO ============ -->
-    <meta name="description" content="Especialistas en tatuajes de realismo y blackwork. Diseños personalizados en Santander, España. Reserva tu cita con Lean González Tattoo.">
-    
-    <!-- ============ OPEN GRAPH ============ -->
-    <meta property="og:title" content="LG Tattoo | Estudio de Tatuajes Profesional en Santander">
-    <meta property="og:description" content="Especialistas en tatuajes de realismo y blackwork. Diseños personalizados en Santander, España. Reserva tu cita con Lean González Tattoo.">
-    <meta property="og:image" content="https://lgtatoo.com/images/LogoLGTatoo.png">
-    <meta property="og:url" content="https://lgtatoo.com/">
-    <meta property="og:type" content="website">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="LG Tattoo | Estudio de Tatuajes Profesional en Santander">
-    <meta name="twitter:description" content="Especialistas en tatuajes de realismo y blackwork. Diseños personalizados en Santander, España. Reserva tu cita con Lean González Tattoo.">
-    <meta name="twitter:image" content="https://lgtatoo.com/images/LogoLGTatoo.png">
+// ============ ACTIVACIÓN ============
+self.addEventListener('activate', event => {
+  event.waitUntil(
+    caches.keys().then(cacheNames => {
+      return Promise.all(
+        cacheNames.map(cache => {
+          if (cache !== CACHE_NAME) {
+            console.log('Eliminando caché antigua:', cache);
+            return caches.delete(cache);
+          }
+        })
+      );
+    }).then(() => self.clients.claim())
+  );
+});
 
-    <!-- ============ SEO AUTOMÁTICO ============ -->
-    <script src="./LG Tattoo _ Estudio de Tatuajes - Index_files/seo-optimizer.js.download" defer=""></script>
-    
-    <!-- ============ GOOGLE ANALYTICS ============ -->
-    <script async="" src="./LG Tattoo _ Estudio de Tatuajes - Index_files/js"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-J9JZK9BSGY');
-    </script>
-    
-    <!-- ============ PWA CONFIGURACIÓN ============ -->
-    <link rel="manifest" href="https://lgtatoo.com/manifest.json">
-    <meta name="theme-color" content="#c8a45c">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="LG Tattoo">
-    <link rel="apple-touch-icon" href="https://lgtatoo.com/images/icon-192x192.png">
-    
-    <!-- ============ FUENTES OPTIMIZADAS ============ -->
-    <link rel="preconnect" href="https://fonts.googleapis.com/">
-    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
-    <link href="./LG Tattoo _ Estudio de Tatuajes - Index_files/css2" rel="stylesheet">
-    
-    <!-- ============ CSS MINIFICADO EXTERNO ============ -->
-    <link rel="stylesheet" href="./LG Tattoo _ Estudio de Tatuajes - Index_files/styles.min.css">
-    
-    <!-- ============ DATOS ESTRUCTURADOS SCHEMA.ORG ============ -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "TattooParlor",
-      "name": "LG Tattoo",
-      "description": "Estudio profesional de tatuajes especializado en realismo, blackwork y diseños personalizados en Santander.",
-      "image": "https://lgtatoo.com/images/LogoLGTatoo.png",
-      "url": "https://lgtatoo.com",
-      "telephone": "+34697891324",
-      "email": "Leangonzaleztattoo@icloud.com",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Santander",
-        "addressCountry": "ES"
-      },
-      "geo": {
-        "@type": "GeoCoordinates",
-        "latitude": "43.4623",
-        "longitude": "-3.8099"
-      },
-      "openingHoursSpecification": [
-        {
-          "@type": "OpeningHoursSpecification",
-          "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
-          "opens": "09:00",
-          "closes": "13:00"
-        },
-        {
-          "@type": "OpeningHoursSpecification",
-          "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
-          "opens": "16:00",
-          "closes": "21:00"
+// ============ INTERCEPCIÓN DE SOLICITUDES ============
+self.addEventListener('fetch', event => {
+  event.respondWith(
+    caches.match(event.request)
+      .then(response => {
+        if (response) {
+          return response;
         }
-      ],
-      "priceRange": "€€",
-      "sameAs": [
-        "https://www.instagram.com/lean.gonzaleztattoo/"
-      ],
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "5.0",
-        "reviewCount": "12"
-      }
-    }
-    </script>
-<meta name="keywords" content="tatuajes, tattoo, realismo, blackwork, tatuajes personalizados, estudio de tatuajes, tatuador profesional, tatuajes en Santander, lean gonzalez tattoo, diseños de tatuajes, tatuajes realistas"><meta name="robots" content="index, follow"><meta name="author" content="Lean González"><script type="application/ld+json" data-seo-jsonld="true">{"@context":"https://schema.org","@type":"LocalBusiness","name":"Lean González Tattoo","image":"https://lgtatoo.com/images/LogoLGTatoo.png","address":{"@type":"PostalAddress","addressLocality":"Santander","addressCountry":"ES"},"telephone":"+34 697 89 13 24","email":"Leangonzaleztattoo@icloud.com","openingHours":"Mo-Sa 09:00-13:00, 16:00-21:00","priceRange":"€€","url":"https://lgtatoo.com","sameAs":["https://www.instagram.com/lean.gonzaleztattoo/"],"description":"Estudio profesional de tatuajes especializado en realismo, blackwork y diseños personalizados."}</script><meta property="og:site_name" content="Lean González Tattoo"><meta property="og:image:width" content="512"><meta property="og:image:height" content="512"><meta property="og:locale" content="es_ES"><link rel="canonical" href="https://lgtatoo.com/#inicio"><script type="application/ld+json" data-seo-breadcrumb="true">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://lgtatoo.com"},{"@type":"ListItem","position":2,"name":"LG Tattoo | Estudio de Tatuajes Profesional en Santander","item":"https://lgtatoo.com/#inicio"}]}</script></head>
-<body>
-
-    <!-- ============ BOTÓN FLOTANTE DE INSTAGRAM ============ -->
-    <a href="https://www.instagram.com/lean.gonzaleztattoo/" target="_blank" rel="noopener" class="floating-btn-instagram" aria-label="Instagram">
-        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="filter:drop-shadow(0 2px 4px rgba(0,0,0,0.3));"><rect x="2" y="2" width="20" height="20" rx="5" ry="5" stroke="white"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" stroke="white"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke="white"></line></svg>
-        <span class="tooltip">Sígueme en Instagram</span>
-    </a>
-
-    <!-- ============ PANEL DE IDIOMAS ============ -->
-    <div class="lang-overlay" id="langOverlay"></div>
-    <div class="lang-panel" id="langPanel">
-        <div class="lang-panel-header">
-            <h3 data-i18n="lang_title">🌐 Idioma</h3>
-            <button class="lang-panel-close" id="langPanelClose" aria-label="Cerrar panel de idiomas"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
-        </div>
-        <button class="lang-option active" data-lang="es"><span class="lang-flag">🇪🇸</span><span class="lang-name">Español</span><span class="lang-check"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span></button>
-        <button class="lang-option" data-lang="ca"><span class="lang-flag">🇦🇩</span><span class="lang-name">Català</span><span class="lang-check"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span></button>
-        <button class="lang-option" data-lang="en"><span class="lang-flag">🇬🇧</span><span class="lang-name">English</span><span class="lang-check"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span></button>
-        <div class="lang-panel-footer">
-            <span data-i18n="lang_footer">Selecciona tu idioma</span>
-            <button class="hide-panel-btn" id="hidePanelBtn"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:6px;"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg> <span data-i18n="hide_panel">Ocultar panel</span></button>
-        </div>
-    </div>
-
-    <!-- ============ BOTÓN DE IDIOMA (con data-i18n dinámico) ============ -->
-    <button class="lang-toggle-tab scrolled-lang" id="langToggleTab" aria-label="Abrir panel de idiomas">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="writing-mode:horizontal-tb;margin-bottom:4px;">
-            <circle cx="12" cy="12" r="10"></circle>
-            <line x1="2" y1="12" x2="22" y2="12"></line>
-            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
-        </svg>
-        <span data-i18n="lang_tab">IDIOMA</span>
-    </button>
-
-    <!-- ============ NAVEGACIÓN ============ -->
-    <nav class="navbar scrolled" id="navbar">
-        <div class="nav-container">
-            <ul class="nav-links" id="navLinks">
-                <li><a href="https://lgtatoo.com/#inicio" data-i18n="nav_home">Inicio</a></li>
-                <li><a href="https://lgtatoo.com/#galeria" data-i18n="nav_gallery">Galería</a></li>
-                <li><a href="https://lgtatoo.com/#recomendaciones" data-i18n="nav_recomendaciones">Recomendaciones</a></li>
-                <li><a href="https://lgtatoo.com/#testimonios" data-i18n="nav_testimonials">Testimonios</a></li>
-                <li><a href="https://lgtatoo.com/#contacto" class="nav-cta" data-i18n="nav_cta">Reservar Cita</a></li>
-            </ul>
-            <button class="hamburger" id="hamburger" aria-label="Abrir menú de navegación"><span></span><span></span><span></span></button>
-        </div>
-    </nav>
-
-    <!-- ============ HERO ============ -->
-    <section class="hero" id="inicio">
-        <div class="hero-content">
-            <img src="./LG Tattoo _ Estudio de Tatuajes - Index_files/LogoLGTatoo.png" alt="LG Tattoo" class="hero-logo" width="760" height="380" fetchpriority="high">
-            <span class="hero-badge" data-i18n="hero_badge">✦ Estudio Profesional ✦</span>
-            <h1><span data-i18n="hero_title_1">Tinta que</span> <span class="accent" data-i18n="hero_title_accent">trasciende</span><br><span data-i18n="hero_title_2">arte que permanece</span></h1>
-            <p data-i18n="hero_desc">Especialista en realismo, blackwork y diseños personalizados.</p>
-            <div class="hero-buttons">
-                <a href="https://lgtatoo.com/#contacto" class="btn btn-primary"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg> <span data-i18n="hero_btn_primary">Agendar Cita</span></a>
-                <a href="https://lgtatoo.com/#galeria" class="btn btn-outline"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg> <span data-i18n="hero_btn_secondary">Ver Portafolio</span></a>
-            </div>
-        </div>
-    </section>
-
-    <!-- ============ GALERÍA ============ -->
-    <section class="gallery-section section" id="galeria">
-        <div class="section-header">
-            <span class="section-tag" data-i18n="gallery_tag">Portafolio</span>
-            <h2 class="section-title" data-i18n="gallery_title">Trabajos Recientes</h2>
-            <div class="divider"></div>
-            <p class="section-subtitle" data-i18n="gallery_subtitle">Cada tatuaje es una historia grabada en piel.</p>
-        </div>
-        <div class="gallery-grid" id="galleryGrid"><div class="gallery-item" data-index="0"><img src="./LG Tattoo _ Estudio de Tatuajes - Index_files/1.webp" alt="Trabajo 1" loading="lazy" onerror="this.src=&#39;https://via.placeholder.com/600/333/666?text=Imagen+1&#39;"></div><div class="gallery-item" data-index="1"><img src="./LG Tattoo _ Estudio de Tatuajes - Index_files/2.webp" alt="Trabajo 2" loading="lazy" onerror="this.src=&#39;https://via.placeholder.com/600/333/666?text=Imagen+2&#39;"></div><div class="gallery-item" data-index="2"><img src="./LG Tattoo _ Estudio de Tatuajes - Index_files/3.webp" alt="Trabajo 3" loading="lazy" onerror="this.src=&#39;https://via.placeholder.com/600/333/666?text=Imagen+3&#39;"></div><div class="gallery-item" data-index="3"><img src="./LG Tattoo _ Estudio de Tatuajes - Index_files/4.webp" alt="Trabajo 4" loading="lazy" onerror="this.src=&#39;https://via.placeholder.com/600/333/666?text=Imagen+4&#39;"></div><div class="gallery-item" data-index="4"><img src="./LG Tattoo _ Estudio de Tatuajes - Index_files/5.webp" alt="Trabajo 5" loading="lazy" onerror="this.src=&#39;https://via.placeholder.com/600/333/666?text=Imagen+5&#39;"></div><div class="gallery-item" data-index="5"><img src="./LG Tattoo _ Estudio de Tatuajes - Index_files/6.webp" alt="Trabajo 6" loading="lazy" onerror="this.src=&#39;https://via.placeholder.com/600/333/666?text=Imagen+6&#39;"></div><div class="gallery-item" data-index="6"><img src="./LG Tattoo _ Estudio de Tatuajes - Index_files/7.webp" alt="Trabajo 7" loading="lazy" onerror="this.src=&#39;https://via.placeholder.com/600/333/666?text=Imagen+7&#39;"></div><div class="gallery-item" data-index="7"><img src="./LG Tattoo _ Estudio de Tatuajes - Index_files/8.webp" alt="Trabajo 8" loading="lazy" onerror="this.src=&#39;https://via.placeholder.com/600/333/666?text=Imagen+8&#39;"></div><div class="gallery-item" data-index="8"><img src="./LG Tattoo _ Estudio de Tatuajes - Index_files/9.webp" alt="Trabajo 9" loading="lazy" onerror="this.src=&#39;https://via.placeholder.com/600/333/666?text=Imagen+9&#39;"></div><div class="gallery-item" data-index="9"><img src="./LG Tattoo _ Estudio de Tatuajes - Index_files/10.webp" alt="Trabajo 10" loading="lazy" onerror="this.src=&#39;https://via.placeholder.com/600/333/666?text=Imagen+10&#39;"></div><div class="gallery-item" data-index="10"><img src="./LG Tattoo _ Estudio de Tatuajes - Index_files/11.webp" alt="Trabajo 11" loading="lazy" onerror="this.src=&#39;https://via.placeholder.com/600/333/666?text=Imagen+11&#39;"></div><div class="gallery-item" data-index="11"><img src="./LG Tattoo _ Estudio de Tatuajes - Index_files/12.webp" alt="Trabajo 12" loading="lazy" onerror="this.src=&#39;https://via.placeholder.com/600/333/666?text=Imagen+12&#39;"></div></div>
-
-        <div class="instagram-cta-banner">
-            <div class="cta-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
-            </div>
-            <h3 data-i18n="instagram_cta_title">Descubrí más trabajos en Instagram</h3>
-            <p data-i18n="instagram_cta_text">Seguí el día a día del estudio, procesos y diseños exclusivos</p>
-            <a href="https://www.instagram.com/lean.gonzaleztattoo/" target="_blank" rel="noopener" class="btn-instagram-cta">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg> @lean.gonzaleztattoo
-            </a>
-        </div>
-    </section>
-
-    <!-- ============ LIGHTBOX ============ -->
-    <div class="lightbox" id="lightbox">
-        <button class="lightbox-close" id="lightboxClose" aria-label="Cerrar imagen"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
-        <div class="lightbox-content" id="lightboxWrapper">
-            <img src="https://lgtatoo.com/" id="lightboxImg" alt="Trabajo de tatuaje">
-        </div>
-        <div class="lightbox-counter" id="lightboxCounter">1 / 12</div>
-    </div>
-
-    <!-- ============ RECOMENDACIONES ============ -->
-    <section class="recomendaciones-section section" id="recomendaciones">
-        <div class="section-header">
-            <span class="section-tag" data-i18n="recomendaciones_tag">Cuidados</span>
-            <h2 class="section-title" data-i18n="recomendaciones_title">Recomendaciones para tu Tatuaje</h2>
-            <div class="divider"></div>
-            <p class="section-subtitle" data-i18n="recomendaciones_subtitle">Para garantizar que tu tatuaje cicatrice correctamente y los colores o la tinta negra se mantengan impecables, es fundamental seguir estos cuidados.</p>
-        </div>
-        <div class="recomendaciones-grid">
-            <div class="recomendacion-card green">
-                <div class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg></div>
-                <h4 data-i18n="recomendaciones_prev_title">🟢 Recomendaciones Previas (Antes de tatuarte)</h4>
-                <ul>
-                    <li data-i18n="recomendaciones_prev_1"><strong>Hidratación de la piel:</strong> Comienza a hidratar la zona a tatuar con crema corporal unos días antes. Una piel bien hidratada recibe mejor la tinta y facilita el trabajo del tatuador.</li>
-                    <li data-i18n="recomendaciones_prev_2"><strong>Evita el alcohol y drogas:</strong> No consumas bebidas alcohólicas ni sustancias estimulantes al menos 24 horas antes de la sesión, ya que fluidifican la sangre, provocan mayor sangrado y dificultan que la tinta se fije correctamente.</li>
-                    <li data-i18n="recomendaciones_prev_3"><strong>Descanso y alimentación:</strong> Acude a tu cita habiendo descansado bien y con el estómago lleno. Venir con energía evita mareos, bajones de presión y ayuda a tolerar mejor el dolor.</li>
-                    <li data-i18n="recomendaciones_prev_4"><strong>No te expongas al sol:</strong> Evita tomar sol o rayos UVA en la zona en los días previos. No se puede tatuar sobre piel quemada por el sol o irritada.</li>
-                    <li data-i18n="recomendaciones_prev_5"><strong>Ropa cómoda:</strong> Usa prendas holgadas y cómodas que no rocen ni presionen la zona recién tatuada al salir del estudio.</li>
-                </ul>
-            </div>
-            <div class="recomendacion-card blue">
-                <div class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><polyline points="9 12 11 14 15 10"></polyline></svg></div>
-                <h4 data-i18n="recomendaciones_post_title">🔵 Recomendaciones Posteriores (Cuidados del tatuaje nuevo)</h4>
-                <ul>
-                    <li data-i18n="recomendaciones_post_1"><strong>Higiene diaria:</strong> Lava el tatuaje con agua templada y un jabón neutro (o antibacteriano sin perfume) utilizando las yemas de los dedos con mucha suavidad para retirar restos de sangre, plasma o tinta. Hazlo de 2 a 3 veces al día.</li>
-                    <li data-i18n="recomendaciones_post_2"><strong>Secado correcto:</strong> Seca la zona dando pequeños toques con una gasa o papel de cocina limpio. Nunca uses una toalla convencional, ya que puede acumular bacterias o irritar la piel.</li>
-                    <li data-i18n="recomendaciones_post_3"><strong>Hidratación con crema específica:</strong> Aplica una capa muy fina de crema regeneradora recomendada por tu tatuador (como Bepanthol u otras cremas específicas para tatuajes). No satures la piel; el tatuaje debe "respirar".</li>
-                    <li data-i18n="recomendaciones_post_4"><strong>Prohibido rascar o arrancar costras:</strong> Durante el proceso de curación es normal que aparezca picor o que comience a descamarse. Nunca arranques las pielecitas ni rasques, ya que puedes perder parte de la tinta o provocar una infección.</li>
-                    <li data-i18n="recomendaciones_post_5"><strong>Cero sol, piscinas y playas:</strong> Durante las primeras 3 a 4 semanas debes evitar por completo la exposición solar directa, los baños en piscinas, el mar, saunas y jacuzzis. El agua estancada y el clor son muy perjudiciales para una herida abierta.</li>
-                    <li data-i18n="recomendaciones_post_6"><strong>Evita ropa ajustada:</strong> Usa ropa de algodón y holgada para evitar la fricción constante sobre el diseño fresco.</li>
-                </ul>
-            </div>
-        </div>
-    </section>
-
-    <!-- ============ TESTIMONIOS ============ -->
-    <section class="testimonials-section section" id="testimonios">
-        <div class="section-header">
-            <span class="section-tag" data-i18n="testimonials_tag">Lo que dicen</span>
-            <h2 class="section-title" data-i18n="testimonials_title">Testimonios Reales</h2>
-            <div class="divider"></div>
-        </div>
-        <div class="testimonials-grid" id="testimonialsGrid"><div class="testimonial-card"><div class="testimonial-stars"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="var(--gold)" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="var(--gold)" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="var(--gold)" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="var(--gold)" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="var(--gold)" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div><p>"Excelente trabajo, muy profesional y detallista. El mejor tatuador que he conocido."</p><div><strong>Martín R.</strong></div></div><div class="testimonial-card"><div class="testimonial-stars"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="var(--gold)" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="var(--gold)" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="var(--gold)" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="var(--gold)" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="var(--gold)" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div><p>"El diseño superó mis expectativas. Muy recomendado para trabajos de realismo."</p><div><strong>Sofía L.</strong></div></div><div class="testimonial-card"><div class="testimonial-stars"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="var(--gold)" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="var(--gold)" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="var(--gold)" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="var(--gold)" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="var(--gold)" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div><p>"Increíble resultado, la atención y el cuidado son impecables. Volveré sin duda."</p><div><strong>Carlos D.</strong></div></div></div>
-    </section>
-
-    <!-- ============ CONTACTO ============ -->
-    <section class="contact-section section" id="contacto">
-        <div class="section-header">
-            <span class="section-tag" data-i18n="contact_tag">Contacto</span>
-            <h2 class="section-title" data-i18n="contact_title">Comencemos Tu Proyecto</h2>
-            <div class="divider"></div>
-        </div>
-        <div class="contact-wrapper">
-            <div class="contact-info">
-                <div class="contact-info-item">
-                    <div class="contact-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg></div>
-                    <div>
-                        <h4 data-i18n="contact_location_title">Ubicación</h4>
-                        <p data-i18n="contact_location_text">Santander, España</p>
-                    </div>
-                </div>
-                <div class="contact-info-item">
-                    <div class="contact-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"></path></svg></div>
-                    <div>
-                        <h4 data-i18n="contact_phone_title">Teléfono</h4>
-                        <p>+34 697 89 13 24</p>
-                    </div>
-                </div>
-                <div class="contact-info-item">
-                    <div class="contact-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></div>
-                    <div>
-                        <h4>Email</h4>
-                        <p>Leangonzaleztattoo@icloud.com</p>
-                    </div>
-                </div>
-                <div class="contact-info-item">
-                    <div class="contact-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg></div>
-                    <div>
-                        <p id="currentTimeDisplay">Hora actual : 05:39 Hs.</p>
-                        <p id="hoursStatus">CERRADO, abriremos a las 9:00 Hs.</p>
-                        <p data-i18n="contact_hours_text">Lun a Sáb: 9:00 Hs. – 13:00 Hs. · 16:00 Hs. – 21:00 Hs.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="contact-form-card" id="contactFormCard">
-                <form id="contactForm" style="position: relative;" novalidate="" data-gtm-form-interact-id="0">
-                    <p data-i18n="form_business_hours_notice" style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 1rem; font-style: italic;">Su solicitud será atendida dentro del horario comercial. Muchas gracias.</p>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="name" data-i18n="form_name_label">Nombre *</label>
-                            <input type="text" id="name" autocomplete="name" required="" aria-describedby="name-error" data-gtm-form-interact-field-id="0">
-                        </div>
-                        <div class="form-group">
-                            <label for="phone" data-i18n="form_phone_label">Teléfono *</label>
-                            <input type="tel" id="phone" autocomplete="tel" required="" aria-describedby="phone-error" data-gtm-form-interact-field-id="1">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="bodyPart" data-i18n="form_body_part_label">Partes del cuerpo a tatuar *</label>
-                        <select id="bodyPart" multiple="" required="" aria-describedby="bodypart-error" data-gtm-form-interact-field-id="2"><option value="Brazo">Brazo</option><option value="Antebrazo">Antebrazo</option><option value="Hombro">Hombro</option><option value="Pecho">Pecho</option><option value="Espalda">Espalda</option><option value="Costillas">Costillas</option><option value="Abdomen">Abdomen</option><option value="Pierna">Pierna</option><option value="Muslo">Muslo</option><option value="Pantorrilla">Pantorrilla</option><option value="Tobillo">Tobillo</option><option value="Cuello">Cuello</option><option value="Cara">Cara</option><option value="Mano">Mano</option><option value="Dedos">Dedos</option><option value="Muñeca">Muñeca</option><option value="Codo">Codo</option><option value="Rodilla">Rodilla</option><option value="Glúteo">Glúteo</option><option value="Cadera">Cadera</option><option value="Cabeza/Cuero cabelludo">Cabeza/Cuero cabelludo</option><option value="Oreja">Oreja</option><option value="Pie">Pie</option><option value="Manga completa">Manga completa</option><option value="Espalda completa">Espalda completa</option><option value="Pecho completo">Pecho completo</option><option value="Otro">Otro</option></select>
-                        <small data-i18n="form_multiselect_hint" style="color: var(--text-muted); font-size: 0.7rem; display: block; margin-top: 0.3rem;">Mantén presionada la tecla Ctrl (Windows) o Cmd (Mac) para seleccionar múltiples opciones</small>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="message" data-i18n="form_message_label">Mensaje *</label>
-                        <div style="position: relative; width: 100%;">
-                            <textarea id="message" required="" data-i18n-placeholder="form_message_placeholder" placeholder="Describe tu idea, estilo, tamaño, colores, etc. o utiliza el micrófono para escribirnos !!" style="padding-right: 70px;" aria-describedby="message-error" data-gtm-form-interact-field-id="3"></textarea>
-                            <button type="button" id="voiceBtn" aria-label="Activar micrófono para dictado" style="position: absolute; bottom: 12px; right: 12px; background: rgba(0, 0, 0, 0.7); border-width: medium; border-style: none; border-color: currentcolor; border-image: none; color: var(--gold); cursor: pointer; font-size: 1.8rem; transition: var(--transition); padding: 12px 18px; border-radius: 50px; line-height: 1; transform: scale(1);">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
-                            </button>
-                        </div>
-                    </div>
-
-                    <button type="submit" class="btn-submit"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg> <span data-i18n="form_submit">Enviar por WhatsApp</span></button>
-                </form>
-                <div class="form-success-msg" id="formSuccessMsg" role="status" aria-live="polite" style="display: none;">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-                    <p data-i18n="form_success">¡Listo! Abriremos WhatsApp...</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ============ FOOTER ============ -->
-    <footer class="footer">
-        <div class="footer-social">
-            <a href="https://www.instagram.com/lean.gonzaleztattoo/" target="_blank" rel="noopener" aria-label="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></a>
-        </div>
-        <p class="footer-copy">
-            © 2026 LG Tattoo | 
-            <a href="https://lgtatoo.com/#" id="scPhotoLink" style="color: var(--gold); text-decoration: none; cursor: pointer; transition: var(--transition);">SC Photo Br</a>
-        </p>
-    </footer>
-
-    <!-- ============ SERVICE WORKER ============ -->
-    <script>
-        if ('serviceWorker' in navigator) {
-            caches.keys().then(function(names) {
-                for (let name of names) {
-                    caches.delete(name);
-                }
+        return fetch(event.request).then(response => {
+          if (!response || response.status !== 200 || response.type !== 'basic') {
+            return response;
+          }
+          const responseToCache = response.clone();
+          caches.open(CACHE_NAME)
+            .then(cache => {
+              cache.put(event.request, responseToCache);
             });
-            
-            navigator.serviceWorker.getRegistrations().then(function(registrations) {
-                for(let registration of registrations) {
-                    registration.unregister();
-                }
-            });
-            
-            setTimeout(function() {
-                navigator.serviceWorker.register('/sw.js')
-                    .then(function(registration) {
-                        console.log('✅ Nuevo Service Worker registrado:', registration.scope);
-                    })
-                    .catch(function(error) {
-                        console.log('Error al registrar SW:', error);
-                    });
-            }, 1000);
-        }
-    </script>
-
-    <!-- ============ JAVASCRIPT MINIFICADO EXTERNO ============ -->
-    <script src="./LG Tattoo _ Estudio de Tatuajes - Index_files/app.min.js.download" defer=""></script>
-
-
-<div class="scroll-progress" style="width: 71.0512%;"></div></body></html>
+          return response;
+        });
+      })
+      .catch(() => {
+        return new Response('Offline - No se pudo cargar el contenido');
+      })
+  );
+});
