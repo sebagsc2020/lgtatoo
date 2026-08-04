@@ -65,6 +65,174 @@
     </script>
 
     <style>
+        /* ============ ESTILOS DEL PANEL DE IDIOMAS ============ */
+        .lang-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 9998;
+            backdrop-filter: blur(4px);
+        }
+        .lang-overlay.active {
+            display: block;
+        }
+
+        .lang-panel {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 16px;
+            padding: 30px 35px;
+            z-index: 9999;
+            min-width: 320px;
+            max-width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+            animation: slideDown 0.3s ease;
+        }
+        .lang-panel.active {
+            display: block;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translate(-50%, -40%); }
+            to { opacity: 1; transform: translate(-50%, -50%); }
+        }
+
+        .lang-panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #333;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+        .lang-panel-header h3 {
+            color: #c8a45c;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.4rem;
+            margin: 0;
+        }
+        .lang-panel-close {
+            background: none;
+            border: none;
+            color: #888;
+            cursor: pointer;
+            font-size: 1.2rem;
+            padding: 5px;
+            transition: color 0.3s ease;
+        }
+        .lang-panel-close:hover {
+            color: #fff;
+        }
+
+        .lang-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+            padding: 12px 16px;
+            background: transparent;
+            border: 1px solid #333;
+            border-radius: 10px;
+            color: #aaa;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+        .lang-option:hover {
+            background: rgba(200, 164, 92, 0.1);
+            border-color: #c8a45c;
+            color: #fff;
+        }
+        .lang-option.active {
+            background: rgba(200, 164, 92, 0.15);
+            border-color: #c8a45c;
+            color: #fff;
+        }
+        .lang-option .lang-flag {
+            font-size: 1.4rem;
+        }
+        .lang-option .lang-name {
+            flex: 1;
+            font-weight: 500;
+        }
+        .lang-option .lang-check {
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            color: #4caf50;
+        }
+        .lang-option.active .lang-check {
+            opacity: 1;
+        }
+
+        .lang-panel-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #333;
+            font-size: 0.8rem;
+            color: #666;
+        }
+        .hide-panel-btn {
+            background: none;
+            border: none;
+            color: #666;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .hide-panel-btn:hover {
+            color: #c8a45c;
+        }
+
+        /* ============ BOTÓN DE IDIOMA ============ */
+        .lang-toggle-tab {
+            position: fixed;
+            bottom: 100px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid #c8a45c;
+            border-radius: 50px;
+            color: #c8a45c;
+            padding: 10px 16px;
+            cursor: pointer;
+            z-index: 100;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            backdrop-filter: blur(10px);
+            font-family: 'Inter', sans-serif;
+        }
+        .lang-toggle-tab:hover {
+            background: rgba(200, 164, 92, 0.2);
+            transform: scale(1.05);
+        }
+        .lang-toggle-tab svg {
+            width: 18px;
+            height: 18px;
+            stroke: #c8a45c;
+        }
+
+        /* ============ FORMULARIO ============ */
         .form-success-msg {
             display: none;
             padding: 20px;
@@ -214,6 +382,25 @@
             height: 100%;
             object-fit: cover;
             display: block;
+        }
+
+        /* ============ RESPONSIVE ============ */
+        @media (max-width: 600px) {
+            .lang-panel {
+                min-width: unset;
+                width: 90%;
+                padding: 20px;
+            }
+            .lang-toggle-tab {
+                bottom: 80px;
+                right: 10px;
+                padding: 8px 12px;
+                font-size: 0.6rem;
+            }
+            .lang-toggle-tab svg {
+                width: 14px;
+                height: 14px;
+            }
         }
     </style>
 </head>
@@ -512,20 +699,15 @@
 
         const translations = {
             es: {
-                // Panel de idiomas
                 lang_title: '🌐 Idioma',
                 lang_footer: 'Selecciona tu idioma',
                 hide_panel: 'Ocultar panel',
                 lang_tab: 'IDIOMA',
-                
-                // Navegación
                 nav_home: 'Inicio',
                 nav_gallery: 'Galería',
                 nav_recomendaciones: 'Recomendaciones',
                 nav_testimonials: 'Testimonios',
                 nav_cta: 'Reservar Cita',
-                
-                // Hero
                 hero_badge: '✦ Estudio Profesional ✦',
                 hero_title_1: 'Tinta que',
                 hero_title_accent: 'trasciende',
@@ -533,13 +715,9 @@
                 hero_desc: 'Especialista en realismo, blackwork y diseños personalizados.',
                 hero_btn_primary: 'Agendar Cita',
                 hero_btn_secondary: 'Ver Portafolio',
-                
-                // Galería
                 gallery_tag: 'Portafolio',
                 gallery_title: 'Trabajos Recientes',
                 gallery_subtitle: 'Cada tatuaje es una historia grabada en piel.',
-                
-                // Recomendaciones
                 recomendaciones_tag: 'Cuidados',
                 recomendaciones_title: 'Recomendaciones para tu Tatuaje',
                 recomendaciones_subtitle: 'Para garantizar que tu tatuaje cicatrice correctamente y los colores o la tinta negra se mantengan impecables, es fundamental seguir estos cuidados.',
@@ -556,20 +734,14 @@
                 recomendaciones_post_4: '<strong>Prohibido rascar o arrancar costras:</strong> Nunca arranques las pielecitas ni rasques.',
                 recomendaciones_post_5: '<strong>Cero sol, piscinas y playas:</strong> Durante las primeras 3 a 4 semanas debes evitar por completo la exposición solar directa.',
                 recomendaciones_post_6: '<strong>Evita ropa ajustada:</strong> Usa ropa de algodón y holgada para evitar la fricción constante sobre el diseño fresco.',
-                
-                // Testimonios
                 testimonials_tag: 'Lo que dicen',
                 testimonials_title: 'Testimonios Reales',
-                
-                // Contacto
                 contact_tag: 'Contacto',
                 contact_title: 'Comencemos Tu Proyecto',
                 contact_location_title: 'Ubicación',
                 contact_location_text: 'Santander, España',
                 contact_phone_title: 'Teléfono',
                 contact_hours_text: 'Lun a Sáb: 9:00 Hs. – 13:00 Hs. · 16:00 Hs. – 21:00 Hs.',
-                
-                // Formulario
                 form_business_hours_notice: 'Su solicitud será atendida dentro del horario comercial. Muchas gracias.',
                 form_name_label: 'Nombre *',
                 form_phone_label: 'Teléfono *',
@@ -585,13 +757,11 @@
                 lang_footer: 'Select your language',
                 hide_panel: 'Hide panel',
                 lang_tab: 'LANGUAGE',
-                
                 nav_home: 'Home',
                 nav_gallery: 'Gallery',
                 nav_recomendaciones: 'Recommendations',
                 nav_testimonials: 'Testimonials',
                 nav_cta: 'Book Appointment',
-                
                 hero_badge: '✦ Professional Studio ✦',
                 hero_title_1: 'Ink that',
                 hero_title_accent: 'transcends',
@@ -599,11 +769,9 @@
                 hero_desc: 'Specialist in realism, blackwork and custom designs.',
                 hero_btn_primary: 'Book Appointment',
                 hero_btn_secondary: 'View Portfolio',
-                
                 gallery_tag: 'Portfolio',
                 gallery_title: 'Recent Work',
                 gallery_subtitle: 'Every tattoo is a story etched in skin.',
-                
                 recomendaciones_tag: 'Care',
                 recomendaciones_title: 'Tattoo Care Recommendations',
                 recomendaciones_subtitle: 'To ensure your tattoo heals properly and colors or black ink remain flawless, it is essential to follow these care guidelines.',
@@ -620,17 +788,14 @@
                 recomendaciones_post_4: '<strong>Do not scratch or peel scabs:</strong> Never peel off flakes or scratch, as you may lose ink or cause infection.',
                 recomendaciones_post_5: '<strong>No sun, pools or beaches:</strong> During the first 3 to 4 weeks, avoid direct sun exposure, pools, sea, saunas and jacuzzis.',
                 recomendaciones_post_6: '<strong>Avoid tight clothing:</strong> Wear cotton and loose clothing to avoid constant friction on the fresh design.',
-                
                 testimonials_tag: 'What they say',
                 testimonials_title: 'Real Testimonials',
-                
                 contact_tag: 'Contact',
                 contact_title: 'Start Your Project',
                 contact_location_title: 'Location',
                 contact_location_text: 'Santander, Spain',
                 contact_phone_title: 'Phone',
                 contact_hours_text: 'Mon to Sat: 9:00 AM – 1:00 PM · 4:00 PM – 9:00 PM',
-                
                 form_business_hours_notice: 'Your request will be answered during business hours. Thank you.',
                 form_name_label: 'Name *',
                 form_phone_label: 'Phone *',
@@ -646,13 +811,11 @@
                 lang_footer: 'Selecciona el teu idioma',
                 hide_panel: 'Ocultar panell',
                 lang_tab: 'IDIOMA',
-                
                 nav_home: 'Inici',
                 nav_gallery: 'Galeria',
                 nav_recomendaciones: 'Recomanacions',
                 nav_testimonials: 'Testimonis',
                 nav_cta: 'Reservar Cita',
-                
                 hero_badge: '✦ Estudi Professional ✦',
                 hero_title_1: 'Tinta que',
                 hero_title_accent: 'traspassa',
@@ -660,11 +823,9 @@
                 hero_desc: 'Especialista en realisme, blackwork i dissenys personalitzats.',
                 hero_btn_primary: 'Agendar Cita',
                 hero_btn_secondary: 'Veure Portafoli',
-                
                 gallery_tag: 'Portafoli',
                 gallery_title: 'Treballs Recents',
                 gallery_subtitle: 'Cada tatuatge és una història gravada a la pell.',
-                
                 recomendaciones_tag: 'Cures',
                 recomendaciones_title: 'Recomanacions per al teu Tatuatge',
                 recomendaciones_subtitle: 'Per garantir que el teu tatuatge cicatritzi correctament i els colors o la tinta negra es mantinguin impecables, és fonamental seguir aquestes cures.',
@@ -681,17 +842,14 @@
                 recomendaciones_post_4: '<strong>Prohibit rascar o arrencar crostes:</strong> No arrenquis mai les pellícules ni rasquis, ja que pots perdre part de la tinta o provocar una infecció.',
                 recomendaciones_post_5: '<strong>Zero sol, piscines i platges:</strong> Durant les primeres 3 a 4 setmanes has d\'evitar per complet l\'exposició solar directa.',
                 recomendaciones_post_6: '<strong>Evita roba ajustada:</strong> Fes servir roba de cotó i holgada per evitar la fricció constant sobre el disseny fresc.',
-                
                 testimonials_tag: 'El que diuen',
                 testimonials_title: 'Testimonis Reals',
-                
                 contact_tag: 'Contacte',
                 contact_title: 'Comença el teu Projecte',
                 contact_location_title: 'Ubicació',
                 contact_location_text: 'Santander, Espanya',
                 contact_phone_title: 'Telèfon',
                 contact_hours_text: 'Dill a Diss: 9:00 Hs. – 13:00 Hs. · 16:00 Hs. – 21:00 Hs.',
-                
                 form_business_hours_notice: 'La teva sol·licitud serà atesa dins de l\'horari comercial. Moltes gràcies.',
                 form_name_label: 'Nom *',
                 form_phone_label: 'Telèfon *',
@@ -710,11 +868,9 @@
             currentLang = lang;
             const t = translations[lang];
             
-            // Actualizar todos los elementos con ID
             document.querySelectorAll('[id]').forEach(el => {
                 const key = el.id;
                 if (t[key] !== undefined) {
-                    // Si es un elemento con HTML (como recomendaciones), usar innerHTML
                     if (key.startsWith('recomendaciones_')) {
                         el.innerHTML = t[key];
                     } else {
@@ -723,7 +879,6 @@
                 }
             });
 
-            // Actualizar placeholders
             document.querySelectorAll('[placeholder]').forEach(el => {
                 const key = el.id + '_placeholder';
                 if (t[key] !== undefined) {
@@ -731,12 +886,10 @@
                 }
             });
 
-            // Actualizar opciones del select de idioma
             document.querySelectorAll('.lang-option').forEach(btn => {
                 btn.classList.toggle('active', btn.dataset.lang === lang);
             });
 
-            // Guardar preferencia
             localStorage.setItem('lg_tattoo_lang', lang);
             document.documentElement.lang = lang;
         }
@@ -768,7 +921,6 @@
         if (langOverlay) langOverlay.addEventListener('click', closeLangPanel);
         if (hidePanelBtn) hidePanelBtn.addEventListener('click', closeLangPanel);
 
-        // Selección de idioma
         document.querySelectorAll('.lang-option').forEach(btn => {
             btn.addEventListener('click', function() {
                 const lang = this.dataset.lang;
@@ -778,22 +930,30 @@
         });
 
         // ========================================================================
-        // 2. RELOJ EN TIEMPO REAL
+        // 2. RELOJ EN TIEMPO REAL - ZONA HORARIA DE SANTANDER (ESPAÑA)
         // ========================================================================
 
         function actualizarReloj() {
+            // Usar zona horaria de España (Madrid/Santander)
             const now = new Date();
-            const hora = String(now.getHours()).padStart(2, '0');
-            const minutos = String(now.getMinutes()).padStart(2, '0');
-            const horaStr = `${hora}:${minutos} Hs.`;
+            const horaStr = now.toLocaleTimeString('es-ES', { 
+                timeZone: 'Europe/Madrid',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false
+            });
             
             const display = document.getElementById('currentTimeDisplay');
             if (display) {
-                display.textContent = `Hora actual : ${horaStr}`;
+                display.textContent = `Hora actual : ${horaStr} Hs.`;
             }
             
             const dia = now.getDay();
-            const horaNum = now.getHours();
+            const horaNum = parseInt(now.toLocaleTimeString('es-ES', { 
+                timeZone: 'Europe/Madrid',
+                hour: '2-digit',
+                hour12: false
+            }).split(':')[0]);
             
             let estado = '';
             let estadoColor = '';
@@ -919,7 +1079,6 @@
 
         function detectarPaisPorIP() {
             const badge = document.getElementById('countryBadge');
-            const detectingText = document.getElementById('detectingCountry');
             
             fetch('https://ipapi.co/json/')
                 .then(response => response.json())
@@ -968,7 +1127,7 @@
         }
 
         // ========================================================================
-        // 5. FORMULARIO WHATSAPP - SOLO PAÍS + DATOS DEL FORMULARIO
+        // 5. FORMULARIO WHATSAPP
         // ========================================================================
 
         document.getElementById('contactForm').addEventListener('submit', function(e) {
@@ -1082,14 +1241,14 @@
         // ========================================================================
 
         document.addEventListener('DOMContentLoaded', function() {
-            // Cargar idioma guardado
             const savedLang = localStorage.getItem('lg_tattoo_lang') || 'es';
             setLanguage(savedLang);
             
             detectarPaisPorIP();
-            console.log('✅ LG Tattoo - Formulario configurado correctamente');
+            console.log('✅ LG Tattoo - Todo configurado correctamente');
+            console.log('   🕐 Hora de Santander (España)');
+            console.log('   🌍 Panel de idiomas funcionando');
             console.log('   📱 Solo se envía: País + datos del formulario');
-            console.log('   🌍 Panel de idiomas funcionando correctamente');
         });
     </script>
 
