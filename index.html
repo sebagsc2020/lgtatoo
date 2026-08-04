@@ -56,8 +56,9 @@
     }
     </script>
 
-    <!-- SEO AUTOMÁTICO Y ANALYTICS -->
-    <script src="/seo-optimizer.js" defer></script>
+    <!-- ⚠️ SEO AUTOMÁTICO ELIMINADO - Estaba generando el enlace no deseado -->
+    <!-- <script src="/seo-optimizer.js" defer></script> -->
+    
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-J9JZK9BSGY"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -536,7 +537,7 @@
         }
 
         // ========================================================================
-        // 3. FORMULARIO WHATSAPP
+        // 3. FORMULARIO WHATSAPP - SOLO UN MENSAJE CON wa.me
         // ========================================================================
 
         document.getElementById('contactForm').addEventListener('submit', function(e) {
@@ -584,7 +585,8 @@
                 `🎯 Partes del cuerpo: ${selectedParts}\n` +
                 `💬 Mensaje: ${message}`;
 
-            // ✅ Número de LG Tattoo (España)
+            // ✅ UN SOLO ENLACE - Número de LG Tattoo (España)
+            // Usamos wa.me que es el formato oficial y limpio
             const url = `https://wa.me/34697891324?text=${encodeURIComponent(whatsappMessage)}`;
 
             // --- MOSTRAR MENSAJE DE ÉXITO ---
@@ -594,7 +596,7 @@
             submitBtn.style.display = 'none';
             successMsg.style.display = 'flex';
             
-            // Abrir WhatsApp
+            // Abrir WhatsApp - UN SOLO ENLACE
             window.open(url, '_blank');
 
             // --- REINICIAR DESPUÉS DE 5 SEGUNDOS ---
@@ -669,22 +671,19 @@
         }
 
         // ========================================================================
-        // 5. CARGAR EL JS PRINCIPAL DE LA WEB
+        // 5. CARGAR EL JS PRINCIPAL DE LA WEB (SE ELIMINA PARA EVITAR CONFLICTOS)
         // ========================================================================
 
-        const appScript = document.createElement('script');
-        appScript.src = '/app.min.js';
-        appScript.defer = true;
-        document.body.appendChild(appScript);
+        // ⚠️ Este archivo app.min.js estaba generando el enlace no deseado
+        // Lo desactivamos para evitar el doble envío
+        // const appScript = document.createElement('script');
+        // appScript.src = '/app.min.js';
+        // appScript.defer = true;
+        // document.body.appendChild(appScript);
 
-        // ========================================================================
-        // 6. LOG EN CONSOLA (SOLO PARA DEPURACIÓN)
-        // ========================================================================
-
-        console.log('🔍 LG Tattoo - Dispositivo detectado:');
-        const deviceInfo = getDeviceFullInfo();
-        console.log('  📱', deviceInfo.fullInfo);
-        console.log('  🆔 Session ID (interno):', getSessionId());
+        console.log('✅ LG Tattoo - Formulario configurado correctamente');
+        console.log('   📱 Solo se envía un mensaje por wa.me');
+        console.log('   🔒 Session ID oculto (solo para seguimiento interno)');
     </script>
 
 </body>
