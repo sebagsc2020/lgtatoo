@@ -56,7 +56,7 @@
     }
     </script>
 
-    <!-- SEO AUTOMÁTICO Y ANALYTICS (SE MANTIENEN TUS SCRIPTS) -->
+    <!-- SEO AUTOMÁTICO Y ANALYTICS -->
     <script src="/seo-optimizer.js" defer></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-J9JZK9BSGY"></script>
     <script>
@@ -210,7 +210,7 @@
         </div>
     </section>
 
-    <!-- ============ CONTACTO (CON FORMULARIO A GOOGLE SHEETS) ============ -->
+    <!-- ============ CONTACTO (FORMULARIO ORIGINAL DE LG TATTOO) ============ -->
     <section class="contact-section section" id="contacto">
         <div class="section-header">
             <span class="section-tag" data-i18n="contact_tag">Contacto</span>
@@ -250,41 +250,72 @@
                 </div>
             </div>
 
-            <!-- ============ FORMULARIO A GOOGLE SHEETS ============ -->
-            <div class="contact-form-card">
-                <form id="formReserva">
-                    <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 1rem;">Su solicitud será atendida dentro del horario comercial.</p>
+            <!-- ============ FORMULARIO ORIGINAL (WhatsApp) ============ -->
+            <div class="contact-form-card" id="contactFormCard">
+                <form id="contactForm" style="position: relative;" novalidate>
+                    <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 1rem; font-style: italic;">Su solicitud será atendida dentro del horario comercial. Muchas gracias.</p>
                     
-                    <div class="form-group">
-                        <label for="nombre">Nombre *</label>
-                        <input type="text" id="nombre" required placeholder="Tu nombre completo">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="telefono">Teléfono *</label>
-                        <input type="tel" id="telefono" required placeholder="+34 123 456 789">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="fecha">Fecha deseada *</label>
-                        <input type="date" id="fecha" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="hora">Hora deseada *</label>
-                        <input type="time" id="hora" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="notas">Notas o descripción *</label>
-                        <div style="position: relative; width: 100%;">
-                            <textarea id="notas" required placeholder="Describe tu idea, estilo o zona a tatuar..." style="padding-right: 70px;"></textarea>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="name">Nombre *</label>
+                            <input type="text" id="name" autocomplete="name" required aria-describedby="name-error">
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Teléfono *</label>
+                            <input type="tel" id="phone" autocomplete="tel" required aria-describedby="phone-error">
                         </div>
                     </div>
 
-                    <button type="submit" class="btn-submit"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg> <span>Enviar Reserva</span></button>
+                    <div class="form-group">
+                        <label for="bodyPart">Partes del cuerpo a tatuar *</label>
+                        <select id="bodyPart" multiple required aria-describedby="bodypart-error">
+                            <option value="Brazo">Brazo</option>
+                            <option value="Antebrazo">Antebrazo</option>
+                            <option value="Hombro">Hombro</option>
+                            <option value="Pecho">Pecho</option>
+                            <option value="Espalda">Espalda</option>
+                            <option value="Costillas">Costillas</option>
+                            <option value="Abdomen">Abdomen</option>
+                            <option value="Pierna">Pierna</option>
+                            <option value="Muslo">Muslo</option>
+                            <option value="Pantorrilla">Pantorrilla</option>
+                            <option value="Tobillo">Tobillo</option>
+                            <option value="Cuello">Cuello</option>
+                            <option value="Cara">Cara</option>
+                            <option value="Mano">Mano</option>
+                            <option value="Dedos">Dedos</option>
+                            <option value="Muñeca">Muñeca</option>
+                            <option value="Codo">Codo</option>
+                            <option value="Rodilla">Rodilla</option>
+                            <option value="Glúteo">Glúteo</option>
+                            <option value="Cadera">Cadera</option>
+                            <option value="Cabeza/Cuero cabelludo">Cabeza/Cuero cabelludo</option>
+                            <option value="Oreja">Oreja</option>
+                            <option value="Pie">Pie</option>
+                            <option value="Manga completa">Manga completa</option>
+                            <option value="Espalda completa">Espalda completa</option>
+                            <option value="Pecho completo">Pecho completo</option>
+                            <option value="Otro">Otro</option>
+                        </select>
+                        <small style="color: var(--text-muted); font-size: 0.7rem; display: block; margin-top: 0.3rem;">Mantén presionada la tecla Ctrl (Windows) o Cmd (Mac) para seleccionar múltiples opciones</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Mensaje *</label>
+                        <div style="position: relative; width: 100%;">
+                            <textarea id="message" required placeholder="Describe tu idea, estilo, tamaño, colores, etc. o utiliza el micrófono para escribirnos !!" style="padding-right: 70px;" aria-describedby="message-error"></textarea>
+                            <button type="button" id="voiceBtn" aria-label="Activar micrófono para dictado" style="position: absolute; bottom: 12px; right: 12px; background: rgba(0, 0, 0, 0.7); border: none; color: var(--gold); cursor: pointer; font-size: 1.8rem; transition: var(--transition); padding: 12px 18px; border-radius: 50px; line-height: 1;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-submit"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg> <span>Enviar por WhatsApp</span></button>
                 </form>
-                <div id="mensaje-status" style="margin-top: 15px; text-align: center; font-weight: bold; display: none;"></div>
+                <div class="form-success-msg" id="formSuccessMsg" role="status" aria-live="polite" style="display: none;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                    <p>¡Listo! Abriremos WhatsApp...</p>
+                </div>
             </div>
         </div>
     </section>
@@ -299,7 +330,7 @@
         </p>
     </footer>
 
-    <!-- ============ SERVICE WORKER (CORREGIDO) ============ -->
+    <!-- ============ SERVICE WORKER ============ -->
     <script>
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('/sw.js')
@@ -312,57 +343,95 @@
         }
     </script>
 
-    <!-- ============ JAVASCRIPT (FORMULARIO Y APP) ============ -->
+    <!-- ============ JAVASCRIPT (FORMULARIO WHATSAPP Y APP) ============ -->
     <script>
-        // 1. Lógica de envío a Google Sheets
-        document.getElementById('formReserva').addEventListener('submit', async function(e) {
+        // 1. Lógica del formulario WhatsApp
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
             e.preventDefault();
 
-            const mensajeDiv = document.getElementById('mensaje-status');
-            mensajeDiv.style.display = 'none';
+            const name = document.getElementById('name').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const bodyPart = document.getElementById('bodyPart');
+            const selectedParts = Array.from(bodyPart.selectedOptions).map(opt => opt.value).join(', ');
+            const message = document.getElementById('message').value.trim();
 
-            const nombre = document.getElementById('nombre').value.trim();
-            const telefono = document.getElementById('telefono').value.trim();
-            const fecha = document.getElementById('fecha').value;
-            const hora = document.getElementById('hora').value;
-            const notas = document.getElementById('notas').value.trim();
-
-            const datos = {
-                name: nombre,
-                phone: telefono,
-                date: fecha,
-                time: hora,
-                notes: notas
-            };
-
-            const url = "https://script.google.com/macros/s/AKfycbxlPjSRB8CeNG6Osi63LRiJKppQ6elRF-4ipCGLgI01mlzKGNuEQoutZON4Vc5XKDuVWQ/exec";
-
-            try {
-                mensajeDiv.textContent = "⏳ Enviando reserva...";
-                mensajeDiv.style.color = "#c8a45c";
-                mensajeDiv.style.display = 'block';
-
-                await fetch(url, {
-                    method: "POST",
-                    mode: "no-cors",
-                    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                    body: new URLSearchParams(datos)
-                });
-
-                mensajeDiv.textContent = "✅ ¡Reserva enviada con éxito!";
-                mensajeDiv.style.color = "#4caf50";
-                mensajeDiv.style.display = 'block';
-                document.getElementById('formReserva').reset();
-
-            } catch (error) {
-                console.error("Error:", error);
-                mensajeDiv.textContent = "❌ Error de conexión. Inténtalo de nuevo.";
-                mensajeDiv.style.color = "#f44336";
-                mensajeDiv.style.display = 'block';
+            if (!name || !phone || !selectedParts || !message) {
+                alert('Por favor, completa todos los campos obligatorios.');
+                return;
             }
+
+            const whatsappMessage = 
+                `Hola LG Tattoo! 👋\n\n` +
+                `Mi nombre es: ${name}\n` +
+                `Mi teléfono: ${phone}\n` +
+                `Partes del cuerpo a tatuar: ${selectedParts}\n` +
+                `Mensaje: ${message}`;
+
+            const url = `https://wa.me/34697891324?text=${encodeURIComponent(whatsappMessage)}`;
+            window.open(url, '_blank');
         });
 
-        // 2. Cargar el JS principal de la web (app.min.js) si existe
+        // 2. Micrófono
+        const voiceBtn = document.getElementById('voiceBtn');
+        const messageField = document.getElementById('message');
+
+        if (voiceBtn) {
+            voiceBtn.addEventListener('click', function() {
+                if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+                    alert('Tu navegador no soporta reconocimiento de voz. Por favor, escribe tu mensaje.');
+                    return;
+                }
+
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                const recognition = new SpeechRecognition();
+                recognition.lang = 'es-ES';
+                recognition.continuous = false;
+                recognition.interimResults = true;
+
+                const originalText = messageField.value;
+
+                voiceBtn.innerHTML = '<span style="font-size:1.2rem;">🎤 Escuchando...</span>';
+                voiceBtn.style.color = '#ff6b6b';
+                voiceBtn.disabled = true;
+
+                recognition.onresult = function(event) {
+                    let finalTranscript = '';
+                    let interimTranscript = '';
+
+                    for (let i = event.resultIndex; i < event.results.length; i++) {
+                        const transcript = event.results[i][0].transcript;
+                        if (event.results[i].isFinal) {
+                            finalTranscript += transcript;
+                        } else {
+                            interimTranscript += transcript;
+                        }
+                    }
+
+                    if (finalTranscript) {
+                        messageField.value = originalText ? originalText + ' ' + finalTranscript : finalTranscript;
+                    } else if (interimTranscript) {
+                        messageField.value = originalText ? originalText + ' ' + interimTranscript : interimTranscript;
+                    }
+                };
+
+                recognition.onerror = function(event) {
+                    console.error('Error de reconocimiento:', event.error);
+                    voiceBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>';
+                    voiceBtn.style.color = 'var(--gold)';
+                    voiceBtn.disabled = false;
+                };
+
+                recognition.onend = function() {
+                    voiceBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>';
+                    voiceBtn.style.color = 'var(--gold)';
+                    voiceBtn.disabled = false;
+                };
+
+                recognition.start();
+            });
+        }
+
+        // 3. Cargar el JS principal de la web
         const appScript = document.createElement('script');
         appScript.src = '/app.min.js';
         appScript.defer = true;
