@@ -56,9 +56,6 @@
     }
     </script>
 
-    <!-- ⚠️ SEO AUTOMÁTICO ELIMINADO - Estaba generando el enlace no deseado -->
-    <!-- <script src="/seo-optimizer.js" defer></script> -->
-    
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-J9JZK9BSGY"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -68,7 +65,6 @@
     </script>
 
     <style>
-        /* Estilos adicionales para el mensaje de éxito */
         .form-success-msg {
             display: none;
             padding: 20px;
@@ -383,7 +379,106 @@
     <!-- ============ JAVASCRIPT ============ -->
     <script>
         // ========================================================================
-        // 1. DETECCIÓN AVANZADA DE DISPOSITIVO
+        // 1. DETECCIÓN AVANZADA DE PAÍS DE ORIGEN
+        // ========================================================================
+
+        function getCountryInfo() {
+            const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+            const language = navigator.language || navigator.languages?.[0] || 'es-ES';
+            
+            // Mapeo de zonas horarias a países
+            const countryMap = {
+                'America/Argentina': '🇦🇷 Argentina',
+                'America/Mexico': '🇲🇽 México',
+                'America/Chile': '🇨🇱 Chile',
+                'America/Colombia': '🇨🇴 Colombia',
+                'America/Peru': '🇵🇪 Perú',
+                'America/Venezuela': '🇻🇪 Venezuela',
+                'America/Costa_Rica': '🇨🇷 Costa Rica',
+                'America/El_Salvador': '🇸🇻 El Salvador',
+                'America/Guatemala': '🇬🇹 Guatemala',
+                'America/Honduras': '🇭🇳 Honduras',
+                'America/Nicaragua': '🇳🇮 Nicaragua',
+                'America/Panama': '🇵🇦 Panamá',
+                'America/Dominica': '🇩🇴 República Dominicana',
+                'America/Puerto_Rico': '🇵🇷 Puerto Rico',
+                'America/Cuba': '🇨🇺 Cuba',
+                'America/Jamaica': '🇯🇲 Jamaica',
+                'America/Trinidad': '🇹🇹 Trinidad y Tobago',
+                'America/New_York': '🇺🇸 Estados Unidos (EST)',
+                'America/Los_Angeles': '🇺🇸 Estados Unidos (PST)',
+                'America/Chicago': '🇺🇸 Estados Unidos (CST)',
+                'America/Denver': '🇺🇸 Estados Unidos (MST)',
+                'America/Phoenix': '🇺🇸 Estados Unidos (MST)',
+                'America/Toronto': '🇨🇦 Canadá',
+                'America/Vancouver': '🇨🇦 Canadá',
+                'Europe/Madrid': '🇪🇸 España',
+                'Europe/Barcelona': '🇪🇸 España',
+                'Europe/London': '🇬🇧 Reino Unido',
+                'Europe/Paris': '🇫🇷 Francia',
+                'Europe/Berlin': '🇩🇪 Alemania',
+                'Europe/Rome': '🇮🇹 Italia',
+                'Europe/Lisbon': '🇵🇹 Portugal',
+                'Europe/Amsterdam': '🇳🇱 Países Bajos',
+                'Europe/Brussels': '🇧🇪 Bélgica',
+                'Europe/Zurich': '🇨🇭 Suiza',
+                'Asia/Tokyo': '🇯🇵 Japón',
+                'Asia/Shanghai': '🇨🇳 China',
+                'Asia/Hong_Kong': '🇭🇰 Hong Kong',
+                'Asia/Singapore': '🇸🇬 Singapur',
+                'Asia/Dubai': '🇦🇪 Emiratos Árabes',
+                'Asia/Kolkata': '🇮🇳 India',
+                'Australia/Sydney': '🇦🇺 Australia',
+                'Australia/Melbourne': '🇦🇺 Australia',
+                'Pacific/Auckland': '🇳🇿 Nueva Zelanda'
+            };
+
+            // Buscar coincidencia exacta o parcial
+            let country = '🌍 Desconocido';
+            for (const [tz, name] of Object.entries(countryMap)) {
+                if (timezone.startsWith(tz) || timezone === tz) {
+                    country = name;
+                    break;
+                }
+            }
+
+            // Si no se encontró por zona horaria, intentar por idioma
+            if (country === '🌍 Desconocido') {
+                const langMap = {
+                    'es-AR': '🇦🇷 Argentina',
+                    'es-MX': '🇲🇽 México',
+                    'es-CL': '🇨🇱 Chile',
+                    'es-CO': '🇨🇴 Colombia',
+                    'es-PE': '🇵🇪 Perú',
+                    'es-VE': '🇻🇪 Venezuela',
+                    'es-ES': '🇪🇸 España',
+                    'es': '🇪🇸 España',
+                    'en-US': '🇺🇸 Estados Unidos',
+                    'en-GB': '🇬🇧 Reino Unido',
+                    'en': '🇺🇸 Estados Unidos',
+                    'pt-BR': '🇧🇷 Brasil',
+                    'pt': '🇵🇹 Portugal',
+                    'fr': '🇫🇷 Francia',
+                    'de': '🇩🇪 Alemania',
+                    'it': '🇮🇹 Italia'
+                };
+                for (const [lang, name] of Object.entries(langMap)) {
+                    if (language.startsWith(lang)) {
+                        country = name;
+                        break;
+                    }
+                }
+            }
+
+            return {
+                timezone: timezone,
+                language: language,
+                country: country
+            };
+        }
+
+        // ========================================================================
+        // 2. DETECCIÓN AVANZADA DE DISPOSITIVO (MEJORADA PARA SAMSUNG)
         // ========================================================================
 
         function getDeviceFullInfo() {
@@ -415,12 +510,96 @@
             let brand = 'Unknown';
             let model = 'Unknown';
             
-            // --- Detectar Android ---
+            // --- DETECCIÓN MEJORADA PARA SAMSUNG ---
             if (/Android/i.test(ua)) {
-                const brandMatch = ua.match(/(Samsung|Xiaomi|Huawei|Honor|OPPO|Vivo|Realme|OnePlus|Nokia|Motorola|Sony|LG|Google|Pixel|HTC|ZTE|Lenovo|Asus|Acer|TCL|Alcatel)/i);
-                if (brandMatch) brand = brandMatch[1];
-                const modelMatch = ua.match(/; ([^;]+) (?:Build|\))/);
-                if (modelMatch) model = modelMatch[1].trim();
+                // Buscar marca en User Agent
+                const brands = [
+                    'Samsung', 'Xiaomi', 'Huawei', 'Honor', 'OPPO', 'Vivo', 
+                    'Realme', 'OnePlus', 'Nokia', 'Motorola', 'Sony', 'LG', 
+                    'Google', 'Pixel', 'HTC', 'ZTE', 'Lenovo', 'Asus', 'Acer', 
+                    'TCL', 'Alcatel', 'Infinix', 'Tecno', 'Itel'
+                ];
+                
+                // Intentar detectar Samsung específicamente
+                if (/Samsung/i.test(ua)) {
+                    brand = 'Samsung';
+                    // Intentar extraer el modelo específico de Samsung
+                    const samsungMatch = ua.match(/SM-([A-Z0-9]+)/i);
+                    if (samsungMatch) {
+                        const code = samsungMatch[1].toUpperCase();
+                        // Mapeo de códigos Samsung a nombres comerciales
+                        const samsungModels = {
+                            'S918B': 'Galaxy S23 Ultra',
+                            'S918U': 'Galaxy S23 Ultra',
+                            'S916B': 'Galaxy S23+',
+                            'S916U': 'Galaxy S23+',
+                            'S911B': 'Galaxy S23',
+                            'S911U': 'Galaxy S23',
+                            'S908B': 'Galaxy S22 Ultra',
+                            'S908U': 'Galaxy S22 Ultra',
+                            'S906B': 'Galaxy S22+',
+                            'S906U': 'Galaxy S22+',
+                            'S901B': 'Galaxy S22',
+                            'S901U': 'Galaxy S22',
+                            'S908E': 'Galaxy S22 Ultra',
+                            'S906E': 'Galaxy S22+',
+                            'S901E': 'Galaxy S22',
+                            'F936B': 'Galaxy Z Fold 4',
+                            'F936U': 'Galaxy Z Fold 4',
+                            'F721B': 'Galaxy Z Flip 4',
+                            'F721U': 'Galaxy Z Flip 4',
+                            'F926B': 'Galaxy Z Fold 3',
+                            'F926U': 'Galaxy Z Fold 3',
+                            'F711B': 'Galaxy Z Flip 3',
+                            'F711U': 'Galaxy Z Flip 3',
+                            'A546B': 'Galaxy A54',
+                            'A536B': 'Galaxy A53',
+                            'A346B': 'Galaxy A34',
+                            'A336B': 'Galaxy A33',
+                            'A146B': 'Galaxy A14',
+                            'A136B': 'Galaxy A13',
+                            'M536B': 'Galaxy M53',
+                            'M336B': 'Galaxy M33',
+                            'T225': 'Galaxy Tab A7 Lite',
+                            'T500': 'Galaxy Tab S6 Lite',
+                            'T730': 'Galaxy Tab S7',
+                            'T870': 'Galaxy Tab S7+',
+                            'X200': 'Galaxy Tab S8',
+                            'X700': 'Galaxy Tab S8+',
+                            'X900': 'Galaxy Tab S8 Ultra'
+                        };
+                        if (samsungModels[code]) {
+                            model = samsungModels[code];
+                        } else {
+                            model = 'Galaxy ' + code;
+                        }
+                    } else {
+                        // Intentar obtener modelo de otra forma
+                        const modelMatch = ua.match(/; ([^;]+) (?:Build|\))/);
+                        if (modelMatch) {
+                            const rawModel = modelMatch[1].trim();
+                            // Verificar si parece un modelo Samsung
+                            if (rawModel.match(/SM-|Galaxy|Samsung/i)) {
+                                model = rawModel;
+                            } else {
+                                model = 'Samsung ' + rawModel;
+                            }
+                        }
+                    }
+                } else {
+                    // Otras marcas
+                    for (const b of brands) {
+                        if (new RegExp(b, 'i').test(ua)) {
+                            brand = b;
+                            break;
+                        }
+                    }
+                    // Intentar obtener modelo genérico
+                    const modelMatch = ua.match(/; ([^;]+) (?:Build|\))/);
+                    if (modelMatch && !model) {
+                        model = modelMatch[1].trim();
+                    }
+                }
             }
             
             // --- Detectar iPhone ---
@@ -478,7 +657,7 @@
                 else model = 'iPad';
             }
             
-            // --- Detectar navegador ---
+            // --- DETECTAR NAVEGADOR (SOLO PARA USO INTERNO, NO SE MUESTRA) ---
             let browser = 'Unknown';
             let browserVersion = 'Unknown';
             
@@ -511,12 +690,13 @@
                 model: model,
                 browser: browser,
                 browserVersion: browserVersion,
-                fullInfo: `${brand} ${model} (${os} ${osVersion}) • ${browser} ${browserVersion}`
+                // NO incluimos el navegador en el mensaje principal
+                fullInfo: `${brand} ${model} (${os} ${osVersion})`
             };
         }
 
         // ========================================================================
-        // 2. GENERAR SESSION ID (OCULTO - solo para seguimiento interno)
+        // 3. GENERAR SESSION ID (OCULTO)
         // ========================================================================
 
         function getSessionId() {
@@ -537,7 +717,7 @@
         }
 
         // ========================================================================
-        // 3. FORMULARIO WHATSAPP - SOLO UN MENSAJE CON wa.me
+        // 4. FORMULARIO WHATSAPP
         // ========================================================================
 
         document.getElementById('contactForm').addEventListener('submit', function(e) {
@@ -554,8 +734,9 @@
                 return;
             }
 
-            // Obtener información del dispositivo
+            // Obtener información del dispositivo y país
             const deviceInfo = getDeviceFullInfo();
+            const countryInfo = getCountryInfo();
             
             const timestamp = new Date().toLocaleString('es-AR', { 
                 timeZone: 'America/Argentina/Buenos_Aires',
@@ -567,17 +748,17 @@
                 second: '2-digit'
             });
 
-            // 📝 Construir mensaje (Session ID NO se incluye)
+            // 📝 Construir mensaje (SIN navegador, CON país de origen)
             const whatsappMessage = 
                 `Hola LG Tattoo! 👋\n\n` +
                 `═══════════════════════════════\n` +
                 `📋 INFORMACIÓN DE ORIGEN\n` +
                 `═══════════════════════════════\n` +
+                `🌍 País: ${countryInfo.country}\n` +
                 `📱 Dispositivo: ${deviceInfo.fullInfo}\n` +
                 `📊 Marca: ${deviceInfo.brand}\n` +
                 `📱 Modelo: ${deviceInfo.model}\n` +
                 `💻 Sistema: ${deviceInfo.os} ${deviceInfo.osVersion}\n` +
-                `🌐 Navegador: ${deviceInfo.browser} ${deviceInfo.browserVersion}\n` +
                 `⏰ Fecha/Hora: ${timestamp}\n` +
                 `═══════════════════════════════\n\n` +
                 `👤 Nombre: ${name}\n` +
@@ -585,8 +766,7 @@
                 `🎯 Partes del cuerpo: ${selectedParts}\n` +
                 `💬 Mensaje: ${message}`;
 
-            // ✅ UN SOLO ENLACE - Número de LG Tattoo (España)
-            // Usamos wa.me que es el formato oficial y limpio
+            // ✅ Número de LG Tattoo (España)
             const url = `https://wa.me/34697891324?text=${encodeURIComponent(whatsappMessage)}`;
 
             // --- MOSTRAR MENSAJE DE ÉXITO ---
@@ -596,7 +776,7 @@
             submitBtn.style.display = 'none';
             successMsg.style.display = 'flex';
             
-            // Abrir WhatsApp - UN SOLO ENLACE
+            // Abrir WhatsApp
             window.open(url, '_blank');
 
             // --- REINICIAR DESPUÉS DE 5 SEGUNDOS ---
@@ -608,7 +788,7 @@
         });
 
         // ========================================================================
-        // 4. MICRÓFONO
+        // 5. MICRÓFONO
         // ========================================================================
 
         const voiceBtn = document.getElementById('voiceBtn');
@@ -671,19 +851,13 @@
         }
 
         // ========================================================================
-        // 5. CARGAR EL JS PRINCIPAL DE LA WEB (SE ELIMINA PARA EVITAR CONFLICTOS)
+        // 6. LOG EN CONSOLA
         // ========================================================================
-
-        // ⚠️ Este archivo app.min.js estaba generando el enlace no deseado
-        // Lo desactivamos para evitar el doble envío
-        // const appScript = document.createElement('script');
-        // appScript.src = '/app.min.js';
-        // appScript.defer = true;
-        // document.body.appendChild(appScript);
 
         console.log('✅ LG Tattoo - Formulario configurado correctamente');
         console.log('   📱 Solo se envía un mensaje por wa.me');
-        console.log('   🔒 Session ID oculto (solo para seguimiento interno)');
+        console.log('   🌍 País detectado:', getCountryInfo().country);
+        console.log('   📱 Dispositivo:', getDeviceFullInfo().fullInfo);
     </script>
 
 </body>
