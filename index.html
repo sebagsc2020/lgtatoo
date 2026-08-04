@@ -101,28 +101,84 @@
             gap: 10px;
         }
 
-        /* Badge de depuración (opcional, muestra los IDs en pantalla) */
-        .debug-badge {
-            background: rgba(0,0,0,0.7);
+        /* ============ BADGE DEL SESSION ID ============ */
+        .session-badge-container {
+            text-align: right;
+            margin-bottom: 12px;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(200, 164, 92, 0.2);
+        }
+
+        .session-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(0, 0, 0, 0.6);
             color: #aaa;
             font-size: 0.65rem;
-            padding: 6px 12px;
+            padding: 6px 14px;
             border-radius: 20px;
-            margin-top: 10px;
-            display: inline-block;
-            font-family: monospace;
+            font-family: 'Courier New', monospace;
             letter-spacing: 0.5px;
             border: 1px solid #333;
             cursor: pointer;
             transition: all 0.3s ease;
+            user-select: none;
         }
-        .debug-badge:hover {
+
+        .session-badge:hover {
             background: rgba(200, 164, 92, 0.15);
-            border-color: var(--gold);
-            color: var(--gold);
+            border-color: #c8a45c;
+            color: #c8a45c;
         }
-        .debug-badge code {
-            color: var(--gold);
+
+        .session-badge .badge-icon {
+            font-size: 0.9rem;
+        }
+
+        .session-badge .badge-label {
+            color: #666;
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .session-badge .badge-id {
+            color: #c8a45c;
+            font-weight: 600;
+            font-size: 0.7rem;
+        }
+
+        .session-badge .badge-copy-hint {
+            color: #555;
+            font-size: 0.55rem;
+            margin-left: 4px;
+            opacity: 0.6;
+        }
+
+        .session-badge.copied {
+            border-color: #4caf50;
+            color: #4caf50;
+        }
+
+        .session-badge.copied .badge-id {
+            color: #4caf50;
+        }
+
+        /* ============ RESPONSIVE ============ */
+        @media (max-width: 600px) {
+            .session-badge {
+                font-size: 0.55rem;
+                padding: 4px 10px;
+                flex-wrap: wrap;
+                justify-content: flex-end;
+            }
+            .session-badge .badge-label {
+                display: none;
+            }
+            .session-badge .badge-copy-hint {
+                display: none;
+            }
         }
     </style>
 </head>
@@ -315,11 +371,14 @@
                 <form id="contactForm" style="position: relative;" novalidate>
                     <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 1rem; font-style: italic;">Su solicitud será atendida dentro del horario comercial. Muchas gracias.</p>
                     
-                    <!-- Badge de depuración (muestra el Session ID) -->
-                    <div style="text-align: right; margin-bottom: 10px;">
-                        <span class="debug-badge" id="debugBadge" title="Haz clic para copiar el ID">
-                            🆔 <code id="sessionIdDisplay">Cargando...</code>
-                        </span>
+                    <!-- ============ SESSION ID BADGE ============ -->
+                    <div class="session-badge-container">
+                        <div class="session-badge" id="debugBadge" title="Haz clic para copiar el Session ID">
+                            <span class="badge-icon">🆔</span>
+                            <span class="badge-label">Session ID:</span>
+                            <span class="badge-id" id="sessionIdDisplay">Cargando...</span>
+                            <span class="badge-copy-hint">📋 copiar</span>
+                        </div>
                     </div>
                     
                     <div class="form-row">
@@ -413,14 +472,160 @@
     <!-- ============ JAVASCRIPT (MÚLTIPLES IDENTIFICADORES) ============ -->
     <script>
         // ========================================================================
-        // 1. FUNCIONES DE IDENTIFICACIÓN
+        // 1. DETECCIÓN AVANZADA DE DISPOSITIVO (Marca, Modelo, iPhone 17 Pro incluido)
         // ========================================================================
 
-        // 1.1 Generar o recuperar Session ID (persiste en localStorage)
+        function getDeviceFullInfo() {
+            const ua = navigator.userAgent;
+            
+            let os = 'Unknown';
+            let osVersion = 'Unknown';
+            
+            if (/Android/i.test(ua)) {
+                os = 'Android';
+                const match = ua.match(/Android\s([\d.]+)/);
+                if (match) osVersion = match[1];
+            } else if (/iPhone|iPad|iPod/i.test(ua)) {
+                os = 'iOS';
+                const match = ua.match(/OS\s([\d_]+)/);
+                if (match) osVersion = match[1].replace(/_/g, '.');
+            } else if (/Windows NT/i.test(ua)) {
+                os = 'Windows';
+                const match = ua.match(/Windows NT\s([\d.]+)/);
+                if (match) osVersion = match[1];
+            } else if (/Mac OS X/i.test(ua)) {
+                os = 'macOS';
+                const match = ua.match(/Mac OS X\s([\d_]+)/);
+                if (match) osVersion = match[1].replace(/_/g, '.');
+            } else if (/Linux/i.test(ua)) {
+                os = 'Linux';
+            }
+
+            let brand = 'Unknown';
+            let model = 'Unknown';
+            
+            // --- Detectar Android (marca y modelo) ---
+            if (/Android/i.test(ua)) {
+                const brandMatch = ua.match(/(Samsung|Xiaomi|Huawei|Honor|OPPO|Vivo|Realme|OnePlus|Nokia|Motorola|Sony|LG|Google|Pixel|HTC|ZTE|Lenovo|Asus|Acer|TCL|Alcatel)/i);
+                if (brandMatch) brand = brandMatch[1];
+                const modelMatch = ua.match(/; ([^;]+) (?:Build|\))/);
+                if (modelMatch) model = modelMatch[1].trim();
+            }
+            
+            // --- Detectar iPhone (TODOS los modelos incluyendo iPhone 17) ---
+            if (/iPhone/i.test(ua)) {
+                brand = 'Apple';
+                
+                // === iPHONE 17 SERIES (2025) ===
+                if (/iPhone16,4/i.test(ua)) model = 'iPhone 17 Pro Max';
+                else if (/iPhone16,3/i.test(ua)) model = 'iPhone 17 Pro';
+                else if (/iPhone16,1/i.test(ua) || /iPhone16,2/i.test(ua)) model = 'iPhone 17';
+                else if (/iPhone16,5/i.test(ua)) model = 'iPhone 17 Air';
+                
+                // === iPHONE 16 SERIES (2024) ===
+                else if (/iPhone17,4/i.test(ua)) model = 'iPhone 16 Pro Max';
+                else if (/iPhone17,3/i.test(ua)) model = 'iPhone 16 Pro';
+                else if (/iPhone17,1/i.test(ua) || /iPhone17,2/i.test(ua)) model = 'iPhone 16';
+                else if (/iPhone17,5/i.test(ua)) model = 'iPhone 16 SE';
+                
+                // === iPHONE 15 SERIES (2023) ===
+                else if (/iPhone16,2/i.test(ua)) model = 'iPhone 15 Pro Max';
+                else if (/iPhone16,1/i.test(ua)) model = 'iPhone 15 Pro';
+                else if (/iPhone15,4/i.test(ua)) model = 'iPhone 15 Plus';
+                else if (/iPhone15,5/i.test(ua)) model = 'iPhone 15';
+                
+                // === iPHONE 14 SERIES (2022) ===
+                else if (/iPhone15,2/i.test(ua)) model = 'iPhone 14 Pro';
+                else if (/iPhone15,3/i.test(ua)) model = 'iPhone 14 Pro Max';
+                else if (/iPhone14,4/i.test(ua) || /iPhone14,5/i.test(ua)) model = 'iPhone 14';
+                else if (/iPhone14,6/i.test(ua) || /iPhone14,7/i.test(ua)) model = 'iPhone 14 Plus';
+                
+                // === iPHONE 13 SERIES (2021) ===
+                else if (/iPhone14,2/i.test(ua)) model = 'iPhone 13 Pro';
+                else if (/iPhone14,3/i.test(ua)) model = 'iPhone 13 Pro Max';
+                else if (/iPhone14,4/i.test(ua) || /iPhone14,5/i.test(ua)) model = 'iPhone 13';
+                else if (/iPhone14,6/i.test(ua) || /iPhone14,7/i.test(ua)) model = 'iPhone 13 Mini';
+                
+                // === iPHONE 12 SERIES (2020) ===
+                else if (/iPhone13,1/i.test(ua)) model = 'iPhone 12 Mini';
+                else if (/iPhone13,2/i.test(ua)) model = 'iPhone 12';
+                else if (/iPhone13,3/i.test(ua)) model = 'iPhone 12 Pro';
+                else if (/iPhone13,4/i.test(ua)) model = 'iPhone 12 Pro Max';
+                
+                // === iPHONE 11 SERIES (2019) ===
+                else if (/iPhone12,1/i.test(ua)) model = 'iPhone 11';
+                else if (/iPhone12,3/i.test(ua)) model = 'iPhone 11 Pro';
+                else if (/iPhone12,5/i.test(ua)) model = 'iPhone 11 Pro Max';
+                
+                // === iPHONE X SERIES (2017-2018) ===
+                else if (/iPhone10,3/i.test(ua) || /iPhone10,6/i.test(ua)) model = 'iPhone X';
+                else if (/iPhone10,4/i.test(ua) || /iPhone10,7/i.test(ua)) model = 'iPhone XS';
+                else if (/iPhone11,2/i.test(ua) || /iPhone11,6/i.test(ua)) model = 'iPhone XS Max';
+                else if (/iPhone11,4/i.test(ua) || /iPhone11,8/i.test(ua)) model = 'iPhone XR';
+                
+                else model = 'iPhone (modelo desconocido)';
+            }
+            
+            // --- Detectar iPad ---
+            if (/iPad/i.test(ua)) {
+                brand = 'Apple';
+                if (/iPad13,([4-8])/i.test(ua)) model = 'iPad Pro 12.9" (M2)';
+                else if (/iPad13,([1-2])/i.test(ua)) model = 'iPad Air (M1)';
+                else if (/iPad14,([1-5])/i.test(ua)) model = 'iPad (10ª gen)';
+                else model = 'iPad';
+            }
+            
+            // --- Detectar navegador ---
+            let browser = 'Unknown';
+            let browserVersion = 'Unknown';
+            
+            if (/Chrome/i.test(ua) && !/Edg/i.test(ua)) {
+                browser = 'Chrome';
+                const match = ua.match(/Chrome\/([\d.]+)/);
+                if (match) browserVersion = match[1];
+            } else if (/Firefox/i.test(ua)) {
+                browser = 'Firefox';
+                const match = ua.match(/Firefox\/([\d.]+)/);
+                if (match) browserVersion = match[1];
+            } else if (/Safari/i.test(ua) && !/Chrome/i.test(ua)) {
+                browser = 'Safari';
+                const match = ua.match(/Version\/([\d.]+)/);
+                if (match) browserVersion = match[1];
+            } else if (/Edg/i.test(ua)) {
+                browser = 'Edge';
+                const match = ua.match(/Edg\/([\d.]+)/);
+                if (match) browserVersion = match[1];
+            } else if (/Opera|OPR/i.test(ua)) {
+                browser = 'Opera';
+                const match = ua.match(/(?:Opera|OPR)\/([\d.]+)/);
+                if (match) browserVersion = match[1];
+            }
+            
+            // --- Detectar tipo de dispositivo ---
+            let deviceType = 'Desktop';
+            if (/Mobi|Android|iPhone|iPad|iPod/i.test(ua)) {
+                deviceType = 'Móvil';
+            }
+            
+            return {
+                deviceType: deviceType,
+                os: os,
+                osVersion: osVersion,
+                brand: brand,
+                model: model,
+                browser: browser,
+                browserVersion: browserVersion,
+                fullInfo: `${brand} ${model} (${os} ${osVersion}) • ${browser} ${browserVersion}`
+            };
+        }
+
+        // ========================================================================
+        // 2. GENERAR SESSION ID (solo para el badge, NO se envía por WhatsApp)
+        // ========================================================================
+
         function getSessionId() {
             let sessionId = localStorage.getItem('lg_tattoo_session_id');
             if (!sessionId) {
-                // Formato: session_YYYYMMDD_HHMMSS_random
                 const now = new Date();
                 const dateStr = now.getFullYear() +
                     String(now.getMonth() + 1).padStart(2, '0') +
@@ -435,87 +640,40 @@
             return sessionId;
         }
 
-        // 1.2 Obtener información del dispositivo/navegador
-        function getDeviceInfo() {
-            const ua = navigator.userAgent;
-            let device = 'Desktop';
-            let os = 'Unknown';
-            let browser = 'Unknown';
-
-            // Detectar dispositivo
-            if (/Android/i.test(ua)) { device = 'Móvil'; os = 'Android'; }
-            else if (/iPhone|iPad|iPod/i.test(ua)) { device = 'Móvil'; os = 'iOS'; }
-            else if (/Windows/i.test(ua)) { os = 'Windows'; }
-            else if (/Mac/i.test(ua)) { os = 'macOS'; }
-            else if (/Linux/i.test(ua)) { os = 'Linux'; }
-
-            // Detectar navegador
-            if (/Chrome/i.test(ua) && !/Edg/i.test(ua)) browser = 'Chrome';
-            else if (/Firefox/i.test(ua)) browser = 'Firefox';
-            else if (/Safari/i.test(ua) && !/Chrome/i.test(ua)) browser = 'Safari';
-            else if (/Edg/i.test(ua)) browser = 'Edge';
-            else if (/Opera|OPR/i.test(ua)) browser = 'Opera';
-
-            return `${device} - ${os} (${browser})`;
-        }
-
-        // 1.3 Obtener página de referencia
-        function getReferrer() {
-            return document.referrer || 'Directo / Sin referer';
-        }
-
-        // 1.4 Obtener URL completa de la página
-        function getPageUrl() {
-            return window.location.href;
-        }
-
-        // 1.5 Obtener idioma del navegador
-        function getBrowserLanguage() {
-            return navigator.language || navigator.languages?.[0] || 'es-ES';
-        }
-
-        // 1.6 Obtener resolución de pantalla
-        function getScreenResolution() {
-            return `${window.screen.width}x${window.screen.height}`;
-        }
-
-        // 1.7 Obtener zona horaria
-        function getTimezone() {
-            return Intl.DateTimeFormat().resolvedOptions().timeZone;
-        }
-
         // ========================================================================
-        // 2. MOSTRAR SESSION ID EN EL BADGE
+        // 3. MOSTRAR SESSION ID EN EL BADGE (solo visual)
         // ========================================================================
 
-        const sessionId = getSessionId();
-        const sessionDisplay = document.getElementById('sessionIdDisplay');
-        if (sessionDisplay) {
-            sessionDisplay.textContent = sessionId;
-        }
+        document.addEventListener('DOMContentLoaded', function() {
+            const sessionId = getSessionId();
+            const sessionDisplay = document.getElementById('sessionIdDisplay');
+            if (sessionDisplay) {
+                sessionDisplay.textContent = sessionId;
+            }
 
-        // Copiar Session ID al hacer clic en el badge
-        const debugBadge = document.getElementById('debugBadge');
-        if (debugBadge) {
-            debugBadge.addEventListener('click', function() {
-                navigator.clipboard.writeText(sessionId).then(() => {
-                    const originalText = this.innerHTML;
-                    this.innerHTML = '✅ ¡Copiado!';
-                    this.style.borderColor = '#4caf50';
-                    this.style.color = '#4caf50';
-                    setTimeout(() => {
-                        this.innerHTML = originalText;
-                        this.style.borderColor = '#333';
-                        this.style.color = '#aaa';
-                    }, 2000);
-                }).catch(() => {
-                    alert('Session ID: ' + sessionId);
+            const debugBadge = document.getElementById('debugBadge');
+            if (debugBadge) {
+                debugBadge.addEventListener('click', function() {
+                    const sessionId = getSessionId();
+                    navigator.clipboard.writeText(sessionId).then(() => {
+                        this.classList.add('copied');
+                        const originalHTML = this.innerHTML;
+                        this.innerHTML = '✅ ¡Copiado!';
+                        setTimeout(() => {
+                            this.innerHTML = originalHTML;
+                            this.classList.remove('copied');
+                        }, 2000);
+                    }).catch(() => {
+                        alert('Session ID: ' + sessionId);
+                    });
                 });
-            });
-        }
+            }
+
+            console.log('🔍 LG Tattoo - Session ID:', sessionId);
+        });
 
         // ========================================================================
-        // 3. FORMULARIO WHATSAPP CON MÚLTIPLES IDENTIFICADORES
+        // 4. FORMULARIO WHATSAPP (SIN SESSION ID EN EL MENSAJE)
         // ========================================================================
 
         document.getElementById('contactForm').addEventListener('submit', function(e) {
@@ -532,7 +690,9 @@
                 return;
             }
 
-            // ============ RECOPILAR TODOS LOS IDENTIFICADORES ============
+            // Obtener información detallada del dispositivo
+            const deviceInfo = getDeviceFullInfo();
+            
             const timestamp = new Date().toLocaleString('es-AR', { 
                 timeZone: 'America/Argentina/Buenos_Aires',
                 day: '2-digit',
@@ -542,53 +702,26 @@
                 minute: '2-digit',
                 second: '2-digit'
             });
-            
-            const identifiers = {
-                session_id: getSessionId(),
-                origen: 'web_lg_tattoo',
-                dispositivo: getDeviceInfo(),
-                referrer: getReferrer(),
-                page_url: getPageUrl(),
-                idioma: getBrowserLanguage(),
-                resolucion: getScreenResolution(),
-                timezone: getTimezone(),
-                timestamp: timestamp
-            };
 
-            // 📊 Enviar evento a Google Analytics (si está disponible)
-            if (typeof gtag !== 'undefined') {
-                gtag('event', 'form_submission', {
-                    'event_category': 'Contacto',
-                    'event_label': 'WhatsApp_LG_Tattoo',
-                    'value': 1,
-                    'session_id': identifiers.session_id,
-                    'device': identifiers.dispositivo,
-                    'referrer': identifiers.referrer
-                });
-                console.log('✅ Evento enviado a Google Analytics');
-            }
-
-            // 📝 Construir mensaje con todos los identificadores
+            // 📝 Construir mensaje SIN Session ID, CON información detallada del dispositivo
             const whatsappMessage = 
                 `Hola LG Tattoo! 👋\n\n` +
                 `═══════════════════════════════\n` +
                 `📋 INFORMACIÓN DE ORIGEN\n` +
                 `═══════════════════════════════\n` +
-                `🆔 Session ID: ${identifiers.session_id}\n` +
-                `📱 Origen: ${identifiers.origen}\n` +
-                `📊 Dispositivo: ${identifiers.dispositivo}\n` +
-                `🔗 Referrer: ${identifiers.referrer}\n` +
-                `🌐 Idioma: ${identifiers.idioma}\n` +
-                `📐 Resolución: ${identifiers.resolucion}\n` +
-                `🕐 Zona Horaria: ${identifiers.timezone}\n` +
-                `⏰ Fecha/Hora: ${identifiers.timestamp}\n` +
-                `📄 Página: ${identifiers.page_url}\n` +
+                `📱 Dispositivo: ${deviceInfo.fullInfo}\n` +
+                `📊 Marca: ${deviceInfo.brand}\n` +
+                `📱 Modelo: ${deviceInfo.model}\n` +
+                `💻 Sistema: ${deviceInfo.os} ${deviceInfo.osVersion}\n` +
+                `🌐 Navegador: ${deviceInfo.browser} ${deviceInfo.browserVersion}\n` +
+                `⏰ Fecha/Hora: ${timestamp}\n` +
                 `═══════════════════════════════\n\n` +
                 `👤 Nombre: ${name}\n` +
                 `📞 Teléfono: ${phone}\n` +
                 `🎯 Partes del cuerpo: ${selectedParts}\n` +
                 `💬 Mensaje: ${message}`;
 
+            // ✅ NÚMERO CORRECTO DE LG TATTOO (España)
             const url = `https://wa.me/5493518692251?text=${encodeURIComponent(whatsappMessage)}`;
 
             // --- MOSTRAR MENSAJE DE ÉXITO ---
@@ -610,7 +743,7 @@
         });
 
         // ========================================================================
-        // 4. MICRÓFONO (dictado por voz)
+        // 5. MICRÓFONO (dictado por voz)
         // ========================================================================
 
         const voiceBtn = document.getElementById('voiceBtn');
@@ -673,7 +806,7 @@
         }
 
         // ========================================================================
-        // 5. CARGAR EL JS PRINCIPAL DE LA WEB
+        // 6. CARGAR EL JS PRINCIPAL DE LA WEB
         // ========================================================================
 
         const appScript = document.createElement('script');
@@ -682,17 +815,16 @@
         document.body.appendChild(appScript);
 
         // ========================================================================
-        // 6. LOG EN CONSOLA PARA DEPURACIÓN (útil para desarrollo)
+        // 7. LOG EN CONSOLA PARA DEPURACIÓN
         // ========================================================================
 
-        console.log('🔍 LG Tattoo - Identificadores de sesión:');
-        console.log('  🆔 Session ID:', getSessionId());
-        console.log('  📱 Dispositivo:', getDeviceInfo());
-        console.log('  🔗 Referrer:', getReferrer());
-        console.log('  🌐 Idioma:', getBrowserLanguage());
-        console.log('  📐 Resolución:', getScreenResolution());
-        console.log('  🕐 Zona Horaria:', getTimezone());
-        console.log('  📄 URL:', getPageUrl());
+        console.log('🔍 LG Tattoo - Información del dispositivo:');
+        const deviceInfo = getDeviceFullInfo();
+        console.log('  📱 Marca:', deviceInfo.brand);
+        console.log('  📱 Modelo:', deviceInfo.model);
+        console.log('  💻 Sistema:', deviceInfo.os, deviceInfo.osVersion);
+        console.log('  🌐 Navegador:', deviceInfo.browser, deviceInfo.browserVersion);
+        console.log('  📋 Info completa:', deviceInfo.fullInfo);
     </script>
 
 </body>
