@@ -115,11 +115,91 @@
         .recomendacion-card ul li:last-child{border-bottom:none}
         @media(max-width:768px){.recomendaciones-grid{grid-template-columns:1fr}}
 
-        .testimonials-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:24px}
-        .testimonial-card{background:var(--bg-card);border-radius:var(--radius);padding:24px;border:1px solid var(--border-gold)}
-        .testimonial-card .stars{color:var(--gold);margin-bottom:8px}
-        .testimonial-card p{color:var(--text-secondary);font-style:italic;font-size:0.9rem}
-        .testimonial-card .author{font-weight:600;margin-top:12px;color:var(--text-primary)}
+        /* ===== TESTIMONIOS CENTRADOS ===== */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px;
+            max-width: 1000px;
+            margin: 0 auto;
+            justify-items: center;
+            align-items: stretch;
+        }
+
+        .testimonial-card {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            padding: 32px 28px;
+            border: 1px solid var(--border-gold);
+            transition: var(--transition);
+            width: 100%;
+            max-width: 320px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 200px;
+        }
+
+        .testimonial-card:hover {
+            border-color: var(--gold);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-gold);
+        }
+
+        .testimonial-card .stars {
+            color: var(--gold);
+            margin-bottom: 12px;
+            font-size: 1.4rem;
+            letter-spacing: 4px;
+        }
+
+        .testimonial-card p {
+            color: var(--text-secondary);
+            font-style: italic;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        .testimonial-card .author {
+            font-weight: 600;
+            margin-top: 4px;
+            color: var(--gold);
+            font-size: 0.95rem;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+                max-width: 400px;
+                gap: 20px;
+            }
+            
+            .testimonial-card {
+                max-width: 100%;
+                padding: 24px 20px;
+                min-height: 160px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .testimonial-card {
+                padding: 20px 16px;
+                min-height: 140px;
+            }
+            
+            .testimonial-card .stars {
+                font-size: 1.2rem;
+            }
+            
+            .testimonial-card p {
+                font-size: 0.85rem;
+            }
+        }
 
         /* ===== CALENDARIO ===== */
         .booking-section{background:var(--bg-card);border-radius:var(--radius);border:1px solid var(--border-gold);padding:32px;margin-top:0}
@@ -192,6 +272,7 @@
         .toast.success{border-color:#4caf50}
         .toast.error{border-color:#f44336}
 
+        /* Lightbox */
         .lightbox-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:9999;display:flex;align-items:center;justify-content:center;cursor:zoom-out;padding:40px;animation:fadeIn 0.3s ease;backdrop-filter:blur(8px)}
         .lightbox-overlay img{max-width:90%;max-height:90%;object-fit:contain;border-radius:8px;box-shadow:0 20px 60px rgba(0,0,0,0.8)}
         @keyframes fadeIn{from{opacity:0;transform:scale(0.95)}to{opacity:1;transform:scale(1)}}
@@ -292,11 +373,24 @@
             <span class="section-tag">Lo que dicen</span>
             <h2 class="section-title">Testimonios Reales</h2>
             <div class="divider"></div>
+            <p class="section-subtitle">Opiniones de clientes que confiaron en LG Tattoo</p>
         </div>
         <div class="testimonials-grid">
-            <div class="testimonial-card"><div class="stars">★★★★★</div><p>"Increíble atención y calidad. Lean es un artista."</p><div class="author">— Laura M.</div></div>
-            <div class="testimonial-card"><div class="stars">★★★★★</div><p>"Mi primer tatuaje y no pude haber elegido mejor. Super profesional."</p><div class="author">— Carlos R.</div></div>
-            <div class="testimonial-card"><div class="stars">★★★★★</div><p>"El realismo que logra es impresionante. Recomiendo 100%."</p><div class="author">— Sofía G.</div></div>
+            <div class="testimonial-card">
+                <div class="stars">★★★★★</div>
+                <p>"Increíble atención y calidad. Lean es un artista."</p>
+                <div class="author">— Laura M.</div>
+            </div>
+            <div class="testimonial-card">
+                <div class="stars">★★★★★</div>
+                <p>"Mi primer tatuaje y no pude haber elegido mejor. Super profesional."</p>
+                <div class="author">— Carlos R.</div>
+            </div>
+            <div class="testimonial-card">
+                <div class="stars">★★★★★</div>
+                <p>"El realismo que logra es impresionante. Recomiendo 100%."</p>
+                <div class="author">— Sofía G.</div>
+            </div>
         </div>
     </section>
 
@@ -392,14 +486,14 @@
     <script>
         (function() {
             // ============================================================
-            //  CONFIGURACIÓN - FORMATO DE FECHA DD-MM-YYYY
+            //  CONFIGURACIÓN - FORMATO DD-MM-YYYY
             // ============================================================
             const SHEET_ID = '1N63wzIzUu_z9z2CzA1kQ5z6lUtOQp25qQy2tBfBOBws';
             const SHEET_NAME = 'Reservas';
-            const CSV_URL = `https://docs.google.com/1N63wzIzUu_z9z2CzA1kQ5z6lUtOQp25qQy2tBfBOBws/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${SHEET_NAME}`;
+            const CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${SHEET_NAME}`;
 
             // ============================================================
-            //  FUNCIONES DE FORMATO DE FECHA
+            //  FUNCIONES DE FORMATO DE FECHA (DD-MM-YYYY)
             // ============================================================
             
             // Convertir fecha de YYYY-MM-DD a DD-MM-YYYY
@@ -407,18 +501,6 @@
                 if (!dateStr) return '';
                 const parts = dateStr.split('-');
                 if (parts.length === 3) {
-                    // Si viene en formato YYYY-MM-DD (de la API)
-                    return `${parts[2]}-${parts[1]}-${parts[0]}`;
-                }
-                return dateStr;
-            }
-
-            // Convertir fecha de DD-MM-YYYY a YYYY-MM-DD (para comparaciones)
-            function formatDateToYYYYMMDD(dateStr) {
-                if (!dateStr) return '';
-                const parts = dateStr.split('-');
-                if (parts.length === 3) {
-                    // Si viene en formato DD-MM-YYYY
                     return `${parts[2]}-${parts[1]}-${parts[0]}`;
                 }
                 return dateStr;
@@ -453,16 +535,6 @@
                     return new Date(year, month, day);
                 }
                 return null;
-            }
-
-            // Verificar si una fecha es pasada (en formato DD-MM-YYYY)
-            function isPastDateDDMMYYYY(dateStr) {
-                const dateObj = parseDDMMYYYY(dateStr);
-                if (!dateObj) return true;
-                const today = new Date();
-                today.setHours(0, 0, 0, 0);
-                dateObj.setHours(0, 0, 0, 0);
-                return dateObj < today;
             }
 
             // ============================================================
@@ -522,7 +594,7 @@
             });
 
             // ============================================================
-            //  FERIADOS (en formato DD-MM-YYYY)
+            //  FERIADOS (formato DD-MM-YYYY)
             // ============================================================
             const HOLIDAYS = {
                 '01-01-2026': 'Año Nuevo',
@@ -575,7 +647,7 @@
             }
 
             // ============================================================
-            //  CARGAR RESERVAS DESDE GOOGLE SHEETS (formato DD-MM-YYYY)
+            //  CARGAR RESERVAS (formato DD-MM-YYYY)
             // ============================================================
             async function fetchBookings() {
                 try {
@@ -589,7 +661,6 @@
                     for (let i = 1; i < lines.length; i++) {
                         const cols = lines[i].split(',').map(c => c.trim().replace(/^"|"$/g, ''));
                         if (cols.length < 2) continue;
-                        // La fecha en Google Sheets está en formato DD-MM-YYYY
                         const date = cols[0];
                         const time = cols[1];
                         if (!date || !time) continue;
@@ -604,7 +675,7 @@
             }
 
             // ============================================================
-            //  GUARDAR RESERVA (formato DD-MM-YYYY)
+            //  GUARDAR RESERVA
             // ============================================================
             async function saveBookingToSheet(data) {
                 try {
@@ -617,11 +688,11 @@
             }
 
             // ============================================================
-            //  RENDER CALENDARIO (con formato DD-MM-YYYY)
+            //  RENDER CALENDARIO
             // ============================================================
             let currentMonth = new Date().getMonth();
             let currentYear = new Date().getFullYear();
-            let selectedDate = null; // Formato DD-MM-YYYY
+            let selectedDate = null;
             let selectedSlot = null;
             let isProcessing = false;
             const WORK_HOURS = [
@@ -635,7 +706,7 @@
                 
                 const firstDay = new Date(currentYear, currentMonth, 1).getDay();
                 const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-                const todayStr = getTodayYYYYMMDD(); // Formato YYYY-MM-DD para comparar
+                const todayStr = getTodayYYYYMMDD();
                 
                 const grid = document.getElementById('calendarGrid');
                 grid.innerHTML = '';
@@ -787,7 +858,7 @@
             }
 
             // ============================================================
-            //  CONFIRMAR RESERVA (con formato DD-MM-YYYY)
+            //  CONFIRMAR RESERVA
             // ============================================================
             async function confirmReservation() {
                 if (isProcessing) return;
@@ -823,7 +894,6 @@
                 btnLoader.style.display = 'inline-block';
                 
                 try {
-                    // Guardar con fecha en formato DD-MM-YYYY
                     const bookingData = {
                         date: selectedDate,
                         time: selectedSlot,
@@ -835,7 +905,7 @@
                     
                     await saveBookingToSheet(bookingData);
                     
-                    const phoneNumber = '34697891324';
+                    const phoneNumber = '543518692251';
                     let whatsappMsg = `Hola, soy ${name}.`;
                     whatsappMsg += `\n📞 Teléfono: ${phone}`;
                     whatsappMsg += `\n🎨 Parte del cuerpo: ${selectedParts}`;
