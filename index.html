@@ -824,7 +824,7 @@
                 <form id="contactForm" style="position: relative;" novalidate>
                     <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 1rem; font-style: italic;" id="formBusinessHoursNotice">Su solicitud será atendida dentro del horario comercial. Muchas gracias.</p>
                     
-                    <!-- Badge de país -->
+                    <!-- Badge de país (actualizado con ipinfo.io) -->
                     <div style="text-align: right; margin-bottom: 10px;">
                         <span class="country-badge" id="countryBadge">
                             <span class="flag">🌍</span>
@@ -1116,7 +1116,7 @@
         };
 
         let currentLang = 'es';
-        let isOpen = false; // Variable global para el estado
+        let isOpen = false;
 
         function setLanguage(lang) {
             currentLang = lang;
@@ -1197,7 +1197,6 @@
             
             if (!whatsappBtn) return;
             
-            // Usar la misma variable isOpen que calculó updateHoursStatus()
             if (isOpen) {
                 whatsappBtn.className = 'floating-btn-whatsapp open';
                 whatsappBtn.href = 'https://wa.me/34697891324?call';
@@ -1243,7 +1242,6 @@
             let statusText = '';
             let statusColor = '';
             
-            // MISMA LÓGICA DE HORARIO
             if (day === 0) {
                 statusText = '🔴 CERRADO (Domingo)';
                 statusColor = '#ff6b6b';
@@ -1277,7 +1275,6 @@
                 statusDisplay.style.fontWeight = '600';
             }
             
-            // Actualizar el botón de WhatsApp con el mismo estado
             updateWhatsAppButton();
         }
 
@@ -1385,7 +1382,6 @@
             updateLightbox();
         }
 
-        // Zoom con botones
         if (zoomIn) {
             zoomIn.addEventListener('click', function(e) {
                 e.stopPropagation();
@@ -1409,7 +1405,6 @@
             });
         }
 
-        // Zoom con rueda del mouse
         lightboxWrapper.addEventListener('wheel', function(e) {
             e.preventDefault();
             if (e.deltaY < 0) {
@@ -1420,7 +1415,6 @@
             applyTransform();
         });
 
-        // Arrastrar para mover (cuando hay zoom)
         lightboxWrapper.addEventListener('mousedown', function(e) {
             if (scale <= 1) return;
             isDragging = true;
@@ -1446,7 +1440,6 @@
             lightboxWrapper.style.cursor = scale > 1 ? 'grab' : 'default';
         });
 
-        // Touch events para móviles
         let touchStartX = 0;
         let touchStartY = 0;
         let touchStartPanX = 0;
@@ -1527,40 +1520,55 @@
         document.addEventListener('DOMContentLoaded', initGallery);
 
         // ========================================================================
-        // 4. DETECCIÓN DE PAÍS POR IP
+        // 4. DETECCIÓN DE PAÍS POR IP CON ipinfo.io
         // ========================================================================
 
         let paisDetectado = {
             flag: '🌍',
             nombre: 'Desconocido',
-            codigo: 'XX'
+            codigo: 'XX',
+            ciudad: '',
+            ip: ''
         };
 
         function detectarPaisPorIP() {
             const badge = document.getElementById('countryBadge');
+            const token = 'c01e3bc55befa6';
             
-            fetch('https://ipapi.co/json/')
+            fetch(`https://ipinfo.io/json?token=${token}`)
                 .then(response => response.json())
                 .then(data => {
-                    const countryCode = data.country_code || 'XX';
+                    console.log('📡 Datos de geolocalización (ipinfo.io):', data);
+                    
+                    const countryCode = data.country || 'XX';
                     const countryName = data.country_name || 'Desconocido';
+                    const city = data.city || '';
+                    const ip = data.ip || '';
+                    
                     const flagEmoji = countryCodeToFlag(countryCode);
                     
                     paisDetectado = {
                         flag: flagEmoji,
                         nombre: countryName,
-                        codigo: countryCode
+                        codigo: countryCode,
+                        ciudad: city,
+                        ip: ip
                     };
                     
                     if (badge) {
-                        badge.innerHTML = `
-                            <span class="flag">${flagEmoji}</span>
-                            <span class="country-name">${countryName}</span>
-                            <span style="color:#555;font-size:0.6rem;">(${countryCode})</span>
-                        `;
+                        let badgeText = `<span class="flag">${flagEmoji}</span>`;
+                        badgeText += `<span class="country-name">${countryName}</span>`;
+                        if (city) {
+                            badgeText += `<span style="color:#888;font-size:0.6rem;"> • ${city}</span>`;
+                        }
+                        badgeText += `<span style="color:#555;font-size:0.55rem;margin-left:4px;">(${countryCode})</span>`;
+                        badge.innerHTML = badgeText;
                     }
+                    
+                    console.log(`✅ País detectado: ${flagEmoji} ${countryName} (${countryCode}) - ${city}`);
                 })
                 .catch(error => {
+                    console.error('❌ Error al detectar país por IP:', error);
                     if (badge) {
                         badge.innerHTML = `
                             <span class="flag">🌍</span>
@@ -1604,6 +1612,8 @@
                 `📋 INFORMACIÓN DE CONTACTO\n` +
                 `─────────────────────────\n` +
                 `🌍 País: ${country.flag} ${country.nombre}\n` +
+                `📍 Ciudad: ${country.ciudad || 'No disponible'}\n` +
+                `🆔 IP: ${country.ip || 'No disponible'}\n` +
                 `👤 Nombre: ${name}\n` +
                 `📞 Teléfono: ${phone}\n` +
                 `🎯 Partes del cuerpo: ${selectedParts}\n` +
@@ -1752,7 +1762,8 @@
             console.log('   🕐 Hora de Santander (España)');
             console.log('   🌍 Panel de idiomas funcionando');
             console.log('   🔍 Lightbox con zoom funcionando');
-            console.log('   📞 Botón WhatsApp con estado de horario (misma lógica)');
+            console.log('   📞 Botón WhatsApp con estado de horario');
+            console.log('   🌐 Geolocalización con ipinfo.io (token: c01e3bc55befa6)');
             console.log('   📱 Solo se envía: País + datos del formulario');
         });
     </script>
