@@ -245,6 +245,120 @@
             height: 26px;
         }
 
+        /* ============ ✅ POPUP POLÍTICA DE PRIVACIDAD ============ */
+        .footer-privacy-link {
+            color: var(--gold);
+            text-decoration: none;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        .footer-privacy-link:hover {
+            color: #e0c07a;
+            text-decoration: underline;
+        }
+
+        .privacy-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.75);
+            z-index: 10002;
+            backdrop-filter: blur(4px);
+        }
+        .privacy-overlay.active { display: block; }
+
+        .privacy-panel {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #141414;
+            border: 1px solid #c8a45c;
+            border-radius: 16px;
+            width: 92%;
+            max-width: 560px;
+            max-height: 85vh;
+            flex-direction: column;
+            z-index: 10003;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.85);
+            animation: slideDown 0.3s ease;
+            overflow: hidden;
+        }
+        .privacy-panel.active { display: flex; }
+
+        .privacy-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 22px;
+            border-bottom: 1px solid #333;
+            flex-shrink: 0;
+        }
+        .privacy-header h3 {
+            color: #c8a45c;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.35rem;
+            margin: 0;
+        }
+        .privacy-close {
+            background: none;
+            border: none;
+            color: #888;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 5px;
+            transition: color 0.3s ease;
+        }
+        .privacy-close:hover { color: #fff; }
+
+        .privacy-body {
+            padding: 18px 22px;
+            overflow-y: auto;
+            color: #bbb;
+            font-size: 0.85rem;
+            line-height: 1.65;
+            font-family: 'Inter', sans-serif;
+        }
+        .privacy-body::-webkit-scrollbar { width: 6px; }
+        .privacy-body::-webkit-scrollbar-track { background: #1e1e1e; }
+        .privacy-body::-webkit-scrollbar-thumb { background: #c8a45c; border-radius: 3px; }
+        .privacy-body h4 {
+            color: #e8e8e8;
+            margin: 16px 0 6px;
+            font-size: 0.95rem;
+        }
+        .privacy-body h4:first-child { margin-top: 0; }
+        .privacy-body p { margin: 0 0 10px; }
+
+        .privacy-footer {
+            padding: 14px 22px;
+            border-top: 1px solid #333;
+            display: flex;
+            justify-content: flex-end;
+            flex-shrink: 0;
+        }
+        .privacy-accept {
+            background: #c8a45c;
+            color: #1a1a1a;
+            border: none;
+            border-radius: 30px;
+            padding: 10px 28px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+        }
+        .privacy-accept:hover {
+            background: #e0c07a;
+            transform: scale(1.03);
+        }
+
         /* ============ FORMULARIO ============ */
         .form-success-msg {
             display: none;
@@ -461,6 +575,14 @@
                 width: 24px;
                 height: 24px;
             }
+            .privacy-panel {
+                width: 94%;
+                max-height: 88vh;
+            }
+            .privacy-header { padding: 14px 16px; }
+            .privacy-header h3 { font-size: 1.1rem; }
+            .privacy-body { padding: 14px 16px; font-size: 0.8rem; }
+            .privacy-footer { padding: 12px 16px; }
             .lightbox-prev,
             .lightbox-next {
                 font-size: 1.5rem;
@@ -533,7 +655,7 @@
     <section class="hero" id="inicio">
         <div class="hero-content">
             <img src="/images/LogoLGTatoo.png" alt="LG Tattoo" class="hero-logo" width="760" height="380" fetchpriority="high">
-            <span class="hero-badge" id="heroBadge">✦ Estudio Profesional ✦</span>
+            <span class="hero-badge" id="heroBadge">✦ Estudio Profesional </span>
             <h1><span id="heroTitle1">Tinta que</span> <span class="accent" id="heroTitleAccent">trasciende</span><br><span id="heroTitle2">arte que permanece</span></h1>
             <p id="heroDesc">Especialista en realismo, blackwork y diseños personalizados.</p>
             <div class="hero-buttons">
@@ -750,15 +872,40 @@
         </div>
     </section>
 
-    <!-- ============ FOOTER ============ -->
+    <!-- ============ FOOTER (con enlace a Política de Privacidad) ============ -->
     <footer class="footer">
         <div class="footer-social">
             <a href="https://www.instagram.com/lean.gonzaleztattoo/" target="_blank" rel="noopener" aria-label="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></a>
         </div>
-        <p class="footer-copy" id="footerText">
-            © 2026 LG Tattoo | <a href="#" id="scPhotoLink" style="color: var(--gold); text-decoration: none;">SC Photo Br</a>
+        <p class="footer-copy">
+            © 2026 LG Tattoo |
+            <a href="#" id="privacyLink" class="footer-privacy-link">Política de Privacidad</a> |
+            <a href="#" id="scPhotoLink" style="color: var(--gold); text-decoration: none;">SC Photo Br</a>
         </p>
     </footer>
+
+    <!-- ============ ✅ POPUP POLÍTICA DE PRIVACIDAD ============ -->
+    <div class="privacy-overlay" id="privacyOverlay"></div>
+    <div class="privacy-panel" id="privacyPanel" role="dialog" aria-modal="true" aria-labelledby="privacyTitle">
+        <div class="privacy-header">
+            <h3 id="privacyTitle">🔒 Política de Privacidad</h3>
+            <button class="privacy-close" id="privacyClose" aria-label="Cerrar">✕</button>
+        </div>
+        <div class="privacy-body">
+            <p id="privacyIntro">En LG Tattoo respetamos tu privacidad. Esta política explica qué datos recopilamos y cómo los utilizamos.</p>
+            <h4 id="privacyCookiesTitle">🍪 Uso de Cookies</h4>
+            <p id="privacyCookiesText">Este sitio utiliza cookies técnicas para recordar tu idioma preferido y mejorar tu experiencia de navegación. No almacenamos datos personales en las cookies.</p>
+            <h4 id="privacyIpTitle">🌐 Dirección IP y mensajes de WhatsApp</h4>
+            <p id="privacyIpText">Al enviarnos un mensaje por WhatsApp, se incluyen tu país, ciudad y dirección IP detectados automáticamente, junto con los datos que nos proporciones (nombre, teléfono y mensaje).</p>
+            <h4 id="privacyDataTitle">🛡️ Resguardo de tu información</h4>
+            <p id="privacyDataText">LG Tattoo resguarda la información recibida de forma confidencial. Tus datos no se ceden ni se venden a terceros bajo ninguna circunstancia.</p>
+            <h4 id="privacyStatsTitle">📊 Finalidad estadística</h4>
+            <p id="privacyStatsText">La información recopilada se utiliza únicamente para estadísticas de mercado propias del sitio, con el fin de mejorar nuestros servicios.</p>
+        </div>
+        <div class="privacy-footer">
+            <button class="privacy-accept" id="privacyAccept">Entendido</button>
+        </div>
+    </div>
 
     <!-- ============ SERVICE WORKER ============ -->
     <script>
@@ -776,7 +923,7 @@
     <!-- ============ JAVASCRIPT FINAL ============ -->
     <script>
         // ========================================================================
-        // 0. SISTEMA DE TRADUCCIÓN INTEGRADO
+        // 0. SISTEMA DE TRADUCCIÓN INTEGRADO (incluye Política de Privacidad)
         // ========================================================================
 
         const translations = {
@@ -836,7 +983,19 @@
                 formSubmit: 'Enviar por WhatsApp',
                 formSuccess: '¡Mensaje enviado con éxito! Abriremos WhatsApp...',
                 detectingCountry: 'Detectando país...',
-                footerText: '© 2026 LG Tattoo | SC Photo Br'
+                // ✅ POLÍTICA DE PRIVACIDAD (ES)
+                privacyLink: 'Política de Privacidad',
+                privacyTitle: '🔒 Política de Privacidad',
+                privacyIntro: 'En LG Tattoo respetamos tu privacidad. Esta política explica qué datos recopilamos y cómo los utilizamos.',
+                privacyCookiesTitle: '🍪 Uso de Cookies',
+                privacyCookiesText: 'Este sitio utiliza cookies técnicas para recordar tu idioma preferido y mejorar tu experiencia de navegación. No almacenamos datos personales en las cookies.',
+                privacyIpTitle: '🌐 Dirección IP y mensajes de WhatsApp',
+                privacyIpText: 'Al enviarnos un mensaje por WhatsApp, se incluyen tu país, ciudad y dirección IP detectados automáticamente, junto con los datos que nos proporciones (nombre, teléfono y mensaje).',
+                privacyDataTitle: '🛡️ Resguardo de tu información',
+                privacyDataText: 'LG Tattoo resguarda la información recibida de forma confidencial. Tus datos no se ceden ni se venden a terceros bajo ninguna circunstancia.',
+                privacyStatsTitle: '📊 Finalidad estadística',
+                privacyStatsText: 'La información recopilada se utiliza únicamente para estadísticas de mercado propias del sitio, con el fin de mejorar nuestros servicios.',
+                privacyAccept: 'Entendido'
             },
             en: {
                 langTitle: '🌐 Language',
@@ -894,7 +1053,19 @@
                 formSubmit: 'Send via WhatsApp',
                 formSuccess: 'Message sent successfully! Opening WhatsApp...',
                 detectingCountry: 'Detecting country...',
-                footerText: '© 2026 LG Tattoo | SC Photo Br'
+                // ✅ PRIVACY POLICY (EN)
+                privacyLink: 'Privacy Policy',
+                privacyTitle: '🔒 Privacy Policy',
+                privacyIntro: 'At LG Tattoo we respect your privacy. This policy explains what data we collect and how we use it.',
+                privacyCookiesTitle: '🍪 Use of Cookies',
+                privacyCookiesText: 'This site uses technical cookies to remember your preferred language and improve your browsing experience. We do not store personal data in cookies.',
+                privacyIpTitle: '🌐 IP Address and WhatsApp messages',
+                privacyIpText: 'When you send us a WhatsApp message, your automatically detected country, city and IP address are included, along with the data you provide (name, phone number and message).',
+                privacyDataTitle: '🛡️ Protection of your information',
+                privacyDataText: 'LG Tattoo keeps all received information confidential. Your data is never shared or sold to third parties under any circumstances.',
+                privacyStatsTitle: '📊 Statistical purpose',
+                privacyStatsText: 'The collected information is used solely for the site\'s own market statistics, in order to improve our services.',
+                privacyAccept: 'Understood'
             },
             ca: {
                 langTitle: '🌐 Idioma',
@@ -952,7 +1123,19 @@
                 formSubmit: 'Enviar per WhatsApp',
                 formSuccess: 'Missatge enviat amb èxit! Obrint WhatsApp...',
                 detectingCountry: 'Detectant país...',
-                footerText: '© 2026 LG Tattoo | SC Photo Br'
+                // ✅ POLÍTICA DE PRIVACITAT (CA)
+                privacyLink: 'Política de Privacitat',
+                privacyTitle: '🔒 Política de Privacitat',
+                privacyIntro: 'A LG Tattoo respectem la teva privacitat. Aquesta política explica quines dades recopilem i com les utilitzem.',
+                privacyCookiesTitle: '🍪 Ús de Cookies',
+                privacyCookiesText: 'Aquest lloc utilitza cookies tècniques per recordar el teu idioma preferit i millorar la teva experiència de navegació. No emmagatzemem dades personals a les cookies.',
+                privacyIpTitle: '🌐 Adreça IP i missatges de WhatsApp',
+                privacyIpText: 'Quan ens envies un missatge per WhatsApp, s\'inclouen el teu país, ciutat i adreça IP detectats automàticament, juntament amb les dades que ens facilitis (nom, telèfon i missatge).',
+                privacyDataTitle: '🛡️ Resguard de la teva informació',
+                privacyDataText: 'LG Tattoo resguarda la informació rebuda de manera confidencial. Les teves dades no es cedeixen ni es venen a tercers sota cap circumstància.',
+                privacyStatsTitle: '📊 Finalitat estadística',
+                privacyStatsText: 'La informació recopilada s\'utilitza únicament per a estadístiques de mercat pròpies del lloc, amb la finalitat de millorar els nostres serveis.',
+                privacyAccept: 'Entesos'
             }
         };
 
@@ -1026,7 +1209,46 @@
         });
 
         // ========================================================================
-        // 2. RELOJ - ZONA HORARIA SANTANDER
+        // 2. ✅ POPUP POLÍTICA DE PRIVACIDAD
+        // ========================================================================
+
+        const privacyLink = document.getElementById('privacyLink');
+        const privacyOverlay = document.getElementById('privacyOverlay');
+        const privacyPanel = document.getElementById('privacyPanel');
+        const privacyClose = document.getElementById('privacyClose');
+        const privacyAccept = document.getElementById('privacyAccept');
+
+        function openPrivacy() {
+            privacyPanel.classList.add('active');
+            privacyOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closePrivacy(accepted) {
+            privacyPanel.classList.remove('active');
+            privacyOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+            if (accepted) {
+                localStorage.setItem('lg_tattoo_privacy_ok', '1');
+            }
+        }
+
+        if (privacyLink) privacyLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            openPrivacy();
+        });
+        if (privacyClose) privacyClose.addEventListener('click', function() { closePrivacy(false); });
+        if (privacyOverlay) privacyOverlay.addEventListener('click', function() { closePrivacy(false); });
+        if (privacyAccept) privacyAccept.addEventListener('click', function() { closePrivacy(true); });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && privacyPanel.classList.contains('active')) {
+                closePrivacy(false);
+            }
+        });
+
+        // ========================================================================
+        // 3. RELOJ - ZONA HORARIA SANTANDER
         // ========================================================================
 
         function updateHoursStatus() {
@@ -1091,7 +1313,7 @@
         setInterval(updateHoursStatus, 30000);
 
         // ========================================================================
-        // 3. LIGHTBOX CON ZOOM COMPLETO
+        // 4. LIGHTBOX CON ZOOM COMPLETO
         // ========================================================================
 
         const lightbox = document.getElementById('lightbox');
@@ -1329,7 +1551,7 @@
         document.addEventListener('DOMContentLoaded', initGallery);
 
         // ========================================================================
-        // 4. DETECCIÓN DE PAÍS POR IP CON ipinfo.io
+        // 5. DETECCIÓN DE PAÍS POR IP CON ipinfo.io
         // ========================================================================
 
         let paisDetectado = {
@@ -1395,7 +1617,7 @@
         }
 
         // ========================================================================
-        // 5. FORMULARIO WHATSAPP
+        // 6. FORMULARIO WHATSAPP
         // ========================================================================
 
         document.getElementById('contactForm').addEventListener('submit', function(e) {
@@ -1444,7 +1666,7 @@
         });
 
         // ========================================================================
-        // 6. MICRÓFONO
+        // 7. MICRÓFONO
         // ========================================================================
 
         const voiceBtn = document.getElementById('voiceBtn');
@@ -1506,7 +1728,7 @@
         }
 
         // ========================================================================
-        // 7. HAMBURGER MENU
+        // 8. HAMBURGER MENU
         // ========================================================================
 
         const hamburger = document.getElementById('hamburger');
@@ -1525,7 +1747,7 @@
         });
 
         // ========================================================================
-        // 8. SCROLL PROGRESS BAR
+        // 9. SCROLL PROGRESS BAR
         // ========================================================================
 
         const progressBar = document.createElement('div');
@@ -1540,7 +1762,7 @@
         });
 
         // ========================================================================
-        // 9. SCROLL NAVBAR
+        // 10. SCROLL NAVBAR
         // ========================================================================
 
         const navbar = document.getElementById('navbar');
@@ -1557,7 +1779,7 @@
         });
 
         // ========================================================================
-        // 10. INICIALIZACIÓN
+        // 11. INICIALIZACIÓN
         // ========================================================================
 
         document.addEventListener('DOMContentLoaded', function() {
@@ -1565,9 +1787,13 @@
             setLanguage(savedLang);
             detectarPaisPorIP();
             
+            // ✅ Mostrar popup de privacidad automáticamente en la primera visita
+            if (!localStorage.getItem('lg_tattoo_privacy_ok')) {
+                setTimeout(openPrivacy, 800);
+            }
+            
             console.log('✅ LG Tattoo - Web funcionando correctamente');
-            console.log('   🕐 Hora de Santander (España)');
-            console.log('   📱 Botón WhatsApp eliminado del flotante');
+            console.log('   🔒 Popup de Política de Privacidad activo (3 idiomas)');
         });
     </script>
 
