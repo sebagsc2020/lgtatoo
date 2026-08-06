@@ -285,7 +285,7 @@
             color: #c8a45c;
         }
 
-        /* ============ LIGHTBOX ============ */
+        /* ============ LIGHTBOX CON ZOOM ============ */
         .lightbox {
             display: none;
             position: fixed;
@@ -297,7 +297,7 @@
             z-index: 9999;
             justify-content: center;
             align-items: center;
-            cursor: pointer;
+            cursor: default;
         }
         .lightbox.active {
             display: flex;
@@ -306,6 +306,11 @@
             max-width: 90%;
             max-height: 90%;
             position: relative;
+            overflow: hidden;
+            cursor: grab;
+        }
+        .lightbox-content:active {
+            cursor: grabbing;
         }
         .lightbox-content img {
             max-width: 100%;
@@ -313,6 +318,11 @@
             object-fit: contain;
             border-radius: 4px;
             box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
+            transition: transform 0.1s ease;
+            transform-origin: center center;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: none;
         }
         .lightbox-close {
             position: fixed;
@@ -340,6 +350,8 @@
             padding: 8px 20px;
             border-radius: 20px;
             font-family: 'Inter', sans-serif;
+            z-index: 10000;
+            pointer-events: none;
         }
         .lightbox-prev,
         .lightbox-next {
@@ -365,6 +377,47 @@
         }
         .lightbox-next {
             right: 20px;
+        }
+        .lightbox-zoom-controls {
+            position: fixed;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 12px;
+            z-index: 10000;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 8px 16px;
+            border-radius: 30px;
+            backdrop-filter: blur(5px);
+        }
+        .lightbox-zoom-controls button {
+            background: none;
+            border: 1px solid #555;
+            color: #fff;
+            font-size: 1.2rem;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .lightbox-zoom-controls button:hover {
+            background: rgba(200, 164, 92, 0.3);
+            border-color: #c8a45c;
+        }
+        .lightbox-zoom-controls .zoom-level {
+            color: #aaa;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            padding: 0 8px;
+            font-family: 'Inter', sans-serif;
+            min-width: 45px;
+            justify-content: center;
         }
 
         .gallery-item {
@@ -400,6 +453,20 @@
             .lang-toggle-tab svg {
                 width: 14px;
                 height: 14px;
+            }
+            .lightbox-prev,
+            .lightbox-next {
+                font-size: 1.5rem;
+                padding: 10px 14px;
+            }
+            .lightbox-zoom-controls {
+                bottom: 70px;
+                padding: 6px 12px;
+            }
+            .lightbox-zoom-controls button {
+                width: 30px;
+                height: 30px;
+                font-size: 1rem;
             }
         }
     </style>
@@ -490,15 +557,21 @@
         </div>
     </section>
 
-    <!-- ============ LIGHTBOX ============ -->
+    <!-- ============ LIGHTBOX CON ZOOM ============ -->
     <div class="lightbox" id="lightbox">
-        <button class="lightbox-close" id="lightboxClose" aria-label="Cerrar imagen"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+        <button class="lightbox-close" id="lightboxClose" aria-label="Cerrar imagen">✕</button>
         <button class="lightbox-prev" id="lightboxPrev" aria-label="Anterior">‹</button>
         <button class="lightbox-next" id="lightboxNext" aria-label="Siguiente">›</button>
         <div class="lightbox-content" id="lightboxWrapper">
             <img src="" id="lightboxImg" alt="Trabajo de tatuaje">
         </div>
         <div class="lightbox-counter" id="lightboxCounter">1 / 12</div>
+        <div class="lightbox-zoom-controls">
+            <button id="zoomOut" aria-label="Alejar">−</button>
+            <span class="zoom-level" id="zoomLevel">100%</span>
+            <button id="zoomIn" aria-label="Acercar">+</button>
+            <button id="zoomReset" aria-label="Restablecer zoom" style="font-size:0.8rem;">⟲</button>
+        </div>
     </div>
 
     <!-- ============ RECOMENDACIONES ============ -->
@@ -694,7 +767,7 @@
     <!-- ============ JAVASCRIPT FINAL ============ -->
     <script>
         // ========================================================================
-        // 0. SISTEMA DE TRADUCCIÓN INTEGRADO (VERSIÓN FINAL)
+        // 0. SISTEMA DE TRADUCCIÓN INTEGRADO
         // ========================================================================
 
         const translations = {
@@ -880,7 +953,6 @@
             currentLang = lang;
             const t = translations[lang];
             
-            // Actualizar elementos con ID
             document.querySelectorAll('[id]').forEach(el => {
                 const key = el.id;
                 if (t[key] !== undefined) {
@@ -892,7 +964,6 @@
                 }
             });
 
-            // Actualizar placeholders
             document.querySelectorAll('[placeholder]').forEach(el => {
                 const key = el.id + 'Placeholder';
                 if (t[key] !== undefined) {
@@ -900,16 +971,13 @@
                 }
             });
 
-            // Actualizar panel de idiomas
             document.querySelectorAll('.lang-option').forEach(btn => {
                 btn.classList.toggle('active', btn.dataset.lang === lang);
             });
 
-            // Guardar preferencia
             localStorage.setItem('lg_tattoo_lang', lang);
             document.documentElement.lang = lang;
             
-            // Actualizar hora y estado
             updateHoursStatus();
         }
 
@@ -1014,7 +1082,7 @@
         setInterval(updateHoursStatus, 30000);
 
         // ========================================================================
-        // 3. LIGHTBOX - GALERÍA
+        // 3. LIGHTBOX CON ZOOM COMPLETO
         // ========================================================================
 
         const lightbox = document.getElementById('lightbox');
@@ -1023,9 +1091,24 @@
         const lightboxClose = document.getElementById('lightboxClose');
         const lightboxPrev = document.getElementById('lightboxPrev');
         const lightboxNext = document.getElementById('lightboxNext');
+        const lightboxWrapper = document.getElementById('lightboxWrapper');
+        const zoomLevel = document.getElementById('zoomLevel');
+        const zoomIn = document.getElementById('zoomIn');
+        const zoomOut = document.getElementById('zoomOut');
+        const zoomReset = document.getElementById('zoomReset');
 
         let currentIndex = 0;
         let galleryItems = [];
+        let scale = 1;
+        let panX = 0;
+        let panY = 0;
+        let isDragging = false;
+        let startX = 0;
+        let startY = 0;
+        let startPanX = 0;
+        let startPanY = 0;
+        let lastTapTime = 0;
+        let tapTimeout;
 
         function initGallery() {
             const items = document.querySelectorAll('.gallery-item');
@@ -1045,6 +1128,7 @@
         function openLightbox(index) {
             if (galleryItems.length === 0) return;
             currentIndex = index;
+            resetZoom();
             updateLightbox();
             lightbox.classList.add('active');
             document.body.style.overflow = 'hidden';
@@ -1056,25 +1140,176 @@
             lightboxImg.src = item.src;
             lightboxImg.alt = item.alt;
             lightboxCounter.textContent = `${currentIndex + 1} / ${galleryItems.length}`;
+            applyTransform();
+        }
+
+        function applyTransform() {
+            lightboxImg.style.transform = `translate(${panX}px, ${panY}px) scale(${scale})`;
+            if (scale === 1) {
+                lightboxWrapper.style.cursor = 'default';
+            } else {
+                lightboxWrapper.style.cursor = 'grab';
+            }
+            if (zoomLevel) {
+                zoomLevel.textContent = Math.round(scale * 100) + '%';
+            }
+        }
+
+        function resetZoom() {
+            scale = 1;
+            panX = 0;
+            panY = 0;
+            applyTransform();
         }
 
         function closeLightbox() {
             lightbox.classList.remove('active');
             document.body.style.overflow = '';
+            resetZoom();
         }
 
         function prevImage() {
             if (galleryItems.length === 0) return;
             currentIndex = (currentIndex - 1 + galleryItems.length) % galleryItems.length;
+            resetZoom();
             updateLightbox();
         }
 
         function nextImage() {
             if (galleryItems.length === 0) return;
             currentIndex = (currentIndex + 1) % galleryItems.length;
+            resetZoom();
             updateLightbox();
         }
 
+        // Zoom con botones
+        if (zoomIn) {
+            zoomIn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                scale = Math.min(4, scale + 0.25);
+                applyTransform();
+            });
+        }
+
+        if (zoomOut) {
+            zoomOut.addEventListener('click', function(e) {
+                e.stopPropagation();
+                scale = Math.max(1, scale - 0.25);
+                applyTransform();
+            });
+        }
+
+        if (zoomReset) {
+            zoomReset.addEventListener('click', function(e) {
+                e.stopPropagation();
+                resetZoom();
+            });
+        }
+
+        // Zoom con rueda del mouse
+        lightboxWrapper.addEventListener('wheel', function(e) {
+            e.preventDefault();
+            if (e.deltaY < 0) {
+                scale = Math.min(4, scale + 0.1);
+            } else {
+                scale = Math.max(1, scale - 0.1);
+            }
+            applyTransform();
+        });
+
+        // Arrastrar para mover (cuando hay zoom)
+        lightboxWrapper.addEventListener('mousedown', function(e) {
+            if (scale <= 1) return;
+            isDragging = true;
+            startX = e.clientX;
+            startY = e.clientY;
+            startPanX = panX;
+            startPanY = panY;
+            lightboxWrapper.style.cursor = 'grabbing';
+            e.preventDefault();
+        });
+
+        document.addEventListener('mousemove', function(e) {
+            if (!isDragging) return;
+            const dx = e.clientX - startX;
+            const dy = e.clientY - startY;
+            panX = startPanX + dx;
+            panY = startPanY + dy;
+            applyTransform();
+        });
+
+        document.addEventListener('mouseup', function() {
+            isDragging = false;
+            lightboxWrapper.style.cursor = scale > 1 ? 'grab' : 'default';
+        });
+
+        // Touch events para móviles
+        let touchStartX = 0;
+        let touchStartY = 0;
+        let touchStartPanX = 0;
+        let touchStartPanY = 0;
+        let initialPinchDist = 0;
+        let initialPinchScale = 1;
+
+        lightboxWrapper.addEventListener('touchstart', function(e) {
+            if (e.touches.length === 1) {
+                if (scale > 1) {
+                    touchStartX = e.touches[0].clientX;
+                    touchStartY = e.touches[0].clientY;
+                    touchStartPanX = panX;
+                    touchStartPanY = panY;
+                    isDragging = true;
+                } else {
+                    // Doble tap para zoom
+                    const currentTime = new Date().getTime();
+                    const tapLength = currentTime - lastTapTime;
+                    if (tapLength < 300 && tapLength > 0) {
+                        clearTimeout(tapTimeout);
+                        scale = scale === 1 ? 2.5 : 1;
+                        panX = 0;
+                        panY = 0;
+                        applyTransform();
+                        lastTapTime = 0;
+                        return;
+                    }
+                    tapTimeout = setTimeout(() => {
+                        lastTapTime = currentTime;
+                    }, 300);
+                }
+            } else if (e.touches.length === 2) {
+                // Pinch zoom
+                const touch1 = e.touches[0];
+                const touch2 = e.touches[1];
+                initialPinchDist = Math.hypot(touch1.clientX - touch2.clientX, touch1.clientY - touch2.clientY);
+                initialPinchScale = scale;
+            }
+        });
+
+        lightboxWrapper.addEventListener('touchmove', function(e) {
+            e.preventDefault();
+            if (e.touches.length === 1 && isDragging && scale > 1) {
+                const dx = e.touches[0].clientX - touchStartX;
+                const dy = e.touches[0].clientY - touchStartY;
+                panX = touchStartPanX + dx;
+                panY = touchStartPanY + dy;
+                applyTransform();
+            } else if (e.touches.length === 2) {
+                const touch1 = e.touches[0];
+                const touch2 = e.touches[1];
+                const dist = Math.hypot(touch1.clientX - touch2.clientX, touch1.clientY - touch2.clientY);
+                const newScale = Math.min(4, Math.max(1, initialPinchScale * (dist / initialPinchDist)));
+                if (newScale !== scale) {
+                    scale = newScale;
+                    applyTransform();
+                }
+            }
+        });
+
+        lightboxWrapper.addEventListener('touchend', function(e) {
+            isDragging = false;
+        });
+
+        // Eventos del lightbox
         if (lightboxClose) lightboxClose.addEventListener('click', closeLightbox);
         if (lightboxPrev) lightboxPrev.addEventListener('click', prevImage);
         if (lightboxNext) lightboxNext.addEventListener('click', nextImage);
@@ -1192,7 +1427,7 @@
         });
 
         // ========================================================================
-        // 6. MICRÓFONO
+        // 6. MICRÓFONO (SIN DUPLICAR)
         // ========================================================================
 
         const voiceBtn = document.getElementById('voiceBtn');
@@ -1316,6 +1551,7 @@
             console.log('✅ LG Tattoo - Web final funcionando correctamente');
             console.log('   🕐 Hora de Santander (España)');
             console.log('   🌍 Panel de idiomas funcionando');
+            console.log('   🔍 Lightbox con zoom funcionando');
             console.log('   📱 Solo se envía: País + datos del formulario');
         });
     </script>
