@@ -1116,6 +1116,7 @@
         };
 
         let currentLang = 'es';
+        let isOpen = false; // Variable global para el estado
 
         function setLanguage(lang) {
             currentLang = lang;
@@ -1147,7 +1148,6 @@
             document.documentElement.lang = lang;
             
             updateHoursStatus();
-            updateWhatsAppButton();
         }
 
         // ========================================================================
@@ -1190,7 +1190,6 @@
         // ========================================================================
 
         function updateWhatsAppButton() {
-            const now = new Date();
             const t = translations[currentLang];
             const whatsappBtn = document.getElementById('whatsappFloat');
             const statusText = document.getElementById('whatsappStatus');
@@ -1198,33 +1197,17 @@
             
             if (!whatsappBtn) return;
             
-            const day = now.getDay();
-            const hours = parseInt(now.toLocaleTimeString('es-ES', { 
-                timeZone: 'Europe/Madrid',
-                hour: '2-digit',
-                hour12: false
-            }).split(':')[0]);
-            const minutes = parseInt(now.toLocaleTimeString('es-ES', { 
-                timeZone: 'Europe/Madrid',
-                minute: '2-digit',
-                hour12: false
-            }).split(':')[1]);
-            const totalMinutes = hours * 60 + minutes;
-            
-            // MISMA LÓGICA QUE EN LA SECCIÓN "RESERVAR CITA"
-            const isOpen = (day >= 1 && day <= 6) && 
-                          ((totalMinutes >= 9*60 && totalMinutes < 13*60) || 
-                           (totalMinutes >= 16*60 && totalMinutes < 21*60));
-            
-            // Actualizar estilo del botón
+            // Usar la misma variable isOpen que calculó updateHoursStatus()
             if (isOpen) {
                 whatsappBtn.className = 'floating-btn-whatsapp open';
                 whatsappBtn.href = 'https://wa.me/34697891324?call';
+                whatsappBtn.style.cursor = 'pointer';
                 if (mainText) mainText.textContent = t.whatsappOpen || '📞 Llamar ahora';
                 if (statusText) statusText.textContent = t.whatsappStatusOpen || '¡Estamos abiertos!';
             } else {
                 whatsappBtn.className = 'floating-btn-whatsapp closed';
                 whatsappBtn.href = '#';
+                whatsappBtn.style.cursor = 'not-allowed';
                 if (mainText) mainText.textContent = t.whatsappClosed || '🔴 Cerrado ahora';
                 if (statusText) statusText.textContent = t.whatsappStatusClosed || 'Horario: 9-13 · 16-21';
             }
@@ -1260,24 +1243,31 @@
             let statusText = '';
             let statusColor = '';
             
+            // MISMA LÓGICA DE HORARIO
             if (day === 0) {
                 statusText = '🔴 CERRADO (Domingo)';
                 statusColor = '#ff6b6b';
+                isOpen = false;
             } else if (totalMinutes >= 9*60 && totalMinutes < 13*60) {
                 statusText = '🟢 ABIERTO (Mañana)';
                 statusColor = '#4caf50';
+                isOpen = true;
             } else if (totalMinutes >= 16*60 && totalMinutes < 21*60) {
                 statusText = '🟢 ABIERTO (Tarde)';
                 statusColor = '#4caf50';
+                isOpen = true;
             } else if (totalMinutes < 9*60) {
                 statusText = '🔴 CERRADO, abriremos a las 9:00 Hs.';
                 statusColor = '#ff6b6b';
+                isOpen = false;
             } else if (totalMinutes >= 13*60 && totalMinutes < 16*60) {
                 statusText = '🔴 CERRADO (Pausa), reabrimos a las 16:00 Hs.';
                 statusColor = '#ff6b6b';
+                isOpen = false;
             } else if (totalMinutes >= 21*60) {
                 statusText = '🔴 CERRADO, abriremos mañana a las 9:00 Hs.';
                 statusColor = '#ff6b6b';
+                isOpen = false;
             }
             
             const statusDisplay = document.getElementById('hoursStatus');
@@ -1287,7 +1277,7 @@
                 statusDisplay.style.fontWeight = '600';
             }
             
-            // Actualizar estado del botón WhatsApp
+            // Actualizar el botón de WhatsApp con el mismo estado
             updateWhatsAppButton();
         }
 
@@ -1762,7 +1752,7 @@
             console.log('   🕐 Hora de Santander (España)');
             console.log('   🌍 Panel de idiomas funcionando');
             console.log('   🔍 Lightbox con zoom funcionando');
-            console.log('   📞 Botón WhatsApp con estado de horario');
+            console.log('   📞 Botón WhatsApp con estado de horario (misma lógica)');
             console.log('   📱 Solo se envía: País + datos del formulario');
         });
     </script>
