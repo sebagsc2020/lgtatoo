@@ -232,6 +232,122 @@
             stroke: #c8a45c;
         }
 
+        /* ============ BOTÓN FLOTANTE DE WHATSAPP CON LLAMADA ============ */
+        .floating-btn-whatsapp {
+            position: fixed;
+            bottom: 160px;
+            right: 20px;
+            background: #25D366;
+            border-radius: 50px;
+            padding: 12px 18px;
+            z-index: 99;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(5px);
+            opacity: 0;
+            transform: translateX(50px) scale(0.8);
+            pointer-events: none;
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .floating-btn-whatsapp.visible {
+            opacity: 1;
+            transform: translateX(0) scale(1);
+            pointer-events: auto;
+        }
+        .floating-btn-whatsapp:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 25px rgba(37, 211, 102, 0.6);
+            background: #1da851;
+        }
+        .floating-btn-whatsapp .whatsapp-icon {
+            width: 24px;
+            height: 24px;
+            flex-shrink: 0;
+        }
+        .floating-btn-whatsapp .whatsapp-text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.2;
+        }
+        .floating-btn-whatsapp .whatsapp-text .main-text {
+            font-size: 0.75rem;
+        }
+        .floating-btn-whatsapp .whatsapp-text .sub-text {
+            font-size: 0.55rem;
+            opacity: 0.8;
+            font-weight: 400;
+        }
+        .floating-btn-whatsapp .whatsapp-badge {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            background: #ff6b6b;
+            color: #fff;
+            font-size: 0.5rem;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-weight: 700;
+            animation: pulse-badge 2s infinite;
+        }
+        @keyframes pulse-badge {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        /* ============ BOTÓN FLOTANTE DE INSTAGRAM ============ */
+        .floating-btn-instagram {
+            position: fixed;
+            bottom: 100px;
+            right: 20px;
+            background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+            border-radius: 50px;
+            padding: 10px 16px;
+            z-index: 99;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(5px);
+        }
+        .floating-btn-instagram:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.4);
+        }
+        .floating-btn-instagram .tooltip {
+            display: none;
+            position: absolute;
+            bottom: calc(100% + 10px);
+            right: 0;
+            background: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.6rem;
+            white-space: nowrap;
+            backdrop-filter: blur(5px);
+        }
+        .floating-btn-instagram:hover .tooltip {
+            display: block;
+        }
+
         /* ============ FORMULARIO ============ */
         .form-success-msg {
             display: none;
@@ -454,6 +570,26 @@
                 width: 14px;
                 height: 14px;
             }
+            .floating-btn-whatsapp {
+                bottom: 130px;
+                right: 10px;
+                padding: 10px 14px;
+                font-size: 0.65rem;
+            }
+            .floating-btn-whatsapp .whatsapp-icon {
+                width: 20px;
+                height: 20px;
+            }
+            .floating-btn-instagram {
+                bottom: 80px;
+                right: 10px;
+                padding: 8px 12px;
+                font-size: 0.6rem;
+            }
+            .floating-btn-instagram svg {
+                width: 20px;
+                height: 20px;
+            }
             .lightbox-prev,
             .lightbox-next {
                 font-size: 1.5rem;
@@ -473,9 +609,21 @@
 </head>
 <body>
 
+    <!-- ============ BOTÓN FLOTANTE DE WHATSAPP (LLAMADA) ============ -->
+    <a href="https://wa.me/34697891324?call" target="_blank" rel="noopener" class="floating-btn-whatsapp" id="whatsappFloat" aria-label="Llamar por WhatsApp">
+        <svg class="whatsapp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+        </svg>
+        <span class="whatsapp-text">
+            <span class="main-text">📞 Llamar ahora</span>
+            <span class="sub-text" id="whatsappStatus">¡Estamos abiertos!</span>
+        </span>
+        <span class="whatsapp-badge">●</span>
+    </a>
+
     <!-- ============ BOTÓN FLOTANTE DE INSTAGRAM ============ -->
     <a href="https://www.instagram.com/lean.gonzaleztattoo/" target="_blank" rel="noopener" class="floating-btn-instagram" aria-label="Instagram">
-        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="filter:drop-shadow(0 2px 4px rgba(0,0,0,0.3));"><rect x="2" y="2" width="20" height="20" rx="5" ry="5" stroke="white"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" stroke="white"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke="white"></line></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="filter:drop-shadow(0 2px 4px rgba(0,0,0,0.3));"><rect x="2" y="2" width="20" height="20" rx="5" ry="5" stroke="white"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" stroke="white"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke="white"></line></svg>
         <span class="tooltip">Sígueme en Instagram</span>
     </a>
 
@@ -827,7 +975,9 @@
                 formSubmit: 'Enviar por WhatsApp',
                 formSuccess: '¡Mensaje enviado con éxito! Abriremos WhatsApp...',
                 detectingCountry: 'Detectando país...',
-                footerText: '© 2026 LG Tattoo | SC Photo Br'
+                footerText: '© 2026 LG Tattoo | SC Photo Br',
+                whatsappOpen: '¡Estamos abiertos!',
+                whatsappClosed: 'Cerrado ahora'
             },
             en: {
                 langTitle: '🌐 Language',
@@ -885,7 +1035,9 @@
                 formSubmit: 'Send via WhatsApp',
                 formSuccess: 'Message sent successfully! Opening WhatsApp...',
                 detectingCountry: 'Detecting country...',
-                footerText: '© 2026 LG Tattoo | SC Photo Br'
+                footerText: '© 2026 LG Tattoo | SC Photo Br',
+                whatsappOpen: 'We are open!',
+                whatsappClosed: 'Closed now'
             },
             ca: {
                 langTitle: '🌐 Idioma',
@@ -943,7 +1095,9 @@
                 formSubmit: 'Enviar per WhatsApp',
                 formSuccess: 'Missatge enviat amb èxit! Obrint WhatsApp...',
                 detectingCountry: 'Detectant país...',
-                footerText: '© 2026 LG Tattoo | SC Photo Br'
+                footerText: '© 2026 LG Tattoo | SC Photo Br',
+                whatsappOpen: 'Estem oberts!',
+                whatsappClosed: 'Tancat ara'
             }
         };
 
@@ -979,6 +1133,7 @@
             document.documentElement.lang = lang;
             
             updateHoursStatus();
+            updateWhatsAppButton();
         }
 
         // ========================================================================
@@ -1017,8 +1172,50 @@
         });
 
         // ========================================================================
-        // 2. RELOJ - ZONA HORARIA SANTANDER (ESPAÑA)
+        // 2. RELOJ Y BOTÓN DE WHATSAPP - ZONA HORARIA SANTANDER (ESPAÑA)
         // ========================================================================
+
+        function updateWhatsAppButton() {
+            const now = new Date();
+            const t = translations[currentLang];
+            const whatsappBtn = document.getElementById('whatsappFloat');
+            const statusText = document.getElementById('whatsappStatus');
+            
+            if (!whatsappBtn) return;
+            
+            const day = now.getDay();
+            const hours = parseInt(now.toLocaleTimeString('es-ES', { 
+                timeZone: 'Europe/Madrid',
+                hour: '2-digit',
+                hour12: false
+            }).split(':')[0]);
+            const minutes = parseInt(now.toLocaleTimeString('es-ES', { 
+                timeZone: 'Europe/Madrid',
+                minute: '2-digit',
+                hour12: false
+            }).split(':')[1]);
+            const totalMinutes = hours * 60 + minutes;
+            
+            // Horario: Lunes a Sábado (1-6) de 9:00 a 13:00 y 16:00 a 21:00
+            const isOpen = (day >= 1 && day <= 6) && 
+                          ((totalMinutes >= 9*60 && totalMinutes < 13*60) || 
+                           (totalMinutes >= 16*60 && totalMinutes < 21*60));
+            
+            if (isOpen) {
+                whatsappBtn.classList.add('visible');
+                if (statusText) statusText.textContent = t.whatsappOpen || '¡Estamos abiertos!';
+                // Asegurar que el enlace sea para llamada
+                whatsappBtn.href = 'https://wa.me/34697891324?call';
+            } else {
+                whatsappBtn.classList.remove('visible');
+                // También ocultar el botón cuando está cerrado
+                whatsappBtn.style.display = 'none';
+                // Pero lo mostramos si está abierto
+                setTimeout(() => {
+                    whatsappBtn.style.display = '';
+                }, 100);
+            }
+        }
 
         function updateHoursStatus() {
             const now = new Date();
@@ -1076,6 +1273,9 @@
                 statusDisplay.style.color = statusColor;
                 statusDisplay.style.fontWeight = '600';
             }
+            
+            // Actualizar estado del botón WhatsApp
+            updateWhatsAppButton();
         }
 
         updateHoursStatus();
@@ -1260,7 +1460,6 @@
                     touchStartPanY = panY;
                     isDragging = true;
                 } else {
-                    // Doble tap para zoom
                     const currentTime = new Date().getTime();
                     const tapLength = currentTime - lastTapTime;
                     if (tapLength < 300 && tapLength > 0) {
@@ -1277,7 +1476,6 @@
                     }, 300);
                 }
             } else if (e.touches.length === 2) {
-                // Pinch zoom
                 const touch1 = e.touches[0];
                 const touch2 = e.touches[1];
                 initialPinchDist = Math.hypot(touch1.clientX - touch2.clientX, touch1.clientY - touch2.clientY);
@@ -1309,7 +1507,6 @@
             isDragging = false;
         });
 
-        // Eventos del lightbox
         if (lightboxClose) lightboxClose.addEventListener('click', closeLightbox);
         if (lightboxPrev) lightboxPrev.addEventListener('click', prevImage);
         if (lightboxNext) lightboxNext.addEventListener('click', nextImage);
@@ -1427,7 +1624,7 @@
         });
 
         // ========================================================================
-        // 6. MICRÓFONO (SIN DUPLICAR)
+        // 6. MICRÓFONO
         // ========================================================================
 
         const voiceBtn = document.getElementById('voiceBtn');
@@ -1552,6 +1749,7 @@
             console.log('   🕐 Hora de Santander (España)');
             console.log('   🌍 Panel de idiomas funcionando');
             console.log('   🔍 Lightbox con zoom funcionando');
+            console.log('   📞 Botón WhatsApp con llamada directa (solo en horario)');
             console.log('   📱 Solo se envía: País + datos del formulario');
         });
     </script>
