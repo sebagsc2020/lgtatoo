@@ -187,7 +187,7 @@
         /* ============ BOTÓN DE IDIOMA ============ */
         .lang-toggle-tab {
             position: fixed;
-            bottom: 220px;
+            bottom: 160px;
             right: 20px;
             background: rgba(0, 0, 0, 0.7);
             border: 1px solid #c8a45c;
@@ -215,76 +215,6 @@
             width: 18px;
             height: 18px;
             stroke: #c8a45c;
-        }
-
-        /* ============ ✅ NUEVO BOTÓN FLOTANTE DE WHATSAPP (solo ícono) ============ */
-        .floating-btn-whatsapp {
-            position: fixed;
-            bottom: 160px;
-            right: 20px;
-            width: 52px;
-            height: 52px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 99;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(5px);
-        }
-        /* Estado ABIERTO (verde) */
-        .floating-btn-whatsapp.open {
-            background: #25D366;
-            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
-            cursor: pointer;
-            pointer-events: auto;
-        }
-        .floating-btn-whatsapp.open:hover {
-            transform: scale(1.1);
-            box-shadow: 0 6px 25px rgba(37, 211, 102, 0.6);
-            background: #1da851;
-        }
-        .floating-btn-whatsapp.open .whatsapp-icon {
-            fill: #fff;
-        }
-        /* Estado CERRADO (gris, no seleccionable) */
-        .floating-btn-whatsapp.closed {
-            background: #555;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-            cursor: not-allowed;
-            pointer-events: none;
-            opacity: 0.6;
-        }
-        .floating-btn-whatsapp.closed .whatsapp-icon {
-            fill: #999;
-        }
-        .floating-btn-whatsapp .whatsapp-icon {
-            width: 28px;
-            height: 28px;
-            transition: fill 0.3s ease;
-        }
-        /* Tooltip al hacer hover (solo cuando está abierto) */
-        .floating-btn-whatsapp.open::before {
-            content: 'Llamar por WhatsApp';
-            position: absolute;
-            right: calc(100% + 12px);
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(0, 0, 0, 0.85);
-            color: #fff;
-            padding: 8px 14px;
-            border-radius: 8px;
-            font-size: 0.75rem;
-            font-family: 'Inter', sans-serif;
-            white-space: nowrap;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-            backdrop-filter: blur(5px);
-        }
-        .floating-btn-whatsapp.open:hover::before {
-            opacity: 1;
         }
 
         /* ============ BOTÓN FLOTANTE DE INSTAGRAM ============ */
@@ -512,7 +442,7 @@
                 padding: 20px;
             }
             .lang-toggle-tab {
-                bottom: 190px;
+                bottom: 135px;
                 right: 10px;
                 padding: 8px 12px;
                 font-size: 0.6rem;
@@ -520,16 +450,6 @@
             .lang-toggle-tab svg {
                 width: 14px;
                 height: 14px;
-            }
-            .floating-btn-whatsapp {
-                bottom: 135px;
-                right: 10px;
-                width: 48px;
-                height: 48px;
-            }
-            .floating-btn-whatsapp .whatsapp-icon {
-                width: 26px;
-                height: 26px;
             }
             .floating-btn-instagram {
                 bottom: 75px;
@@ -540,9 +460,6 @@
             .floating-btn-instagram svg {
                 width: 24px;
                 height: 24px;
-            }
-            .floating-btn-whatsapp.open::before {
-                display: none;
             }
             .lightbox-prev,
             .lightbox-next {
@@ -562,13 +479,6 @@
     </style>
 </head>
 <body>
-
-    <!-- ============ ✅ NUEVO BOTÓN FLOTANTE DE WHATSAPP (solo ícono) ============ -->
-    <a href="https://wa.me/34697891324?call" target="_blank" rel="noopener" class="floating-btn-whatsapp open" id="whatsappFloat" aria-label="Llamar por WhatsApp">
-        <svg class="whatsapp-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-        </svg>
-    </a>
 
     <!-- ============ BOTÓN FLOTANTE DE INSTAGRAM ============ -->
     <a href="https://www.instagram.com/lean.gonzaleztattoo/" target="_blank" rel="noopener" class="floating-btn-instagram" aria-label="Instagram">
@@ -1047,7 +957,6 @@
         };
 
         let currentLang = 'es';
-        let isOpen = false;
 
         function setLanguage(lang) {
             currentLang = lang;
@@ -1117,30 +1026,8 @@
         });
 
         // ========================================================================
-        // 2. ✅ RELOJ Y BOTÓN DE WHATSAPP SIMPLIFICADO - ZONA HORARIA SANTANDER
+        // 2. RELOJ - ZONA HORARIA SANTANDER
         // ========================================================================
-
-        function updateWhatsAppButton() {
-            const whatsappBtn = document.getElementById('whatsappFloat');
-            
-            if (!whatsappBtn) return;
-            
-            if (isOpen) {
-                whatsappBtn.classList.add('open');
-                whatsappBtn.classList.remove('closed');
-                whatsappBtn.href = 'https://wa.me/34697891324?call';
-                whatsappBtn.setAttribute('target', '_blank');
-                whatsappBtn.setAttribute('rel', 'noopener');
-                whatsappBtn.style.pointerEvents = 'auto';
-            } else {
-                whatsappBtn.classList.add('closed');
-                whatsappBtn.classList.remove('open');
-                whatsappBtn.href = 'javascript:void(0)';
-                whatsappBtn.removeAttribute('target');
-                whatsappBtn.removeAttribute('rel');
-                whatsappBtn.style.pointerEvents = 'none';
-            }
-        }
 
         function updateHoursStatus() {
             const now = new Date();
@@ -1175,27 +1062,21 @@
             if (day === 0) {
                 statusText = '🔴 CERRADO (Domingo)';
                 statusColor = '#ff6b6b';
-                isOpen = false;
             } else if (totalMinutes >= 9*60 && totalMinutes < 13*60) {
                 statusText = '🟢 ABIERTO (Mañana)';
                 statusColor = '#4caf50';
-                isOpen = true;
             } else if (totalMinutes >= 16*60 && totalMinutes < 21*60) {
                 statusText = '🟢 ABIERTO (Tarde)';
                 statusColor = '#4caf50';
-                isOpen = true;
             } else if (totalMinutes < 9*60) {
                 statusText = '🔴 CERRADO, abriremos a las 9:00 Hs.';
                 statusColor = '#ff6b6b';
-                isOpen = false;
             } else if (totalMinutes >= 13*60 && totalMinutes < 16*60) {
                 statusText = '🔴 CERRADO (Pausa), reabrimos a las 16:00 Hs.';
                 statusColor = '#ff6b6b';
-                isOpen = false;
             } else if (totalMinutes >= 21*60) {
                 statusText = '🔴 CERRADO, abriremos mañana a las 9:00 Hs.';
                 statusColor = '#ff6b6b';
-                isOpen = false;
             }
             
             const statusDisplay = document.getElementById('hoursStatus');
@@ -1204,8 +1085,6 @@
                 statusDisplay.style.color = statusColor;
                 statusDisplay.style.fontWeight = '600';
             }
-            
-            updateWhatsAppButton();
         }
 
         updateHoursStatus();
@@ -1688,7 +1567,7 @@
             
             console.log('✅ LG Tattoo - Web funcionando correctamente');
             console.log('   🕐 Hora de Santander (España)');
-            console.log('   📞 Botón WhatsApp: solo ícono + habilitado en horario');
+            console.log('   📱 Botón WhatsApp eliminado del flotante');
         });
     </script>
 
